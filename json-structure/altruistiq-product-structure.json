@@ -1,0 +1,37 @@
+{
+  "name": "AltruistiqProductStructure",
+  "description": "Structure documentation for an Altruistiq Product Structure (bill of materials) and its Inputs.",
+  "entities": {
+    "ProductStructure": {
+      "description": "A versioned bill of materials for a Product.",
+      "fields": {
+        "id": "string — structure identifier",
+        "productId": "string — parent Product identifier",
+        "name": "string — structure label",
+        "version": "string — structure version",
+        "validFrom": "date — start of validity",
+        "validTo": "date — end of validity (nullable)",
+        "inputs": "array<ProductStructureInput> — material and packaging line items"
+      }
+    },
+    "ProductStructureInput": {
+      "description": "A single material, packaging, or process line item in a Product Structure.",
+      "fields": {
+        "id": "string — input identifier",
+        "structureId": "string — parent structure identifier",
+        "type": "string — input type (ingredient, packaging, energy, transport, process)",
+        "materialName": "string — human-readable material",
+        "quantity": "number — quantity per functional unit",
+        "unit": "string — unit of measure",
+        "originCountry": "string — ISO 3166-1 alpha-2",
+        "supplierId": "string — supplier reference",
+        "emissionFactorId": "string — applied emission factor"
+      }
+    }
+  },
+  "relationships": [
+    "Product 1 — * ProductStructure",
+    "ProductStructure 1 — * ProductStructureInput",
+    "Facility — * ProductStructureInput (origin facility)"
+  ]
+}

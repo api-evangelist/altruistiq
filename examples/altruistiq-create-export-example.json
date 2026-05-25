@@ -1,0 +1,24 @@
+{
+  "operation": "POST /api/public/v1/export",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOi...",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "reportingPeriodStart": "2025-01-01",
+      "reportingPeriodEnd": "2025-12-31",
+      "businessUnitIds": ["bu_eu_retail", "bu_uk_dtc"],
+      "scopes": ["1", "2", "3"],
+      "format": "csv"
+    }
+  },
+  "response": {
+    "status": 202,
+    "body": {
+      "id": "exp_01HZX9KZA",
+      "status": "queued",
+      "createdAt": "2026-05-25T10:01:00Z"
+    }
+  }
+}

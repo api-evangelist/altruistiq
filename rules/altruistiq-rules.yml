@@ -1,0 +1,47 @@
+extends:
+  - spectral:oas
+rules:
+  altruistiq-info-contact:
+    description: Info object must include a contact.
+    given: $.info
+    severity: warn
+    then:
+      field: contact
+      function: truthy
+  altruistiq-operation-summary-title-case:
+    description: Operation summaries should use Title Case (Altruistiq style).
+    given: $.paths[*][get,post,put,patch,delete].summary
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z0-9][A-Za-z0-9 \\-/()&,.']*$"
+  altruistiq-paths-snake-or-kebab:
+    description: Path segments must use lowercase with kebab-case (no snake_case, no camelCase).
+    given: $.paths
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[/{}a-z0-9\\-]+$"
+  altruistiq-uses-public-v1-prefix:
+    description: All operations must live under the /api/public/v1 prefix.
+    given: $.paths
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/api/public/v1/"
+  altruistiq-oauth2-security:
+    description: API should advertise OAuth 2.0 Client Credentials security.
+    given: $.components.securitySchemes
+    severity: warn
+    then:
+      function: truthy
+  altruistiq-tag-defined:
+    description: Every operation must declare at least one tag.
+    given: $.paths[*][get,post,put,patch,delete]
+    severity: warn
+    then:
+      field: tags
+      function: truthy

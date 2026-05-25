@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/altruistiq/main/json-schema/altruistiq-product-schema.json",
+  "title": "Altruistiq Product",
+  "description": "A product managed in the Altruistiq platform for Product Carbon Footprint calculation.",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "id": { "type": "string", "description": "Altruistiq product identifier." },
+    "name": { "type": "string", "description": "Product name." },
+    "sku": { "type": "string", "description": "Stock-keeping unit / external code." },
+    "category": { "type": "string", "description": "Product category." },
+    "businessUnitId": { "type": "string", "description": "Owning business unit." },
+    "currentStructureId": { "type": "string", "description": "Currently active product structure." },
+    "metadata": { "type": "object", "additionalProperties": true },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,66 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Altruistiq Datasource API — Location
+  description: Geographic reference data (countries and country subdivisions).
+  tags:
+    - Altruistiq
+    - Location
+    - Geography
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      ALTRUISTIQ_ACCESS_TOKEN: ALTRUISTIQ_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: location
+      baseUri: https://app.altruistiq.com/api/public/v1
+      resources:
+        - name: countries
+          path: /location/countries
+          operations:
+            - name: listCountries
+              method: GET
+              description: Get A List Of Countries
+        - name: country-subdivisions
+          path: /location/countries/{countryCode}/subdivisions
+          operations:
+            - name: listSubdivisions
+              method: GET
+              description: Get Country Subdivisions By Country Code
+      authentication:
+        type: bearer
+        value: '{{env.ALTRUISTIQ_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: location-rest
+      port: 8080
+      resources:
+        - path: /v1/location/countries
+          name: countries
+          operations:
+            - method: GET
+              name: listCountries
+              call: location.listCountries
+        - path: /v1/location/countries/{countryCode}/subdivisions
+          name: country-subdivisions
+          operations:
+            - method: GET
+              name: listSubdivisions
+              call: location.listSubdivisions
+    - type: mcp
+      namespace: location-mcp
+      port: 9090
+      transport: http
+      tools:
+        - name: altruistiq-list-countries
+          description: Get A List Of Countries
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: location.listCountries
+        - name: altruistiq-list-subdivisions
+          description: Get Country Subdivisions By Country Code
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: location.listSubdivisions

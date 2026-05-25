@@ -1,0 +1,166 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Altruistiq Datasource API — Products
+  description: >-
+    Altruistiq Datasource API — Products. Single and bulk CRUD for Products
+    managed for Product Carbon Footprint calculation.
+  tags:
+    - Altruistiq
+    - Products
+    - PCF
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      ALTRUISTIQ_ACCESS_TOKEN: ALTRUISTIQ_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: products
+      baseUri: https://app.altruistiq.com/api/public/v1
+      resources:
+        - name: products
+          path: /products
+          operations:
+            - name: createProduct
+              method: POST
+              description: Create A Single Product
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: listProducts
+              method: GET
+              description: Get Products In Bulk
+            - name: updateProductsBulk
+              method: PATCH
+              description: Update Products In Bulk
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: deleteProductsBulk
+              method: DELETE
+              description: Delete Products In Bulk
+        - name: products-by-id
+          path: /products/{id}
+          operations:
+            - name: getProduct
+              method: GET
+              description: Get A Single Product
+            - name: updateProduct
+              method: PATCH
+              description: Update A Single Product
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: deleteProduct
+              method: DELETE
+              description: Delete A Single Product
+        - name: products-bulk
+          path: /products/bulk
+          operations:
+            - name: createProductsBulk
+              method: POST
+              description: Create Products In Bulk
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+      authentication:
+        type: bearer
+        value: '{{env.ALTRUISTIQ_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: products-rest
+      port: 8080
+      resources:
+        - path: /v1/products
+          name: products
+          operations:
+            - method: POST
+              name: createProduct
+              call: products.createProduct
+              with:
+                body: rest.body
+            - method: GET
+              name: listProducts
+              call: products.listProducts
+            - method: PATCH
+              name: updateProductsBulk
+              call: products.updateProductsBulk
+              with:
+                body: rest.body
+            - method: DELETE
+              name: deleteProductsBulk
+              call: products.deleteProductsBulk
+        - path: /v1/products/{id}
+          name: products-by-id
+          operations:
+            - method: GET
+              name: getProduct
+              call: products.getProduct
+            - method: PATCH
+              name: updateProduct
+              call: products.updateProduct
+              with:
+                body: rest.body
+            - method: DELETE
+              name: deleteProduct
+              call: products.deleteProduct
+        - path: /v1/products/bulk
+          name: products-bulk
+          operations:
+            - method: POST
+              name: createProductsBulk
+              call: products.createProductsBulk
+              with:
+                body: rest.body
+    - type: mcp
+      namespace: products-mcp
+      port: 9090
+      transport: http
+      tools:
+        - name: altruistiq-create-product
+          description: Create A Single Product
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: products.createProduct
+          with: { body: tools.body }
+        - name: altruistiq-list-products
+          description: Get Products In Bulk
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: products.listProducts
+        - name: altruistiq-update-products-bulk
+          description: Update Products In Bulk
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: products.updateProductsBulk
+          with: { body: tools.body }
+        - name: altruistiq-delete-products-bulk
+          description: Delete Products In Bulk
+          hints: { readOnly: false, destructive: true, idempotent: true }
+          call: products.deleteProductsBulk
+        - name: altruistiq-get-product
+          description: Get A Single Product
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: products.getProduct
+        - name: altruistiq-update-product
+          description: Update A Single Product
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: products.updateProduct
+          with: { body: tools.body }
+        - name: altruistiq-delete-product
+          description: Delete A Single Product
+          hints: { readOnly: false, destructive: true, idempotent: true }
+          call: products.deleteProduct
+        - name: altruistiq-create-products-bulk
+          description: Create Products In Bulk
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: products.createProductsBulk
+          with: { body: tools.body }

@@ -1,0 +1,207 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Altruistiq Datasource API — Facilities
+  description: >-
+    Altruistiq Datasource API — Facilities. Manufacturing location records and
+    their versioned states (Persistent properties + Versions), used to attribute
+    activity data and PCF inputs to specific sites.
+  tags:
+    - Altruistiq
+    - Facilities
+    - Versioning
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      ALTRUISTIQ_ACCESS_TOKEN: ALTRUISTIQ_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: facilities
+      baseUri: https://app.altruistiq.com/api/public/v1
+      resources:
+        - name: facilities
+          path: /facilities/
+          operations:
+            - name: listFacilities
+              method: GET
+              description: Get A List Of Facilities
+        - name: facilities-by-id
+          path: /facilities/{facilityId}
+          operations:
+            - name: getFacility
+              method: GET
+              description: Get A Single Facility
+            - name: deleteFacility
+              method: DELETE
+              description: Delete A Facility
+        - name: facilities-version
+          path: /facilities/{facilityId}/versions/{versionId}
+          operations:
+            - name: getFacilityVersion
+              method: GET
+              description: Get A Specific Facility Version
+            - name: deleteFacilityVersion
+              method: DELETE
+              description: Delete A Facility Version
+            - name: updateFacilityVersion
+              method: PATCH
+              description: Update A Facility Version
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+        - name: facilities-bulk
+          path: /facilities/bulk
+          operations:
+            - name: createFacilitiesBulk
+              method: POST
+              description: Create Multiple Facilities In Bulk
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+        - name: facilities-persistent
+          path: /facilities/{facilityId}/persistent
+          operations:
+            - name: updateFacilityPersistent
+              method: PATCH
+              description: Update Facility Persistent Properties
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+        - name: facilities-versions
+          path: /facilities/{facilityId}/versions
+          operations:
+            - name: createFacilityVersion
+              method: POST
+              description: Create A New Facility Version
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+        - name: facilities-types
+          path: /facilities/types
+          operations:
+            - name: listFacilityTypes
+              method: GET
+              description: Get Facility Types
+      authentication:
+        type: bearer
+        value: '{{env.ALTRUISTIQ_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: facilities-rest
+      port: 8080
+      resources:
+        - path: /v1/facilities
+          name: facilities
+          operations:
+            - method: GET
+              name: listFacilities
+              call: facilities.listFacilities
+        - path: /v1/facilities/{facilityId}
+          name: facilities-by-id
+          operations:
+            - method: GET
+              name: getFacility
+              call: facilities.getFacility
+            - method: DELETE
+              name: deleteFacility
+              call: facilities.deleteFacility
+        - path: /v1/facilities/{facilityId}/versions/{versionId}
+          name: facilities-version
+          operations:
+            - method: GET
+              name: getFacilityVersion
+              call: facilities.getFacilityVersion
+            - method: DELETE
+              name: deleteFacilityVersion
+              call: facilities.deleteFacilityVersion
+            - method: PATCH
+              name: updateFacilityVersion
+              call: facilities.updateFacilityVersion
+              with: { body: rest.body }
+        - path: /v1/facilities/bulk
+          name: facilities-bulk
+          operations:
+            - method: POST
+              name: createFacilitiesBulk
+              call: facilities.createFacilitiesBulk
+              with: { body: rest.body }
+        - path: /v1/facilities/{facilityId}/persistent
+          name: facilities-persistent
+          operations:
+            - method: PATCH
+              name: updateFacilityPersistent
+              call: facilities.updateFacilityPersistent
+              with: { body: rest.body }
+        - path: /v1/facilities/{facilityId}/versions
+          name: facilities-versions
+          operations:
+            - method: POST
+              name: createFacilityVersion
+              call: facilities.createFacilityVersion
+              with: { body: rest.body }
+        - path: /v1/facilities/types
+          name: facilities-types
+          operations:
+            - method: GET
+              name: listFacilityTypes
+              call: facilities.listFacilityTypes
+    - type: mcp
+      namespace: facilities-mcp
+      port: 9090
+      transport: http
+      tools:
+        - name: altruistiq-list-facilities
+          description: Get A List Of Facilities
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: facilities.listFacilities
+        - name: altruistiq-get-facility
+          description: Get A Single Facility
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: facilities.getFacility
+        - name: altruistiq-delete-facility
+          description: Delete A Facility
+          hints: { readOnly: false, destructive: true, idempotent: true }
+          call: facilities.deleteFacility
+        - name: altruistiq-get-facility-version
+          description: Get A Specific Facility Version
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: facilities.getFacilityVersion
+        - name: altruistiq-delete-facility-version
+          description: Delete A Facility Version
+          hints: { readOnly: false, destructive: true, idempotent: true }
+          call: facilities.deleteFacilityVersion
+        - name: altruistiq-update-facility-version
+          description: Update A Facility Version
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: facilities.updateFacilityVersion
+          with: { body: tools.body }
+        - name: altruistiq-create-facilities-bulk
+          description: Create Multiple Facilities In Bulk
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: facilities.createFacilitiesBulk
+          with: { body: tools.body }
+        - name: altruistiq-update-facility-persistent
+          description: Update Facility Persistent Properties
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: facilities.updateFacilityPersistent
+          with: { body: tools.body }
+        - name: altruistiq-create-facility-version
+          description: Create A New Facility Version
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: facilities.createFacilityVersion
+          with: { body: tools.body }
+        - name: altruistiq-list-facility-types
+          description: Get Facility Types
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: facilities.listFacilityTypes

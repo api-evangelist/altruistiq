@@ -1,0 +1,97 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Altruistiq
+providerId: altruistiq
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: false
+tags:
+  - Sustainability
+  - Carbon Accounting
+  - Enterprise
+description: >-
+  Altruistiq is sold as an enterprise SaaS subscription. The public website
+  and developer documentation do not publish list pricing — commercial terms
+  are negotiated per customer with the Altruistiq sales team. The plan
+  structure below reflects the productized solution areas exposed on
+  altruistiq.com and documented in the public API; pricing fields are
+  intentionally "Contact Sales" until a public price book is published.
+sources:
+  - https://www.altruistiq.com
+  - https://www.altruistiq.com/get-in-touch
+  - https://www.altruistiq.com/platform/overview
+plans:
+  - id: altruistiq-corporate-carbon-footprint
+    name: Corporate Carbon Footprint
+    type: subscription
+    description: Enterprise CCF on the Altruistiq calculation engine — multi-entity, multi-country, ISO 14064-1 assured.
+    entries:
+      - label: Subscription
+        name: subscription
+        type: contracted
+        metric: organization
+        limit: -1
+        price: Contact Sales
+        timeFrame: year
+        currency: USD
+        description: Annual enterprise subscription. Contact Altruistiq sales.
+    elements:
+      - name: Activity-based Scope 1, 2, and 3 inventory
+      - name: 220,000+ curated emissions factors database (quarterly refresh)
+      - name: Datasource API for activity-data upload
+      - name: Corporate Export API with filter-and-download
+      - name: Multi-entity, multi-country, multi-currency reporting
+      - name: ISO 14064-1 assured calculation engine
+  - id: altruistiq-product-carbon-footprint
+    name: Product Carbon Footprint
+    type: subscription
+    description: Ingredient-level PCF at scale with PACT-conformant data exchange.
+    entries:
+      - label: Subscription
+        name: subscription
+        type: contracted
+        metric: organization
+        limit: -1
+        price: Contact Sales
+        timeFrame: year
+        currency: USD
+    elements:
+      - name: Products, Product Structures, and Inputs APIs
+      - name: PACT Pathfinder-conformant PCF exchange
+      - name: B2B PCF reports for customer RFPs
+      - name: Eco-design modelling and on-pack claims support
+  - id: altruistiq-supply-chain-decarbonisation
+    name: Supply Chain Decarbonisation
+    type: subscription
+    description: Supplier engagement, primary data collection, and Scope 3 accuracy improvement.
+    entries:
+      - label: Subscription
+        name: subscription
+        type: contracted
+        metric: organization
+        limit: -1
+        price: Contact Sales
+        timeFrame: year
+        currency: USD
+    elements:
+      - name: Supplier engagement programmes
+      - name: Primary data collection workflows
+      - name: Scope 3 category 1 and 4 hot-spot analysis
+  - id: altruistiq-evie-ai
+    name: Evie AI
+    type: add-on
+    description: AI agent add-on for climate data automation, analysis, and advisory.
+    entries:
+      - label: Add-on
+        name: addon
+        type: contracted
+        metric: organization
+        limit: -1
+        price: Contact Sales
+        timeFrame: year
+        currency: USD
+    elements:
+      - name: Automated data classification and validation
+      - name: Conversational analysis and advisory
+      - name: Workflow automation across CCF and PCF surfaces

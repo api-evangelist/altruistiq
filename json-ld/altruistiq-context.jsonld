@@ -1,0 +1,162 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "altruistiq": "https://app.altruistiq.com/api/public/v1/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "ghg": "https://ghgprotocol.org/vocab#",
+    "pact": "https://www.carbon-transparency.org/vocab#",
+
+    "Datasource": {
+      "@id": "altruistiq:Datasource",
+      "@context": {
+        "id": { "@id": "altruistiq:Datasource/id", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "description": { "@id": "schema:description", "@type": "xsd:string" }
+      }
+    },
+
+    "Upload": {
+      "@id": "altruistiq:Upload",
+      "@context": {
+        "uploadId": { "@id": "altruistiq:Upload/uploadId", "@type": "xsd:string" },
+        "fileId": { "@id": "altruistiq:Upload/fileId", "@type": "xsd:string" },
+        "status": { "@id": "altruistiq:Upload/status", "@type": "xsd:string" },
+        "parts": { "@id": "altruistiq:Upload/parts", "@container": "@list" }
+      }
+    },
+
+    "Export": {
+      "@id": "altruistiq:Export",
+      "@context": {
+        "id": { "@id": "altruistiq:Export/id", "@type": "xsd:string" },
+        "status": { "@id": "altruistiq:Export/status", "@type": "xsd:string" },
+        "filters": { "@id": "altruistiq:Export/filters" },
+        "downloadUrls": { "@id": "altruistiq:Export/downloadUrls", "@container": "@list" },
+        "createdAt": { "@id": "dcterms:created", "@type": "xsd:dateTime" }
+      }
+    },
+
+    "Product": {
+      "@id": "altruistiq:Product",
+      "@context": {
+        "id": { "@id": "altruistiq:Product/id", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "sku": { "@id": "altruistiq:Product/sku", "@type": "xsd:string" },
+        "businessUnitId": { "@id": "altruistiq:Product/businessUnitId", "@type": "xsd:string" },
+        "category": { "@id": "schema:category", "@type": "xsd:string" }
+      }
+    },
+
+    "ProductStructure": {
+      "@id": "altruistiq:ProductStructure",
+      "@context": {
+        "id": { "@id": "altruistiq:ProductStructure/id", "@type": "xsd:string" },
+        "productId": { "@id": "altruistiq:ProductStructure/productId", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "version": { "@id": "schema:version", "@type": "xsd:string" },
+        "inputs": { "@id": "altruistiq:ProductStructure/inputs", "@container": "@list" }
+      }
+    },
+
+    "ProductStructureInput": {
+      "@id": "altruistiq:ProductStructureInput",
+      "@context": {
+        "id": { "@id": "altruistiq:ProductStructureInput/id", "@type": "xsd:string" },
+        "structureId": { "@id": "altruistiq:ProductStructureInput/structureId", "@type": "xsd:string" },
+        "type": { "@id": "altruistiq:ProductStructureInput/type", "@type": "xsd:string" },
+        "materialName": { "@id": "altruistiq:ProductStructureInput/materialName", "@type": "xsd:string" },
+        "quantity": { "@id": "altruistiq:ProductStructureInput/quantity", "@type": "xsd:decimal" },
+        "unit": { "@id": "altruistiq:ProductStructureInput/unit", "@type": "xsd:string" },
+        "originCountry": { "@id": "altruistiq:ProductStructureInput/originCountry", "@type": "xsd:string" }
+      }
+    },
+
+    "Facility": {
+      "@id": "altruistiq:Facility",
+      "@context": {
+        "id": { "@id": "altruistiq:Facility/id", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "type": { "@id": "altruistiq:Facility/type", "@type": "xsd:string" },
+        "countryCode": { "@id": "altruistiq:Facility/countryCode", "@type": "xsd:string" },
+        "currentVersion": { "@id": "altruistiq:Facility/currentVersion", "@type": "xsd:string" },
+        "persistent": { "@id": "altruistiq:Facility/persistent" }
+      }
+    },
+
+    "FacilityVersion": {
+      "@id": "altruistiq:FacilityVersion",
+      "@context": {
+        "id": { "@id": "altruistiq:FacilityVersion/id", "@type": "xsd:string" },
+        "facilityId": { "@id": "altruistiq:FacilityVersion/facilityId", "@type": "xsd:string" },
+        "validFrom": { "@id": "altruistiq:FacilityVersion/validFrom", "@type": "xsd:date" },
+        "validTo": { "@id": "altruistiq:FacilityVersion/validTo", "@type": "xsd:date" }
+      }
+    },
+
+    "Country": {
+      "@id": "altruistiq:Country",
+      "@context": {
+        "code": { "@id": "altruistiq:Country/code", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" }
+      }
+    },
+
+    "Subdivision": {
+      "@id": "altruistiq:Subdivision",
+      "@context": {
+        "code": { "@id": "altruistiq:Subdivision/code", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "countryCode": { "@id": "altruistiq:Subdivision/countryCode", "@type": "xsd:string" }
+      }
+    },
+
+    "Organization": {
+      "@id": "altruistiq:Organization",
+      "@context": {
+        "id": { "@id": "altruistiq:Organization/id", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "businessUnits": { "@id": "altruistiq:Organization/businessUnits", "@container": "@list" }
+      }
+    },
+
+    "BusinessUnit": {
+      "@id": "altruistiq:BusinessUnit",
+      "@context": {
+        "id": { "@id": "altruistiq:BusinessUnit/id", "@type": "xsd:string" },
+        "name": { "@id": "schema:name", "@type": "xsd:string" },
+        "parentId": { "@id": "altruistiq:BusinessUnit/parentId", "@type": "xsd:string" }
+      }
+    },
+
+    "EmissionRecord": {
+      "@id": "altruistiq:EmissionRecord",
+      "@context": {
+        "scope": { "@id": "ghg:scope", "@type": "xsd:string" },
+        "category": { "@id": "ghg:category", "@type": "xsd:string" },
+        "co2eKg": { "@id": "ghg:co2eKg", "@type": "xsd:decimal" },
+        "method": { "@id": "altruistiq:EmissionRecord/method", "@type": "xsd:string" },
+        "activityId": { "@id": "altruistiq:EmissionRecord/activityId", "@type": "xsd:string" },
+        "facilityId": { "@id": "altruistiq:EmissionRecord/facilityId", "@type": "xsd:string" },
+        "businessUnitId": { "@id": "altruistiq:EmissionRecord/businessUnitId", "@type": "xsd:string" },
+        "reportingPeriodStart": { "@id": "altruistiq:EmissionRecord/reportingPeriodStart", "@type": "xsd:date" },
+        "reportingPeriodEnd": { "@id": "altruistiq:EmissionRecord/reportingPeriodEnd", "@type": "xsd:date" }
+      }
+    },
+
+    "ProductCarbonFootprint": {
+      "@id": "pact:ProductCarbonFootprint",
+      "@context": {
+        "productId": { "@id": "altruistiq:ProductCarbonFootprint/productId", "@type": "xsd:string" },
+        "pcfKgPerFunctionalUnit": { "@id": "pact:pcfKgPerFunctionalUnit", "@type": "xsd:decimal" },
+        "functionalUnit": { "@id": "pact:functionalUnit", "@type": "xsd:string" },
+        "methodology": { "@id": "pact:methodology", "@type": "xsd:string" },
+        "boundary": { "@id": "pact:boundary", "@type": "xsd:string" },
+        "validityStart": { "@id": "pact:validityStart", "@type": "xsd:date" },
+        "validityEnd": { "@id": "pact:validityEnd", "@type": "xsd:date" }
+      }
+    }
+  }
+}

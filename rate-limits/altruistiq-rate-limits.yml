@@ -1,0 +1,31 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Altruistiq
+providerId: altruistiq
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: false
+tags:
+  - Carbon Accounting
+  - Rate Limiting
+description: >-
+  Altruistiq's public Datasource API (https://app.altruistiq.com/api/public/v1)
+  does not publish quantitative rate limits in its developer documentation.
+  Enterprise customers should expect that bulk endpoints and multipart uploads
+  are subject to per-tenant fair-use limits negotiated as part of their
+  contract; specific RPM, concurrency, and payload limits are not documented
+  in the public OpenAPI specification.
+sources:
+  - https://docs.altruistiq.com
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+algorithm: per-tenant-fair-use
+notes:
+  - Public documentation does not specify request-per-minute (RPM) limits.
+  - Bulk endpoints (Products, Product Structure Inputs, Facilities) accept multiple records per call to reduce request volume.
+  - The Datasource upload surface is a multipart-upload flow (start, upload parts, complete), which is designed for large files and is throttled at the multipart level rather than per HTTP request.
+  - OAuth 2.0 access tokens are short-lived; the documented `expires_in` value defines token rotation cadence.
+  - Customers requiring specific throughput SLAs should contact Altruistiq sales.
+limits: []

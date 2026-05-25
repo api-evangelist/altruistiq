@@ -1,0 +1,95 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Altruistiq Datasource API — Emissions Export
+  description: >-
+    Altruistiq Datasource API — Emissions Export. Create filterable exports of
+    calculated corporate emissions and retrieve their status and download URLs.
+  tags:
+    - Altruistiq
+    - Export
+    - Emissions
+    - Reporting
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      ALTRUISTIQ_ACCESS_TOKEN: ALTRUISTIQ_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: export
+      baseUri: https://app.altruistiq.com/api/public/v1
+      description: Altruistiq Export operations.
+      resources:
+        - name: export
+          path: /export
+          operations:
+            - name: createExport
+              method: POST
+              description: Create An Export
+              outputRawFormat: json
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: export-by-id
+          path: /export/{exportId}
+          operations:
+            - name: getExport
+              method: GET
+              description: Get Export Status And Download Urls
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+      authentication:
+        type: bearer
+        value: '{{env.ALTRUISTIQ_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: export-rest
+      port: 8080
+      resources:
+        - path: /v1/export
+          name: export
+          operations:
+            - method: POST
+              name: createExport
+              call: export.createExport
+              with:
+                body: rest.body
+        - path: /v1/export/{exportId}
+          name: export-by-id
+          operations:
+            - method: GET
+              name: getExport
+              call: export.getExport
+    - type: mcp
+      namespace: export-mcp
+      port: 9090
+      transport: http
+      tools:
+        - name: altruistiq-create-export
+          description: Create An Export
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: export.createExport
+          with:
+            body: tools.body
+        - name: altruistiq-get-export
+          description: Get Export Status And Download Urls
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: export.getExport

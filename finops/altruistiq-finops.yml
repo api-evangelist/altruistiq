@@ -1,0 +1,80 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Altruistiq
+providerId: altruistiq
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: false
+tags:
+  - FinOps
+  - Sustainability
+  - Carbon Accounting
+description: >-
+  FOCUS-aligned FinOps definition for the Altruistiq enterprise SaaS platform.
+  Altruistiq is sold as a contracted annual subscription with usage scaled by
+  organization scope (entities, products, suppliers) rather than per-API-call
+  metering. This file documents the chargeable surface and FOCUS column
+  mapping at the contract level; specific unit rates are negotiated per
+  customer and are not published.
+sources:
+  - https://www.altruistiq.com
+  - https://docs.altruistiq.com
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Altruistiq
+serviceCategory: Sustainability and ESG
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Annual
+  billingCurrency: USD
+  chargeCategories:
+    - Subscription
+    - Add-on
+    - Professional Services
+    - Tax
+    - Credit
+    - Adjustment
+  primaryUnit: organization
+  secondaryUnits:
+    - product
+    - supplier
+    - business_unit
+    - facility
+focusColumns:
+  ServiceName: Altruistiq Platform
+  ServiceCategory: Sustainability and ESG
+  ProviderName: Altruistiq
+  PublisherName: Altruistiq
+  InvoiceIssuerName: Altruistiq
+  PricingCategory: Subscription
+chargeableSurfaces:
+  - id: corporate-carbon-footprint
+    label: Corporate Carbon Footprint
+    chargeCategory: Subscription
+    unit: organization
+  - id: product-carbon-footprint
+    label: Product Carbon Footprint
+    chargeCategory: Subscription
+    unit: organization
+    secondaryUnit: product
+  - id: supply-chain-decarbonisation
+    label: Supply Chain Decarbonisation
+    chargeCategory: Subscription
+    unit: organization
+    secondaryUnit: supplier
+  - id: evie-ai
+    label: Evie AI add-on
+    chargeCategory: Add-on
+    unit: organization
+  - id: pact-data-exchange
+    label: PACT data exchange
+    chargeCategory: Subscription
+    unit: organization
+notes:
+  - No public usage-based metering surfaces are exposed in the Altruistiq public API.
+  - Customers reconcile internal sustainability spend against the contracted Altruistiq subscription rather than per-call cost.

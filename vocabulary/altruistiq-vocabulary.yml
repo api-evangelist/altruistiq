@@ -1,0 +1,80 @@
+name: Altruistiq Vocabulary
+description: >-
+  Operational and capability vocabulary for the Altruistiq climate intelligence
+  platform — terms used in the public Datasource and PACT APIs and across the
+  product surface for corporate carbon footprint, product carbon footprint, and
+  supplier decarbonisation.
+created: '2026-05-25'
+modified: '2026-05-25'
+sources:
+  - https://docs.altruistiq.com
+  - https://www.altruistiq.com/data-capabilities
+  - https://www.carbon-transparency.org
+  - https://ghgprotocol.org
+domains:
+  - name: Carbon Accounting
+    terms:
+      - term: Corporate Carbon Footprint (CCF)
+        definition: Enterprise-wide GHG inventory across Scope 1, 2, and 3.
+      - term: Product Carbon Footprint (PCF)
+        definition: Cradle-to-gate (or cradle-to-grave) GHG impact of a single product per functional unit.
+      - term: Scope 1
+        definition: Direct GHG emissions from owned or controlled sources.
+      - term: Scope 2
+        definition: Indirect GHG emissions from purchased electricity, steam, heat, or cooling.
+      - term: Scope 3
+        definition: All other indirect emissions across the value chain (15 categories per GHG Protocol).
+      - term: Emission Factor
+        definition: Coefficient converting activity data into CO2-equivalent emissions.
+      - term: Activity Data
+        definition: Quantitative measurement of an activity that drives emissions (kWh, tonnes, km).
+      - term: Calculation Method
+        definition: Approach used to derive emissions (spend-based, activity-based, supplier-specific, hybrid).
+  - name: Altruistiq Platform
+    terms:
+      - term: Datasource
+        definition: Named container into which activity data files are uploaded.
+      - term: Dataset
+        definition: A logical collection of activity records within a Datasource.
+      - term: Export
+        definition: An asynchronous job that produces a filtered, downloadable emissions dataset.
+      - term: Product Structure
+        definition: A versioned bill of materials for a Product used in PCF calculation.
+      - term: Product Structure Input
+        definition: A single ingredient, packaging item, energy use, or process step in a Product Structure.
+      - term: Facility
+        definition: A site (manufacturing, warehouse, office) with persistent properties and time-bound Versions.
+      - term: Facility Version
+        definition: A point-in-time state of a Facility used to attribute activity data.
+      - term: Business Unit
+        definition: An entity within the Organization hierarchy used to scope reporting.
+      - term: Evie AI
+        definition: Altruistiq's AI agent for climate data automation, analysis, and advisory.
+  - name: Interoperability
+    terms:
+      - term: PACT
+        definition: WBCSD Partnership for Carbon Transparency.
+      - term: Pathfinder Framework
+        definition: PACT's methodology and data model for sharing PCFs across the value chain.
+      - term: PACT API
+        definition: Altruistiq's data exchange endpoint conforming to PACT for sharing PCFs with customers and partners.
+  - name: Reporting Standards
+    terms:
+      - term: GHG Protocol
+        definition: Corporate Value Chain (Scope 3) Accounting and Reporting Standard.
+      - term: ISO 14064-1
+        definition: Specification with guidance for quantification and reporting of GHG emissions at the organization level.
+      - term: SBTi
+        definition: Science Based Targets initiative.
+      - term: CDP
+        definition: Carbon Disclosure Project.
+      - term: CSRD
+        definition: EU Corporate Sustainability Reporting Directive.
+  - name: API Mechanics
+    terms:
+      - term: OAuth 2.0 Client Credentials
+        definition: Authentication flow used by the Altruistiq public API.
+      - term: Multipart Upload
+        definition: Three-step file upload (start, upload parts, complete) used by the Datasource API.
+      - term: Bulk Endpoint
+        definition: Endpoints accepting multiple records in a single request (create/update/delete Products, Inputs, Facilities).

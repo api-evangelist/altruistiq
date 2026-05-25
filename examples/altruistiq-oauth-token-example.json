@@ -1,0 +1,21 @@
+{
+  "operation": "POST /api/public/v1/oauth2/token",
+  "request": {
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "grant_type": "client_credentials",
+      "client_id": "<your-client-id>",
+      "client_secret": "<your-client-secret>"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "access_token": "eyJhbGciOi...",
+      "token_type": "Bearer",
+      "expires_in": 3600
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "operation": "POST /api/public/v1/products",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOi...",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Plant-Based Chocolate Bar 60g",
+      "sku": "AQ-PB-CHOC-060",
+      "category": "Confectionery",
+      "businessUnitId": "bu_eu_retail"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "id": "prod_01HZX9K2Q",
+      "name": "Plant-Based Chocolate Bar 60g",
+      "sku": "AQ-PB-CHOC-060",
+      "category": "Confectionery",
+      "businessUnitId": "bu_eu_retail",
+      "createdAt": "2026-05-25T10:00:00Z",
+      "updatedAt": "2026-05-25T10:00:00Z"
+    }
+  }
+}

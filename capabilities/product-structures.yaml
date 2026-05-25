@@ -1,0 +1,163 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Altruistiq Datasource API — Product Structures
+  description: >-
+    Altruistiq Datasource API — Product Structures (bills of materials).
+    Single and bulk CRUD on Product Structures and their containment under a
+    parent Product.
+  tags:
+    - Altruistiq
+    - Product Structure
+    - BOM
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      ALTRUISTIQ_ACCESS_TOKEN: ALTRUISTIQ_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: product-structures
+      baseUri: https://app.altruistiq.com/api/public/v1
+      resources:
+        - name: product-structures
+          path: /product-structures
+          operations:
+            - name: createProductStructure
+              method: POST
+              description: Create Single Product Structures
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+        - name: product-structures-by-id
+          path: /product-structures/{id}
+          operations:
+            - name: getProductStructure
+              method: GET
+              description: Get Single Product Structure
+            - name: updateProductStructure
+              method: PATCH
+              description: Update A Single Product Structure
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: deleteProductStructure
+              method: DELETE
+              description: Delete A Single Product Structure
+        - name: products-structures-bulk
+          path: /products/{productId}/structures
+          operations:
+            - name: createStructuresInProduct
+              method: POST
+              description: Creates Product Structures In Bulk Within A Single Product
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: listStructuresInProduct
+              method: GET
+              description: Get Multiple Product Structure Within A Single Product
+            - name: updateStructuresInProduct
+              method: PATCH
+              description: Update Product Structures In Bulk Within A Single Product
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: deleteStructuresInProduct
+              method: DELETE
+              description: Deletes Product Structures In Bulk Within A Single Product
+      authentication:
+        type: bearer
+        value: '{{env.ALTRUISTIQ_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: product-structures-rest
+      port: 8080
+      resources:
+        - path: /v1/product-structures
+          name: product-structures
+          operations:
+            - method: POST
+              name: createProductStructure
+              call: product-structures.createProductStructure
+              with: { body: rest.body }
+        - path: /v1/product-structures/{id}
+          name: product-structures-by-id
+          operations:
+            - method: GET
+              name: getProductStructure
+              call: product-structures.getProductStructure
+            - method: PATCH
+              name: updateProductStructure
+              call: product-structures.updateProductStructure
+              with: { body: rest.body }
+            - method: DELETE
+              name: deleteProductStructure
+              call: product-structures.deleteProductStructure
+        - path: /v1/products/{productId}/structures
+          name: products-structures-bulk
+          operations:
+            - method: POST
+              name: createStructuresInProduct
+              call: product-structures.createStructuresInProduct
+              with: { body: rest.body }
+            - method: GET
+              name: listStructuresInProduct
+              call: product-structures.listStructuresInProduct
+            - method: PATCH
+              name: updateStructuresInProduct
+              call: product-structures.updateStructuresInProduct
+              with: { body: rest.body }
+            - method: DELETE
+              name: deleteStructuresInProduct
+              call: product-structures.deleteStructuresInProduct
+    - type: mcp
+      namespace: product-structures-mcp
+      port: 9090
+      transport: http
+      tools:
+        - name: altruistiq-create-product-structure
+          description: Create Single Product Structures
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: product-structures.createProductStructure
+          with: { body: tools.body }
+        - name: altruistiq-get-product-structure
+          description: Get Single Product Structure
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: product-structures.getProductStructure
+        - name: altruistiq-update-product-structure
+          description: Update A Single Product Structure
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: product-structures.updateProductStructure
+          with: { body: tools.body }
+        - name: altruistiq-delete-product-structure
+          description: Delete A Single Product Structure
+          hints: { readOnly: false, destructive: true, idempotent: true }
+          call: product-structures.deleteProductStructure
+        - name: altruistiq-create-structures-in-product
+          description: Creates Product Structures In Bulk Within A Single Product
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: product-structures.createStructuresInProduct
+          with: { body: tools.body }
+        - name: altruistiq-list-structures-in-product
+          description: Get Multiple Product Structure Within A Single Product
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: product-structures.listStructuresInProduct
+        - name: altruistiq-update-structures-in-product
+          description: Update Product Structures In Bulk Within A Single Product
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: product-structures.updateStructuresInProduct
+          with: { body: tools.body }
+        - name: altruistiq-delete-structures-in-product
+          description: Deletes Product Structures In Bulk Within A Single Product
+          hints: { readOnly: false, destructive: true, idempotent: true }
+          call: product-structures.deleteStructuresInProduct

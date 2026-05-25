@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/altruistiq/main/json-schema/altruistiq-emission-record-schema.json",
+  "title": "Altruistiq Emission Record",
+  "description": "A single row of calculated emissions returned by the Altruistiq corporate Export API. Activity-based, attributed to a business unit, facility, and reporting period; classified by GHG Protocol scope and category.",
+  "type": "object",
+  "required": ["scope", "co2eKg"],
+  "properties": {
+    "scope": {
+      "type": "string",
+      "enum": ["1", "2", "3"],
+      "description": "GHG Protocol scope."
+    },
+    "category": { "type": "string", "description": "Scope 3 category (1-15) or sub-classification." },
+    "co2eKg": { "type": "number", "description": "Emissions in kilograms of CO2 equivalent." },
+    "method": { "type": "string", "description": "Calculation method (spend-based, activity-based, supplier-specific, hybrid)." },
+    "activityId": { "type": "string" },
+    "datasourceId": { "type": "string" },
+    "facilityId": { "type": "string" },
+    "businessUnitId": { "type": "string" },
+    "productId": { "type": "string" },
+    "reportingPeriodStart": { "type": "string", "format": "date" },
+    "reportingPeriodEnd": { "type": "string", "format": "date" },
+    "emissionFactorId": { "type": "string", "description": "Identifier of the emission factor applied." },
+    "emissionFactorSource": { "type": "string", "description": "Provenance of the emission factor (e.g. DEFRA, ecoinvent, supplier-specific)." }
+  }
+}

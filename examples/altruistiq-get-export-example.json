@@ -1,0 +1,20 @@
+{
+  "operation": "GET /api/public/v1/export/{exportId}",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOi..."
+    },
+    "path": { "exportId": "exp_01HZX9KZA" }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "exp_01HZX9KZA",
+      "status": "ready",
+      "downloadUrls": [
+        "https://app.altruistiq.com/exports/exp_01HZX9KZA/emissions.csv"
+      ],
+      "expiresAt": "2026-05-26T10:05:00Z"
+    }
+  }
+}

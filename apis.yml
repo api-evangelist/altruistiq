@@ -1,0 +1,237 @@
+aid: altruistiq
+name: Altruistiq
+url: https://raw.githubusercontent.com/api-evangelist/altruistiq/refs/heads/main/apis.yml
+description: >-
+  Altruistiq is a London-based climate intelligence platform for food and
+  beverage and other FMCG enterprises managing complex supply chains. The
+  platform unifies corporate carbon footprint reporting, product carbon
+  footprint (PCF) calculation, and supplier engagement on a single ISO
+  14064-1 assured calculation engine, drawing raw operational data from
+  finance, procurement, and supply chain systems to produce activity-based
+  Scope 1, 2, and 3 emissions measurements. Altruistiq exposes a public
+  Datasource API and a PACT-conformant Product Carbon Footprint data
+  exchange API (OAuth 2.0 client credentials) for uploading activity data,
+  managing products, bills of materials, facilities, and exporting
+  calculated emissions. Customers include Starbucks, Kraft Heinz, Huel,
+  Nando's, Octopus Energy, and other FMCG and food and beverage brands.
+type: Index
+kind: contract
+position: Provider
+access: 3rd-Party
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Sustainability
+  - Climate
+  - Carbon Accounting
+  - Emissions
+  - Greenhouse Gas
+  - Scope 3
+  - Product Carbon Footprint
+  - Corporate Carbon Footprint
+  - Supply Chain
+  - FMCG
+  - Food and Beverage
+  - ESG
+  - CSRD
+  - SBTi
+  - PACT
+  - Sustainability Intelligence
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.20'
+apis:
+  - aid: altruistiq:altruistiq-datasource-api
+    name: Altruistiq Datasource API
+    description: >-
+      Upload, manage, and export activity and product data used to calculate
+      enterprise emissions on the Altruistiq platform. Covers multipart file
+      uploads into named Datasources, corporate emissions Exports with
+      filtering and download URLs, full CRUD on Products, Product Structures
+      (bills of materials), and Product Structure Inputs (material and
+      packaging line items), Facility version management, geographic
+      Location reference data (countries and subdivisions), and Organization
+      and business unit lookups. Authenticated via OAuth 2.0 Client
+      Credentials against /api/public/v1/oauth2/token. Production server is
+      https://app.altruistiq.com/api/public/v1.
+    humanURL: https://docs.altruistiq.com
+    baseURL: https://app.altruistiq.com/api/public/v1
+    tags:
+      - Sustainability
+      - Carbon Accounting
+      - Emissions
+      - Datasource
+      - Products
+      - Facilities
+      - Export
+    properties:
+      - url: https://docs.altruistiq.com
+        type: Documentation
+      - url: openapi/altruistiq-openapi.yml
+        type: OpenAPI
+      - url: https://docs.altruistiq.com
+        type: Authentication
+      - url: json-schema/altruistiq-product-schema.json
+        type: JSONSchema
+      - url: json-schema/altruistiq-facility-schema.json
+        type: JSONSchema
+      - url: json-schema/altruistiq-emission-record-schema.json
+        type: JSONSchema
+      - url: json-structure/altruistiq-product-structure.json
+        type: JSONStructure
+      - url: json-ld/altruistiq-context.jsonld
+        type: JSONLD
+      - url: rules/altruistiq-rules.yml
+        type: SpectralRuleset
+      - url: vocabulary/altruistiq-vocabulary.yml
+        type: Vocabulary
+      - url: capabilities/oauth.yaml
+        type: NaftikoCapability
+      - url: capabilities/datasource.yaml
+        type: NaftikoCapability
+      - url: capabilities/export.yaml
+        type: NaftikoCapability
+      - url: capabilities/products.yaml
+        type: NaftikoCapability
+      - url: capabilities/product-structures.yaml
+        type: NaftikoCapability
+      - url: capabilities/product-structure-inputs.yaml
+        type: NaftikoCapability
+      - url: capabilities/facilities.yaml
+        type: NaftikoCapability
+      - url: capabilities/location.yaml
+        type: NaftikoCapability
+      - url: capabilities/organization.yaml
+        type: NaftikoCapability
+      - url: examples/altruistiq-oauth-token-example.json
+        type: Example
+      - url: examples/altruistiq-create-product-example.json
+        type: Example
+      - url: examples/altruistiq-create-export-example.json
+        type: Example
+      - url: examples/altruistiq-get-export-example.json
+        type: Example
+  - aid: altruistiq:altruistiq-pact-api
+    name: Altruistiq PACT API
+    description: >-
+      PACT-conformant Product Carbon Footprint data exchange surface for
+      sharing ingredient-level PCF data with customers and partners per the
+      WBCSD Partnership for Carbon Transparency (PACT) Pathfinder Framework.
+      Exposed through the same /api/public/v1 surface alongside the
+      Datasource API. Used to fulfil B2B customer RFPs and downstream Scope
+      3 reporting requests with traceable, methodology-aware PCFs.
+    humanURL: https://docs.altruistiq.com
+    baseURL: https://app.altruistiq.com/api/public/v1
+    tags:
+      - Sustainability
+      - Carbon Accounting
+      - Product Carbon Footprint
+      - PACT
+      - Pathfinder
+      - Interoperability
+    properties:
+      - url: https://docs.altruistiq.com
+        type: Documentation
+      - url: openapi/altruistiq-openapi.yml
+        type: OpenAPI
+      - url: https://www.carbon-transparency.org
+        type: Standard
+      - url: json-ld/altruistiq-context.jsonld
+        type: JSONLD
+common:
+  - type: Website
+    url: https://www.altruistiq.com
+  - type: Portal
+    url: https://www.altruistiq.com/platform/overview
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Platform
+    url: https://app.altruistiq.com
+  - type: SignUp
+    url: https://www.altruistiq.com/get-in-touch
+  - type: Company
+    url: https://www.altruistiq.com/company
+  - type: Careers
+    url: https://www.altruistiq.com/careers
+  - type: Blog
+    url: https://www.altruistiq.com/insights
+  - type: Customers
+    url: https://www.altruistiq.com/customers
+  - type: Capabilities
+    url: https://www.altruistiq.com/data-capabilities
+  - type: Solution
+    name: Corporate Carbon Footprint
+    url: https://www.altruistiq.com/solutions/corporate-carbon-footprint
+  - type: Solution
+    name: Product Carbon Footprint
+    url: https://www.altruistiq.com/solutions/product-carbon-footprint
+  - type: Solution
+    name: Supply Chain Decarbonisation
+    url: https://www.altruistiq.com/solutions/supply-chain-decarbonisation
+  - type: Solution
+    name: Evie AI
+    url: https://www.altruistiq.com/evie
+  - type: Security
+    url: https://www.altruistiq.com/security
+  - type: TrustCenter
+    url: https://www.altruistiq.com/security
+  - type: PrivacyPolicy
+    url: https://www.altruistiq.com/privacy-policy
+  - type: TermsOfService
+    url: https://www.altruistiq.com/terms-of-service
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/altruistiq
+  - type: Twitter
+    url: https://twitter.com/altruistiq
+  - type: GitHubOrganization
+    url: https://github.com/altruistiq
+  - type: Standard
+    name: PACT Pathfinder Framework
+    url: https://www.carbon-transparency.org
+  - type: Standard
+    name: ISO 14064-1
+    url: https://www.iso.org/standard/66453.html
+  - type: Standard
+    name: GHG Protocol
+    url: https://ghgprotocol.org
+  - type: Standard
+    name: SBTi
+    url: https://sciencebasedtargets.org
+  - type: Standard
+    name: CSRD
+    url: https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en
+  - url: plans/altruistiq-plans-pricing.yml
+    type: Plans
+  - url: rate-limits/altruistiq-rate-limits.yml
+    type: RateLimits
+  - url: finops/altruistiq-finops.yml
+    type: FinOps
+  - type: Features
+    data:
+      - Unified platform for corporate carbon footprint, product carbon footprint, and supplier decarbonisation programs
+      - ISO 14064-1 assured calculation engine across Scope 1, 2, and 3 emissions
+      - Public Datasource API for multipart upload of activity data into named datasources
+      - Public PACT API for PACT/Pathfinder-conformant Product Carbon Footprint data exchange
+      - OAuth 2.0 Client Credentials authentication against /api/public/v1/oauth2/token
+      - Corporate emissions Export API with filterable downloads and a documented 40-plus field data dictionary
+      - Bulk and single-record CRUD for Products, Product Structures (BOMs), and Product Structure Inputs
+      - Facility management with versioning (versioned facility records, persistent properties, facility types)
+      - Location reference endpoints for ISO countries and country subdivisions
+      - Organization endpoint exposing business units for multi-entity reporting
+      - 220,000+ curated emissions factors database for food and beverage, refreshed quarterly
+      - Ingredient-level Product Carbon Footprint calculation at scale
+      - Evie AI agent for climate data automation, analysis, and advisory
+      - Spreadsheet-style analytics workspace for modelling and dashboarding
+      - Supplier engagement and primary data collection workflows for Scope 3 accuracy
+      - Designed for CSRD, SBTi/CDP, eco-design, on-pack claims, and B2B PCF reporting use cases
+      - SOC 2 and ISO 27001 certified
+      - Customers include Starbucks, Kraft Heinz, Huel, Nando's, Urban Outfitters, Octopus Energy
+    sources:
+      - https://www.altruistiq.com
+      - https://docs.altruistiq.com
+      - https://www.altruistiq.com/data-capabilities
+    updated: '2026-05-25'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    X: apievangelist
+    url: https://apievangelist.com
