@@ -2,18 +2,14 @@ aid: altruistiq
 name: Altruistiq
 url: https://raw.githubusercontent.com/api-evangelist/altruistiq/refs/heads/main/apis.yml
 description: >-
-  Altruistiq is a London-based climate intelligence platform for food and
-  beverage and other FMCG enterprises managing complex supply chains. The
-  platform unifies corporate carbon footprint reporting, product carbon
-  footprint (PCF) calculation, and supplier engagement on a single ISO
-  14064-1 assured calculation engine, drawing raw operational data from
-  finance, procurement, and supply chain systems to produce activity-based
-  Scope 1, 2, and 3 emissions measurements. Altruistiq exposes a public
-  Datasource API and a PACT-conformant Product Carbon Footprint data
-  exchange API (OAuth 2.0 client credentials) for uploading activity data,
-  managing products, bills of materials, facilities, and exporting
-  calculated emissions. Customers include Starbucks, Kraft Heinz, Huel,
-  Nando's, Octopus Energy, and other FMCG and food and beverage brands.
+  Altruistiq is a London-based climate intelligence platform for food and beverage and other FMCG enterprises managing
+  complex supply chains. The platform unifies corporate carbon footprint reporting, product carbon footprint (PCF)
+  calculation, and supplier engagement on a single ISO 14064-1 assured calculation engine, drawing raw operational data
+  from finance, procurement, and supply chain systems to produce activity-based Scope 1, 2, and 3 emissions
+  measurements. Altruistiq exposes a public Datasource API and a PACT-conformant Product Carbon Footprint data exchange
+  API (OAuth 2.0 client credentials) for uploading activity data, managing products, bills of materials, facilities, and
+  exporting calculated emissions. Customers include Starbucks, Kraft Heinz, Huel, Nando's, Octopus Energy, and other
+  FMCG and food and beverage brands.
 type: Index
 kind: contract
 position: Provider
@@ -43,16 +39,12 @@ apis:
   - aid: altruistiq:altruistiq-datasource-api
     name: Altruistiq Datasource API
     description: >-
-      Upload, manage, and export activity and product data used to calculate
-      enterprise emissions on the Altruistiq platform. Covers multipart file
-      uploads into named Datasources, corporate emissions Exports with
-      filtering and download URLs, full CRUD on Products, Product Structures
-      (bills of materials), and Product Structure Inputs (material and
-      packaging line items), Facility version management, geographic
-      Location reference data (countries and subdivisions), and Organization
-      and business unit lookups. Authenticated via OAuth 2.0 Client
-      Credentials against /api/public/v1/oauth2/token. Production server is
-      https://app.altruistiq.com/api/public/v1.
+      Upload, manage, and export activity and product data used to calculate enterprise emissions on the Altruistiq
+      platform. Covers multipart file uploads into named Datasources, corporate emissions Exports with filtering and
+      download URLs, full CRUD on Products, Product Structures (bills of materials), and Product Structure Inputs
+      (material and packaging line items), Facility version management, geographic Location reference data (countries
+      and subdivisions), and Organization and business unit lookups. Authenticated via OAuth 2.0 Client Credentials
+      against /api/public/v1/oauth2/token. Production server is https://app.altruistiq.com/api/public/v1.
     humanURL: https://docs.altruistiq.com
     baseURL: https://app.altruistiq.com/api/public/v1
     tags:
@@ -84,24 +76,6 @@ apis:
         type: SpectralRuleset
       - url: vocabulary/altruistiq-vocabulary.yml
         type: Vocabulary
-      - url: capabilities/oauth.yaml
-        type: NaftikoCapability
-      - url: capabilities/datasource.yaml
-        type: NaftikoCapability
-      - url: capabilities/export.yaml
-        type: NaftikoCapability
-      - url: capabilities/products.yaml
-        type: NaftikoCapability
-      - url: capabilities/product-structures.yaml
-        type: NaftikoCapability
-      - url: capabilities/product-structure-inputs.yaml
-        type: NaftikoCapability
-      - url: capabilities/facilities.yaml
-        type: NaftikoCapability
-      - url: capabilities/location.yaml
-        type: NaftikoCapability
-      - url: capabilities/organization.yaml
-        type: NaftikoCapability
       - url: examples/altruistiq-oauth-token-example.json
         type: Example
       - url: examples/altruistiq-create-product-example.json
@@ -113,12 +87,10 @@ apis:
   - aid: altruistiq:altruistiq-pact-api
     name: Altruistiq PACT API
     description: >-
-      PACT-conformant Product Carbon Footprint data exchange surface for
-      sharing ingredient-level PCF data with customers and partners per the
-      WBCSD Partnership for Carbon Transparency (PACT) Pathfinder Framework.
-      Exposed through the same /api/public/v1 surface alongside the
-      Datasource API. Used to fulfil B2B customer RFPs and downstream Scope
-      3 reporting requests with traceable, methodology-aware PCFs.
+      PACT-conformant Product Carbon Footprint data exchange surface for sharing ingredient-level PCF data with
+      customers and partners per the WBCSD Partnership for Carbon Transparency (PACT) Pathfinder Framework. Exposed
+      through the same /api/public/v1 surface alongside the Datasource API. Used to fulfil B2B customer RFPs and
+      downstream Scope 3 reporting requests with traceable, methodology-aware PCFs.
     humanURL: https://docs.altruistiq.com
     baseURL: https://app.altruistiq.com/api/public/v1
     tags:
@@ -198,7 +170,8 @@ common:
     url: https://sciencebasedtargets.org
   - type: Standard
     name: CSRD
-    url: https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en
+    url: >-
+      https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en
   - url: plans/altruistiq-plans-pricing.yml
     type: Plans
   - url: rate-limits/altruistiq-rate-limits.yml
