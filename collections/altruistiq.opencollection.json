@@ -1,0 +1,1303 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Security",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve An Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/oauth2/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://app.altruistiq.com/api/public/v1/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve an access token which will enable access to private areas of the API"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Datasource",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start A Multipart Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/datasource/:dataSourceId/upload",
+            "params": [
+              {
+                "name": "userEmail",
+                "value": "",
+                "type": "query",
+                "description": "Email of user initiating upload."
+              },
+              {
+                "name": "fileName",
+                "value": "",
+                "type": "query",
+                "description": "Name of file that is being uploaded."
+              },
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "ID of datasource"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to start your multipart upload and retrieve an uploadId and fileId."
+        },
+        {
+          "info": {
+            "name": "Upload A File To A Datasource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/datasource/:dataSourceId/upload",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "name": "Content-Range",
+                "value": "bytes 0-100/1000"
+              }
+            ],
+            "params": [
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "ID of datasource"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "uploadId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "partNo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to upload your binary."
+        },
+        {
+          "info": {
+            "name": "Complete A Multipart File Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+            "params": [
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "ID of datasource"
+              },
+              {
+                "name": "uploadId",
+                "value": "",
+                "type": "path",
+                "description": "ID of upload"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path",
+                "description": "ID of file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to complete a file upload."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create An Export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/export",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create and start an export."
+        },
+        {
+          "info": {
+            "name": "Get Export Status And Download Urls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/export/:exportId",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Poll this endpoint to retrieve download URLs and the status of an export."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Product",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about multiple products"
+        },
+        {
+          "info": {
+            "name": "Create A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create a single product record."
+        },
+        {
+          "info": {
+            "name": "Update Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update multiple products at the same time."
+        },
+        {
+          "info": {
+            "name": "Delete Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete multiple products at the same time."
+        },
+        {
+          "info": {
+            "name": "Get A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about a single product"
+        },
+        {
+          "info": {
+            "name": "Update A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update a single product record."
+        },
+        {
+          "info": {
+            "name": "Delete A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete a single product record. When deleting a product, all related structures and inputs will also be deleted."
+        },
+        {
+          "info": {
+            "name": "Create Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/products/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple products at the same time."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Product structure",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Single Product Structures",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Product structures represent a single production structure or BOM of a product. Create the structure record in order to add inputs for packaging and materials. Each structure is uniquely identified by `customerStructureId` — if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`."
+        },
+        {
+          "info": {
+            "name": "Get Single Product Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return details for a single product structure, without its related inputs."
+        },
+        {
+          "info": {
+            "name": "Update A Single Product Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "The endpoint allows the updating of editable fields in product structure records. Product ID, facility and valid from dates are not editable in this endpoint. If those need updating, create a new structure record."
+        },
+        {
+          "info": {
+            "name": "Delete A Single Product Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete a single product structure. When deleting a product structure, all related inputs will also be deleted."
+        },
+        {
+          "info": {
+            "name": "Get Multiple Product Structure Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return details for multiple product structures within a single product."
+        },
+        {
+          "info": {
+            "name": "Creates Product Structures In Bulk Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple product structures for a single product in one call. Each structure is uniquely identified by `customerStructureId` — if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`."
+        },
+        {
+          "info": {
+            "name": "Update Product Structures In Bulk Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update multiple product structures for a single product in one call. Currently the only editable field is route description"
+        },
+        {
+          "info": {
+            "name": "Deletes Product Structures In Bulk Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete multiple product structures. When deleting a product structure, all related inputs will also be deleted."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Product structure inputs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create a single product structure input record."
+        },
+        {
+          "info": {
+            "name": "Get A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about a single product structure input"
+        },
+        {
+          "info": {
+            "name": "Update A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update a single product structure input record."
+        },
+        {
+          "info": {
+            "name": "Delete A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete a single product structure input record."
+        },
+        {
+          "info": {
+            "name": "Get Product Structure Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about multiple products structure inputs"
+        },
+        {
+          "info": {
+            "name": "Create Product Structure Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple product structure inputs for a single structure at the same time."
+        },
+        {
+          "info": {
+            "name": "Update Product Structure Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update multiple product structure inputs at the same time."
+        },
+        {
+          "info": {
+            "name": "Delete Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete multiple inputs at the same time."
+        },
+        {
+          "info": {
+            "name": "Create Product Structure Inputs In Bulk For Any Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple product structure inputs for any structure ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Facility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get A List Of Facilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "buId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "showClosed",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a paginated list of facilities with optional filtering and sorting."
+        },
+        {
+          "info": {
+            "name": "Get A Single Facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve detailed information about a specific facility."
+        },
+        {
+          "info": {
+            "name": "Delete A Facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete an entire facility and all its versions."
+        },
+        {
+          "info": {
+            "name": "Get A Specific Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions/:versionId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve detailed information about a specific version of a facility."
+        },
+        {
+          "info": {
+            "name": "Update A Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions/:versionId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update properties of a specific facility version."
+        },
+        {
+          "info": {
+            "name": "Delete A Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions/:versionId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a specific version of a facility."
+        },
+        {
+          "info": {
+            "name": "Create Multiple Facilities In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create multiple facilities in a single request."
+        },
+        {
+          "info": {
+            "name": "Update Facility Persistent Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/persistent",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update persistent properties of a facility such as tags, internal ID, and facility type."
+        },
+        {
+          "info": {
+            "name": "Create A New Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new version of an existing facility."
+        },
+        {
+          "info": {
+            "name": "Get Facility Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/types",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of facility types available for the organization, including both generic and organization-specific types."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Location",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get A List Of Countries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/location/countries",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of countries with their alpha_2 codes and names."
+        },
+        {
+          "info": {
+            "name": "Get Country Subdivisions By Country Code",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/location/countries/:countryCode/subdivisions",
+            "params": [
+              {
+                "name": "countryCode",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of country subdivisions for a specific country by its alpha-2 code."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Organization And Business Units",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/organization/",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve all organizations including the root organization and its business units (id and name)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
