@@ -77,13 +77,13 @@ apis:
       - url: vocabulary/altruistiq-vocabulary.yml
         type: Vocabulary
       - url: examples/altruistiq-oauth-token-example.json
-        type: Example
+        type: Examples
       - url: examples/altruistiq-create-product-example.json
-        type: Example
+        type: Examples
       - url: examples/altruistiq-create-export-example.json
-        type: Example
+        type: Examples
       - url: examples/altruistiq-get-export-example.json
-        type: Example
+        type: Examples
   - aid: altruistiq:altruistiq-pact-api
     name: Altruistiq PACT API
     description: >-
@@ -106,7 +106,7 @@ apis:
       - url: openapi/altruistiq-openapi.yml
         type: OpenAPI
       - url: https://www.carbon-transparency.org
-        type: Standard
+        type: Standards
       - url: json-ld/altruistiq-context.jsonld
         type: JSONLD
 common:
@@ -118,7 +118,7 @@ common:
     url: https://docs.altruistiq.com
   - type: Platform
     url: https://app.altruistiq.com
-  - type: SignUp
+  - type: Signup
     url: https://www.altruistiq.com/get-in-touch
   - type: Company
     url: https://www.altruistiq.com/company
@@ -130,16 +130,16 @@ common:
     url: https://www.altruistiq.com/customers
   - type: Capabilities
     url: https://www.altruistiq.com/data-capabilities
-  - type: Solution
+  - type: Solutions
     name: Corporate Carbon Footprint
     url: https://www.altruistiq.com/solutions/corporate-carbon-footprint
-  - type: Solution
+  - type: Solutions
     name: Product Carbon Footprint
     url: https://www.altruistiq.com/solutions/product-carbon-footprint
-  - type: Solution
+  - type: Solutions
     name: Supply Chain Decarbonisation
     url: https://www.altruistiq.com/solutions/supply-chain-decarbonisation
-  - type: Solution
+  - type: Solutions
     name: Evie AI
     url: https://www.altruistiq.com/evie
   - type: Security
@@ -156,19 +156,19 @@ common:
     url: https://twitter.com/altruistiq
   - type: GitHubOrganization
     url: https://github.com/altruistiq
-  - type: Standard
+  - type: Standards
     name: PACT Pathfinder Framework
     url: https://www.carbon-transparency.org
-  - type: Standard
+  - type: Standards
     name: ISO 14064-1
     url: https://www.iso.org/standard/66453.html
-  - type: Standard
+  - type: Standards
     name: GHG Protocol
     url: https://ghgprotocol.org
-  - type: Standard
+  - type: Standards
     name: SBTi
     url: https://sciencebasedtargets.org
-  - type: Standard
+  - type: Standards
     name: CSRD
     url: >-
       https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en
