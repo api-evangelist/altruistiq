@@ -110,6 +110,8 @@ apis:
       - url: json-ld/altruistiq-context.jsonld
         type: JSONLD
 common:
+  - type: OAuthScopes
+    url: scopes/altruistiq-scopes.yml
   - type: Website
     url: https://www.altruistiq.com
   - type: Portal

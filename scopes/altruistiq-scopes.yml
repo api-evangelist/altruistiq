@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/altruistiq-openapi.yml
+docs: https://docs.altruistiq.com
+note: >-
+  Altruistiq authenticates via the OAuth 2.0 client credentials flow (RFC 6749) against
+  /api/public/v1/oauth2/token using only client_id and client_secret, and no OAuth scopes
+  are documented or used (https://docs.altruistiq.com).
+schemes:
+- name: oauth2
+  source: openapi/altruistiq-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+scopes: []
