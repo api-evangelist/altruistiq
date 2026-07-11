@@ -110,6 +110,12 @@ apis:
       - url: json-ld/altruistiq-context.jsonld
         type: JSONLD
 common:
+  - type: TrustCenter
+    url: security/altruistiq-trust-center.yml
+  - type: DomainSecurity
+    url: security/altruistiq-domain-security.yml
+  - type: Authentication
+    url: authentication/altruistiq-authentication.yml
   - type: OAuthScopes
     url: scopes/altruistiq-scopes.yml
   - type: Website
