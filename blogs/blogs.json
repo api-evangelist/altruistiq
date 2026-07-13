@@ -2,11 +2,13 @@
   "repo": "altruistiq",
   "feeds": [
     {
-      "source": "https://www.altruistiq.com/insights",
+      "source": "https://www.altruistiq.com/careers",
+      "feed_url": "https://www.altruistiq.com/careers",
+      "title": "",
       "saved": 0,
-      "error": "HTTP 404 Not Found"
+      "method": "none"
     }
   ],
-  "fetched": "2026-06-27T12:22:28Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "post_count": 0
 }
