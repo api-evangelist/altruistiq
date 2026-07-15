@@ -110,6 +110,8 @@ apis:
       - url: json-ld/altruistiq-context.jsonld
         type: JSONLD
 common:
+  - type: AgenticAccess
+    url: agentic-access/altruistiq-agentic-access.yml
   - type: TrustCenter
     url: security/altruistiq-trust-center.yml
   - type: DomainSecurity
