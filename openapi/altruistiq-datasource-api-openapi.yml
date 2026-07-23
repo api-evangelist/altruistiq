@@ -1,0 +1,319 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Datasource
+  description: "### Altruistiq’s datasource API enables you to:\n\n  - Create new datasources\n  - Manage existing datasources (read, update)\n  - Upload data to a datasource\n\nA datasource is the place where you will share a single data format with altruistiq and where you will categorise it so that we can calculate emissions in an automated way."
+paths:
+  /api/public/v1/datasource/{dataSourceId}/upload:
+    get:
+      security:
+      - bearerAuth: []
+      tags:
+      - Datasource
+      summary: Start A Multipart Upload
+      operationId: startMultipartUpload
+      description: Use this endpoint to start your multipart upload and retrieve an uploadId and fileId.
+      x-codeSamples:
+      - lang: javascript
+        label: JS
+        source: "const headers = {\n    'Authorization': 'Bearer tokenId123',\n    'Content-Type': 'application/json'\n}\n\nconst response = await fetch(`https://app.altruistiq.com/api/public/v1/datasource/123/upload?fileName=testing.csv&userEmail=user@altruistiq.com`, {\n  method: 'GET',\n  headers: headers,\n})\n\nconst multipartStartResponse = await response.json()\n\nconst results = {\n  uploadId: multipartStartResponse.uploadId,\n  fileId: multipartStartResponse.fileId\n}\n"
+      - lang: python
+        label: Python
+        source: "file_name = \"testing.csv\"\nuser_email = \"user@altruistiq.com\"\nauth_headers = {'Authorization': 'Bearer ' + token}\nstart_response = requests.get(\n  f\"https://app.altruistiq.com/api/public/v1/datasource/{datasource_id}/upload?fileName={file_name}&userEmail={user_email}\",\n  headers=auth_headers\n)\nstart_response_json = start_response.json()\nupload_id = start_response_json[\"uploadId\"]\nfile_id = start_response_json[\"fileId\"]\n"
+      parameters:
+      - name: userEmail
+        in: query
+        description: Email of user initiating upload.
+        required: true
+        schema:
+          type: string
+      - name: fileName
+        in: query
+        description: Name of file that is being uploaded.
+        required: true
+        schema:
+          type: string
+      - name: dataSourceId
+        in: path
+        description: ID of datasource
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Multipart upload started
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: Multipart Upload started
+                  uploadId:
+                    type: string
+                    example: '123'
+                  fileId:
+                    type: string
+                    example: '123'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Datasource
+      summary: Upload A File To A Datasource
+      operationId: uploadFile
+      description: Use this endpoint to upload your binary.
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "part = 1\nparts = []\nauth_headers = {'Authorization': 'Bearer ' + token}\nfor chunk in chunk_file(file_name):\n    files = [\n        ('file', (file_name, chunk, 'application/octet-stream')),\n        ('uploadId', (None, upload_id)),\n        ('partNo', (None, part))\n    ]\n    upload_response = requests.post(datasource_url, headers=auth_headers, files=files)\n    upload_response_json = upload_response.json()\n    parts.append(upload_response_json[\"parts\"])\n    part += 1\n"
+      - lang: javascript
+        label: JS
+        source: "// First part\nlet formData = new FormData()\n\nformData.append(\n  'file',\n  new Blob([fileChunk], {type: 'application/octet-stream'}),\n  'fileName.csv'\n)\nformData.append('partNo', 1)\nformData.append('uploadId', 123)\n\nconst headers = {\n  'Content-Type': 'multipart/form-data;',\n  'Content-Range': 'bytes 0-100/1000',\n  'Authorization': 'Bearer tokenId123',\n}\n\nconst res1 = axios({\n  method: 'POST',\n  data: formData,\n  url: `https://app.altruistiq.com/api/public/v1/datasource/123/upload`,\n  headers\n});\n\nparts.push(res.data)\n\n// Second part\nformData = new FormData()\n\nformData.append('partNo', 2)\nformData.append('uploadId', 123)\n\nconst headers = {\n  'Content-Type': 'multipart/form-data;',\n  'Content-Range': 'bytes 101-200/1000',\n  'Authorization': 'Bearer tokenId123',\n}\n\nconst res2 = axios({\n  method: 'POST',\n  data: formData,\n  url: `https://app.altruistiq.com/api/public/v1/datasource/123/upload`,\n  headers\n});\n\nparts.push(res.data)\n\n//etc...\n"
+      parameters:
+      - name: Content-Type
+        in: header
+        type: string
+        example: multipart/form-data
+      - name: Content-Range
+        in: header
+        type: string
+        example: bytes 0-100/1000
+      - name: dataSourceId
+        in: path
+        description: ID of datasource
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              - uploadId
+              - partNo
+              type: object
+              properties:
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                uploadId:
+                  type: string
+                  example: '123'
+                partNo:
+                  type: number
+                  example: 1
+      responses:
+        '201':
+          description: File Uploaded
+          content:
+            application/json:
+              schema:
+                properties:
+                  dataSourceId:
+                    type: string
+                    example: '123'
+                  parts:
+                    type: array
+                    example:
+                    - PartNumber: 1
+                      ETag: '123'
+                    - PartNumber: 2
+                      ETag: '123'
+                  status:
+                    type: string
+                    example: Upload Complete
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  /api/public/v1/datasource/{dataSourceId}/upload/{uploadId}/file/{fileId}/complete:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Datasource
+      summary: Complete A Multipart File Upload
+      operationId: completeFileUpload
+      description: Use this endpoint to complete a file upload.
+      x-codeSamples:
+      - lang: javascript
+        label: JS
+        source: "const headers = {\n    'Authorization': `Bearer tokenId123`,\n    'Content-Type': 'application/json'\n}\n\n await fetch('https://app.altruistiq.com/api/public/v1/datasource/123/upload/uploadId123/file/fileId123/complete', {\n      method: 'POST',\n      headers: headers,\n      body: JSON.stringify({\n          [\n            {\n              \"PartNumber\": 1,\n              \"ETag\": \"123\"\n            },\n            {\n              \"PartNumber\": 2,\n              \"ETag\": \"123\"\n            }\n          ],\n          'test.csv'\n      })\n  })\n"
+      - lang: python
+        label: Python
+        source: "end_req_headers = {\n  'Authorization': 'Bearer ' + token,\n  'Content-Type': 'application/json'\n}\nend_req_data = {'fileName': file_name, 'parts': parts}\nend_response = requests.post(\n  f\"https://app.altruistiq.com/api/public/v1/datasource/{datasource_id}/upload/{upload_id}/file/{file_id}/complete\",\n  data=json.dumps(end_req_data),\n  headers=end_req_headers\n)\n"
+      parameters:
+      - name: dataSourceId
+        in: path
+        description: ID of datasource
+        required: true
+        schema:
+          type: string
+      - name: uploadId
+        in: path
+        description: ID of upload
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        description: ID of file
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileName:
+                  type: string
+                  example: test.csv
+                parts:
+                  format: array
+                  example:
+                  - PartNumber: 1
+                    ETag: '123'
+                  - PartNumber: 2
+                    ETag: '123'
+      responses:
+        '200':
+          description: File Multipart Upload Complete
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: Multipart Upload Complete
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+components:
+  schemas:
+    '401':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Unauthorized
+          description: Request was unauthorized
+    '404':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Not found
+          description: Resource not found
+    '500':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Server Error
+          description: Internal Error
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token

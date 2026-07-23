@@ -1,0 +1,1974 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource Facility API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Facility
+  description: '
+
+    Altruistiq''s Facility API enables you to:
+
+
+    - Create new facilities in bulk
+
+    - Update existing facility persistent properties
+
+    - Update facility version
+
+    - Create new facility version
+
+    - Delete facility versions
+
+    - Delete facility
+
+    - Get a list of facilities
+
+    - Get a single facility
+
+
+
+    The facility API provides comprehensive management of facility data including location, capacity, and organizational structure.
+
+    '
+paths:
+  /api/public/v1/facilities/:
+    get:
+      operationId: FacilitiesPublicController.getFacilities
+      parameters:
+      - in: query
+        name: search
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: pageSize
+        schema:
+          maximum: 1000
+          type: number
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          minimum: 1
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      - in: query
+        name: buId
+        schema:
+          format: uuid
+          type: string
+          description: The UUID of the business unit
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+      - in: query
+        name: showClosed
+        schema:
+          type: boolean
+          description: Whether to include closed facilities in the results
+          example: false
+      - in: query
+        name: sortBy
+        schema:
+          enum:
+          - facilityName
+          - internalId
+          - organization
+          - country
+          type: string
+          description: The field name to sort the records on
+          example: facilityName
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilitiesPublicDtoRes'
+          description: ''
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A List Of Facilities
+      tags:
+      - Facility
+      description: Retrieve a paginated list of facilities with optional filtering and sorting.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}:
+    get:
+      operationId: FacilitiesPublicController.getFacility
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilityPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Single Facility
+      tags:
+      - Facility
+      description: Retrieve detailed information about a specific facility.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: FacilitiesPublicController.deleteFacility
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Facility
+      tags:
+      - Facility
+      description: Delete an entire facility and all its versions.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}/versions/{versionId}:
+    get:
+      operationId: FacilitiesPublicController.getFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      - in: path
+        name: versionId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilityPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Specific Facility Version
+      tags:
+      - Facility
+      description: Retrieve detailed information about a specific version of a facility.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: FacilitiesPublicController.deleteFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      - in: path
+        name: versionId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Facility Version
+      tags:
+      - Facility
+      description: Delete a specific version of a facility.
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: FacilitiesPublicController.updateFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      - in: path
+        name: versionId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatableFacilityVersionDTO'
+        description: UpdatableFacilityVersionDTO
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Facility Version
+      tags:
+      - Facility
+      description: Update properties of a specific facility version.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/bulk:
+    post:
+      operationId: FacilitiesPublicController.bulkInsertFacilities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityBulkPublicDto'
+        description: FacilityBulkPublicDto
+        required: true
+      responses:
+        '201':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Multiple Facilities In Bulk
+      tags:
+      - Facility
+      description: Create multiple facilities in a single request.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}/persistent:
+    patch:
+      operationId: FacilitiesPublicController.updateFacilityPersistent
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityPublicPersistentUpdateDTO'
+        description: FacilityPublicPersistentUpdateDTO
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Facility Persistent Properties
+      tags:
+      - Facility
+      description: Update persistent properties of a facility such as tags, internal ID, and facility type.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}/versions:
+    post:
+      operationId: FacilitiesPublicController.createFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFacilityVersionDTO'
+        description: CreateFacilityVersionDTO
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create A New Facility Version
+      tags:
+      - Facility
+      description: Create a new version of an existing facility.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/types:
+    get:
+      operationId: FacilitiesPublicController.getFacilityTypes
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilityTypesPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Facility Types
+      tags:
+      - Facility
+      description: Retrieve a list of facility types available for the organization, including both generic and organization-specific types.
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    FacilityGet:
+      properties:
+        areas:
+          items:
+            type: object
+            $ref: '#/components/schemas/AreaGet'
+          type: array
+          description: Information about the areas of the facility
+        versions:
+          items:
+            type: object
+            $ref: '#/components/schemas/VersionGet'
+          type: array
+          description: Facility versions
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        regionCode:
+          type: string
+          description: The region/state code
+          example: NY
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - versions
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - regionCode
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - postalCode
+    UpdatableFacilityVersionDTO:
+      properties:
+        buId:
+          format: uuid
+          type: string
+          description: The UUID of the business unit
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        name:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: US-NY
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+      type: object
+      required:
+      - buId
+      - name
+      - hasAddress
+    OrganizationGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the organization
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        name:
+          type: string
+          description: The name of the organization
+          example: Acme Corporation
+      type: object
+      required:
+      - id
+      - name
+    AreasGet:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - versionId
+    FacilityTypePublicGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the facility type
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        name:
+          type: string
+          description: The name of the facility type
+          example: Manufacturing Plant
+      type: object
+      required:
+      - id
+      - name
+    FacilitiesGet:
+      properties:
+        areas:
+          items:
+            type: object
+            $ref: '#/components/schemas/AreasGet'
+          type: array
+          description: Information about the areas of the facility
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - areas
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - versionId
+    CreateFacilityVersionDTO:
+      properties:
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        buId:
+          format: uuid
+          type: string
+          description: The UUID of the business unit
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        name:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        inheritParentAddress:
+          type: boolean
+          description: Whether to inherit address from parent facility
+          example: false
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        region:
+          type: string
+          description: Region/state where the facility is located
+          example: NY
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: US-NY
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+      type: object
+      required:
+      - effectiveDate
+      - buId
+      - name
+      - hasAddress
+      example:
+        effectiveDate: '2025-01-01'
+        buId: 465ada2c-de62-48b9-97aa-f63bac84d323
+        name: Large Factory 232
+        inheritParentAddress: false
+        hasAddress: true
+        addressLine1: 123 Main Street
+        addressLine2: Suite 100
+        postalCode: '12345'
+        city: New York
+        ownershipType: standalone_tracked
+        country: US
+        countrySub: US-NY
+        boundaryIndicator: OPERATIONAL_CONTROL
+        isOpen: true
+    GetFacilityTypesPublicDtoRes:
+      properties:
+        types:
+          items:
+            type: object
+            $ref: '#/components/schemas/FacilityTypePublicGet'
+          type: array
+          description: The list of facility types available for the organization
+      type: object
+      required:
+      - types
+    FacilityTypeGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the facility type
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        name:
+          type: string
+          description: The name of the facility type
+          example: Manufacturing Plant
+      type: object
+      required:
+      - id
+      - name
+    FacilityBulkPublicDto:
+      properties:
+        facilities:
+          items:
+            $ref: '#/components/schemas/FacilityPublic'
+          type: array
+          minItems: 1
+          description: Array of facilities to create
+          example:
+          - name: Facility Main
+            internalId: FAC-001
+            facilityTypeId: fd131576-1c3d-41aa-b5a9-633fb93c060a
+            buId: 81a2133d-2dbe-4f54-b508-1100bd73c78d
+            tags:
+            - manufacturing
+            - primary
+            hasAddress: true
+            inheritParentAddress: false
+            addressLine1: 123 Main Street
+            addressLine2: Suite 100
+            postalCode: '12345'
+            city: New York
+            effectiveDate: '2025-01-01'
+            country: US
+            countrySub: US-NY
+            ownershipType: standalone_tracked
+            employeeCount: 150
+            capacityUnit: m2
+            capacity: 1000
+            boundaryIndicator: OPERATIONAL_CONTROL
+            areas:
+            - name: Area of Main Facility
+              internalId: FAC-002
+              facilityTypeId: fd131576-1c3d-41aa-b5a9-633fb93c060a
+              buId: 81a2133d-2dbe-4f54-b508-1100bd73c78d
+              tags:
+              - manufacturing
+              - primary
+              hasAddress: true
+              parentId: eff8f526-4c6a-4ea5-b740-4762aac0469a
+              inheritParentAddress: false
+              addressLine1: 123 Main Street
+              addressLine2: Suite 100
+              postalCode: '12345'
+              city: New York
+              effectiveDate: '2025-01-01'
+              country: US
+              countrySub: US-NY
+              ownershipType: area
+              employeeCount: 150
+              capacityUnit: m2
+              capacity: 1000
+              boundaryIndicator: OPERATIONAL_CONTROL
+      type: object
+      required:
+      - facilities
+    FacilityPublicPersistentUpdateDTO:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityTypeId:
+          format: uuid
+          type: string
+          description: The UUID of the facility type
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+      type: object
+      required:
+      - facilityId
+    GetFacilityPublicDtoRes:
+      properties:
+        facility:
+          type: object
+          description: The facility data
+          $ref: '#/components/schemas/FacilityGet'
+      type: object
+      required:
+      - facility
+    AreaPublic:
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: The name of the facility. Unique across organization
+          example: Large Factory
+        internalId:
+          type: string
+          description: Internal identifier for the facility. Null or unique across organization
+          example: FAC-001
+        facilityTypeId:
+          type: string
+          description: The UUID of the facility type. Null for STANDALONE_TRACKED or SHARED. Required on AREA and STANDALONE
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        buId:
+          type: string
+          description: The UUID of the organization
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        parentId:
+          type: string
+          description: The UUID of the parent facility. Required only when an area is being created on an existing facility.
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        inheritParentAddress:
+          type: boolean
+          description: Whether to inherit address from parent facility. Only applicable on areas.
+          example: false
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        region:
+          type: string
+          description: Region where the facility is located
+          example: NY
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: NYLI
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility. For facilities with parent, this is always "area".
+          example: standalone
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+      type: object
+      required:
+      - name
+      - hasAddress
+      - capacityUnit
+      - boundaryIndicator
+    CountrySubGet:
+      properties:
+        code:
+          type: string
+          description: The subdivision code
+          example: NYC
+        name:
+          type: string
+          description: The name of the subdivision
+          example: New York City
+      type: object
+      required:
+      - code
+      - name
+    VersionGet:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        regionCode:
+          type: string
+          description: The region/state code
+          example: NY
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - regionCode
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - postalCode
+    FacilityPublic:
+      properties:
+        areas:
+          items:
+            $ref: '#/components/schemas/AreaPublic'
+          type: array
+          description: Array of areas within this facility
+        name:
+          minLength: 1
+          type: string
+          description: The name of the facility. Unique across organization
+          example: Large Factory
+        internalId:
+          type: string
+          description: Internal identifier for the facility. Null or unique across organization
+          example: FAC-001
+        facilityTypeId:
+          type: string
+          description: The UUID of the facility type. Null for STANDALONE_TRACKED or SHARED. Required on AREA and STANDALONE
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        buId:
+          type: string
+          description: The UUID of the organization
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        parentId:
+          type: string
+          description: The UUID of the parent facility. Required only when an area is being created on an existing facility.
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        inheritParentAddress:
+          type: boolean
+          description: Whether to inherit address from parent facility. Only applicable on areas.
+          example: false
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        region:
+          type: string
+          description: Region where the facility is located
+          example: NY
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: NYLI
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility. For facilities with parent, this is always "area".
+          example: standalone
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+      type: object
+      required:
+      - name
+      - hasAddress
+      - capacityUnit
+      - boundaryIndicator
+    GetFacilitiesPublicDtoRes:
+      properties:
+        facilities:
+          items:
+            type: object
+            $ref: '#/components/schemas/FacilitiesGet'
+          type: array
+          description: The list of facilities
+      type: object
+      required:
+      - facilities
+    RegionGet:
+      properties:
+        code:
+          type: string
+          description: The region/state code
+          example: NY
+        name:
+          type: string
+          description: The name of the region/state
+          example: New York
+      type: object
+      required:
+      - code
+      - name
+    CountryGet:
+      properties:
+        code:
+          type: string
+          description: The 2 character country code (ISO 3166-1 alpha-2)
+          example: US
+        name:
+          type: string
+          description: The name of the country
+          example: United States
+      type: object
+      required:
+      - code
+      - name
+    AreaGet:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        regionCode:
+          type: string
+          description: The region/state code
+          example: NY
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - regionCode
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - postalCode
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token

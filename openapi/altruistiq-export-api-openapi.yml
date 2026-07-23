@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource Export API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Export
+  description: "### Altruistiq’s Export API enables you to:\n\n  - Export corporate data\n\nExporting data is a key part of the Altruistiq platform. It allows you to take your data and use it in other systems, or to share it with other stakeholders.\n\nCurrently, our Export API allows you to export your Corporate Emissions data available in Altruistiq, down to a daily grain. We are working hard to also add Product Emissions data to your Export API. If you need to share Product emissions data today, see the PACT API.\n\nSchema of files which can be retrieved via this API (data dictionary):<br/>\n<table>\n  <tbody><tr><th>Column</th><th>Data Type</th><th>Format</th><th>Optional</th><th>Description</th></tr>\n    <tr>\n        <td>fact_uuid</td>\n        <td>string</td>\n        <td>uuid</td>\n        <td>no</td>\n        <td>Unique identifier for emission record.</td>\n    </tr>\n    <tr>\n        <td>calendar_date</td>\n        <td>string</td>\n        <td>date</td>\n        <td>no</td>\n        <td>Date of the emission record.</td>\n    </tr>\n    <tr>\n        <td>calendar_year</td>\n        <td>integer</td>\n        <td></td>\n        <td>no</td>\n        <td>Year of the emission record.</td>\n    </tr>\n    <tr>\n        <td>emission_quantity</td>\n        <td>number | string</td>\n        <td>decimal(28, 10)</td>\n        <td>no</td>\n        <td>Quantity of the emission record.</td>\n    </tr>\n    <tr>\n        <td>emission_unit</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Unit the emissions are in.</td>\n    </tr>\n    <tr>\n        <td>calculation_input_quantity</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n        <td>yes</td>\n        <td>Input quantity used for the actual emission calculation (if applicable).</td>\n    </tr>\n    <tr>\n        <td>calculation_input_quantity_unit</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Unit of the input quantity used for the actual emission calculation(if applicable).</td>\n    </tr>\n    <tr>\n        <td>spend_usd</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n        <td>yes</td>\n        <td>Spend in USD used for the actual emission calculation (if applicable).</td>\n    </tr>\n    <tr>\n        <td>spend_eur</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n        <td>yes</td>\n        <td>Spend in EUR used for the actual emission calculation (if applicable).</td>\n    </tr>\n    <tr>\n        <td>spend_gbp</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n        <td>yes</td>\n        <td>Spend in EUR used for the actual emission calculation (if applicable).</td>\n    </tr>\n    <tr>\n        <td>per_unit</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Emission Factor divisor.</td>\n    </tr>\n    <tr>\n        <td>input_dimensionality</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Dimensionality of the input quantity for the emission factor.</td>\n    </tr>\n    <tr>\n        <td>scope_category</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Scope categories are a subdivision of GHG Scopes with more detail about the emission’s cause. Scope categories are similar to, and overlapping with Activities.</td>\n    </tr>\n    <tr>\n        <td>scope</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Refers to the three scopes of the GHG Protocol.</td>\n    </tr>\n    <tr>\n        <td>activity_area_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Activity areas are groups of activities that have similar emissions calculation methodologies in the Altruistiq platform.</td>\n    </tr>\n    <tr>\n        <td>activity_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Activities areas are activities of a customer causing emissions.</td>\n    </tr>\n    <tr>\n        <td>sub_activity_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Sub-Activities areas are a sub-dicision activities of a customer causing emissions.</td>\n    </tr>\n    <tr>\n        <td>aq_calc_method</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Calculation Methodology used in the Altruistiq platform.</td>\n    </tr>\n    <tr>\n        <td>ghg_calc_method</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Calculation Methodology according to the GHG protocol.</td>\n    </tr>\n    <tr>\n        <td>ef_specificity</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Specificity level that Emission Factors refer to, e.g. Global Average or Country Average.</td>\n    </tr>\n    <tr>\n        <td>accuracy_score</td>\n        <td>integer</td>\n        <td></td>\n        <td>no</td>\n        <td>A measure of how accurate emissions calculations are for a particular activity, based on the quality of data available and the calculation methodology applied as a result.</td>\n    </tr>\n    <tr>\n        <td>accuracy_score_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>A measure of how accurate emissions calculations are for a particular activity, based on the quality of data available and the calculation methodology applied as a result.</td>\n    </tr>\n    <tr>\n        <td>lifecycle</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Emissions caused by an activity can be further subdivided by the lifecycle they are associated with. For example, a business trip in a company car will cause emissions from vehicle use (i.e. burning the fuel) and well-to-tank emissions (i.e. drilling for oil, fuel production, and any other activities in the supply chain).</td>\n    </tr>\n    <tr>\n        <td>bu_uuid</td>\n        <td>string</td>\n        <td>uuid</td>\n        <td>no</td>\n        <td>Unique identifier for a BU.</td>\n    </tr>\n    <tr>\n        <td>bu_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the BU this record belongs to.</td>\n    </tr>\n    <tr>\n        <td>root_org_uuid</td>\n        <td>string</td>\n        <td>uuid</td>\n        <td>no</td>\n        <td>Unique identifier of the root organisation.</td>\n    </tr>\n    <tr>\n        <td>root_org_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the root organisation this record belongs to.</td>\n    </tr>\n    <tr>\n        <td>facility_name</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Name of the facility this record belongs to (if it is assigned at facility level).</td>\n    </tr>\n    <tr>\n        <td>facility_uuid</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Unique identifier of the facility.</td>\n    </tr>\n    <tr>\n        <td>facility_country_name</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Country this facility belongs to.</td>\n    </tr>\n    <tr>\n        <td>facility_country_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Country code of the country this facility belongs to.</td>\n    </tr>\n    <tr>\n        <td>facility_post_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Post code of this facility.</td>\n    </tr>\n    <tr>\n        <td>facility_type</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Type of this facility.</td>\n    </tr>\n    <tr>\n        <td>facility_capacity_ratio</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n        <td>yes</td>\n        <td>Capacity of this facility.</td>\n    </tr>\n    <tr>\n        <td>data_source_name</td>\n        <td>string</td>\n        <td></td>\n        <td>yes</td>\n        <td>Name of the datasource which was used for this record.</td>\n    </tr>\n    <tr>\n        <td>file_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the file which was used for this record.</td>\n    </tr>\n    <tr>\n        <td>supplier_legal_name</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Supplier legal name (if applicable).</td>\n    </tr>\n    <tr>\n        <td>supplier_country_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Supplier country code (if applicable).</td>\n    </tr>\n    <tr>\n        <td>supplier_country_name</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Supplier country name (if applicable).</td>\n    </tr>\n    <tr>\n        <td>supplier_vat_number</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Supplier VAT number (if applicable).</td>\n    </tr>\n    <tr>\n        <td>tags</td>\n        <td>object</td>\n        <td></td>\n        <td>no</td>\n        <td>Mapping of tag category -&gt; value (e.g. energy_type -&gt; mixed).\n  <p><b>PREVIEW WARNING: THESE ARE CURRENTLY BEING CHANGED, SO ARE NOT STABLE!</b></p>\n  <p>Categories:</p>\n  <ul>\n    <li>energy_type</li>\n    <li>fuel_type</li>\n    <li>fuel_net_or_gross_cv</li>\n    <li>gas_type</li>\n    <li>isic_section</li>\n    <li>isic_division</li>\n    <li>isic_group</li>\n    <li>isic_class</li>\n    <li>goods_service_type</li>\n    <li>material_life_phase</li>\n    <li>heating_type</li>\n    <li>industry_type</li>\n    <li>purchased_energy_type</li>\n    <li>refrigerant_type</li>\n    <li>renewable</li>\n    <li>vehicle_type</li>\n    <li>journey_type</li>\n    <li>energy_generation_type</li>\n    <li>vehicle_emission_type</li>\n    <li>traffic_scenario</li>\n    <li>vehicle_load</li>\n    <li>waste_category</li>\n    <li>wastewater_spend_type</li>\n    <li>waste_treatment_type</li>\n    <li>waste_type</li>\n    <li>water_spend_type</li>\n  </ul></td>\n    </tr>\n    <tr>\n        <td>financial_year</td>\n        <td>integer</td>\n        <td></td>\n        <td>no</td>\n        <td></td>\n    </tr>\n    <tr>\n        <td>custom_analytics_fields</td>\n        <td>object</td>\n        <td></td>\n        <td>no</td>\n        <td>Custom Analytics Fields.</td>\n    </tr>\n    <tr>\n        <td>custom_tags</td>\n        <td>object</td>\n        <td></td>\n        <td>no</td>\n        <td>Fields used to tag/classify the record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_name</td>\n        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_specificity</td>\n        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Specificity of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_specificity_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Specificity Code of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_source</td>\n        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Source of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_source_version</td>\n        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Source version of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n        <td>created_at</td>\n        <td>string</td>\n        <td>date-time</td>\n        <td>no</td>\n        <td>Timestamp when the record was created. NOTE: this might change if we do a full refresh in the backend.</td>\n    </tr>\n    <tr>\n        <td>updated_at</td>\n        <td>string</td>\n        <td>date-time</td>\n        <td>no</td>\n        <td>Timestamp when the record was updated. NOTE: this might change if we do a full refresh in the backend.</td>\n    </tr>\n  </tbody></table>"
+paths:
+  /api/public/v1/export:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Export
+      summary: Create An Export
+      operationId: createExport
+      description: Use this endpoint to create and start an export.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - filters
+              - format
+              properties:
+                format:
+                  type: object
+                  required:
+                  - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - auto
+                      - brotli
+                      - bz2
+                      - deflate
+                      - lzo
+                      - none
+                      - raw_deflate
+                      - snappy
+                      - gzip
+                      - zstd
+                      example: snappy
+                      description: "Not all compression types are supported for all file types.\nIn particular: \n  * JSON supports: auto, brotli, bz2, deflate, raw_deflate, gzip and zstd\n  * PARQUET supports: auto, lzo, none and snappy"
+                    partitionedBy:
+                      type: array
+                      items:
+                        type: string
+                      example:
+                      - facility_name
+                filters:
+                  type: object
+                  required:
+                  - financial_years
+                  - endDate
+                  - startDate
+                  properties:
+                    financialYears:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                      - 2022
+                      description: The financial years you want to export data for.
+                    endDate:
+                      type: string
+                      format: date
+                      description: The end date of the export.
+                    startDate:
+                      type: string
+                      format: date
+                      description: The start date of the export.
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "import requests\n\n# needs token from /api/public/v1/oauth2/token\nresponse = requests.post(\n  f\"https://app.altruistiq.com/api/public/v1/export\"\n  headers={\n    \"Authorization\": f\"Bearer {token}\"\n  },\n  json={\n    \"filters\": {\"financialYears\": [2022]},\n    \"format\": {\"type\": \"PARQUET\", \"compression\": \"snappy\"}\n  }\n)\nresponse.raise_for_status()\n\nexport_id = response.json()[\"exportId\"]\n"
+      responses:
+        '201':
+          description: Export Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ExportStatus'
+                  exportId:
+                    type: number
+                    example: 3f0b7fbd-fa45-445a-8862-49cd1871eebc
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        '504':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/504'
+  /api/public/v1/export/{exportId}:
+    get:
+      security:
+      - bearerAuth: []
+      tags:
+      - Export
+      summary: Get Export Status And Download Urls
+      operationId: getDownloadUrls
+      description: Poll this endpoint to retrieve download URLs and the status of an export.
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "# needs export_id from GET /api/public/v1/export\n# needs token from /api/public/v1/oauth2/token\n\nimport requests\nfrom time import sleep\n# if using pandas also\nimport pandas as pd\n\n\ndef wait_for_success(export_id: str):\n  while True:\n    response = requests.get(\n      f\"https://app.altruistiq.com/api/public/v1/export/{export_id}\",\n      headers={\n        \"Authorization\": f\"Bearer {token}\"\n      }\n    )\n    response.raise_for_status()\n    export = response.json()\n    status = export[\"status\"]\n    if status in {\"FAILED\", \"CANCELLED\"}:\n      raise RuntimeError(f\"Failed export {export}.\")\n    if status == \"SUCCEEDED\":\n      break\n    sleep(5.0)\n  return export\n\nexport = wait_for_success(export_id)\nfor i, url in enumerate(export[\"urls\"]):\n  file_download = requests.get(url)\n  file_download.raise_for_status()\n  file_type = export['format']['type'].lower()\n  compression = export['format'].get('compression', 'gz')\n  with open(f\"my_folder/file_{i}.{file_type}.{compression}\", \"w\") as f:\n    f.write(file_download.content)\n\n# alternatively if using pandas and you specified parquet format - this assumes data fits into memory\npd.concat((pd.read_parquet(url) for url in export[\"urls\"]))\n"
+      responses:
+        '200':
+          description: Export Done
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ExportStatus'
+                  exportId:
+                    type: number
+                    example: 3f0b7fbd-fa45-445a-8862-49cd1871eebc
+                  urls:
+                    type: array
+                    items:
+                      type: string
+                      example: https://app.altruistiq.com/api/public/v1/export/3f0b7fbd-fa45-445a-8862-49cd1871eebc/download
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        '504':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/504'
+components:
+  schemas:
+    '401':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Unauthorized
+          description: Request was unauthorized
+    ExportStatus:
+      type: string
+      enum:
+      - QUEUED
+      - RUNNING
+      - SUCCEEDED
+      - FAILED
+      - CANCELLED
+      example: QUEUED
+    '404':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Not found
+          description: Resource not found
+    '500':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Server Error
+          description: Internal Error
+    '504':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Not Implemented
+          description: Not Implemented
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token

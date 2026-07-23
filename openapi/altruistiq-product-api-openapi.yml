@@ -1,0 +1,938 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource Product API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Product
+  description: '### Altruistiq’s Product API enables you to:
+
+
+    - Create new products
+
+    - Update existing products
+
+    - Delete products
+
+    - Get a list of products
+
+    - All the above in bulk'
+paths:
+  /api/public/v1/products:
+    post:
+      operationId: PublicProductController.createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+        description: CreateProductRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to create a single product record.
+      security:
+      - bearerAuth: []
+    get:
+      operationId: PublicProductsController.bulkGetProducts
+      parameters:
+      - in: query
+        name: query
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: perPage
+        schema:
+          maximum: 500
+          type: number
+          minimum: 1
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          minimum: 1
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      - in: query
+        name: sortField
+        schema:
+          enum:
+          - name
+          - description
+          - category
+          - declared_unit
+          - declared_unit_weight
+          - created_at
+          - updated_at
+          - product_key
+          type: string
+          description: The field name to sort the records on
+          example: name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BulkGetProductsResponse'
+                type: array
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to retrieve information about multiple products
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicProductsController.bulkUpdateProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateProductsRequest'
+        description: BulkUpdateProductsRequest
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateProductsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to update multiple products at the same time.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicProductsController.bulkDeleteProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteProductsRequest'
+        description: BulkDeleteProductsRequest
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to delete multiple products at the same time.
+      security:
+      - bearerAuth: []
+  /api/public/v1/products/{id}:
+    get:
+      operationId: PublicProductController.getProduct
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to retrieve information about a single product
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicProductController.updateProduct
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+        description: UpdateProductRequest
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to update a single product record.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicProductController.deleteProduct
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to delete a single product record. When deleting a product, all related structures and inputs will also be deleted.
+      security:
+      - bearerAuth: []
+  /api/public/v1/products/bulk:
+    post:
+      operationId: PublicProductsController.bulkCreateProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateProductsRequest'
+        description: BulkCreateProductsRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to create multiple products at the same time.
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    UpdateProductResponse:
+      properties:
+        success:
+          type: boolean
+      type: object
+      required:
+      - success
+    CreateProductRequest:
+      properties:
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - productKey
+      - name
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    UpdateProductRequest:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+    BulkCreateProductsRequest:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/CreateProductBase'
+          type: array
+          description: Array of products to create
+      type: object
+      required:
+      - products
+    UpdateProductBase:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    BulkUpdateProductsResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    BulkGetProductsResponse:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        updatedAt:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The last updated date of the record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - productKey
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+      - updatedAt
+      - additionalData
+      description: Response data for products retrieved in bulk
+    GetProductResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        updatedAt:
+          type: string
+          description: The last updated date of the record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - productKey
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+      - updatedAt
+      - additionalData
+    BulkDeleteProductsRequest:
+      properties:
+        ids:
+          items:
+            format: uuid
+            type: string
+          type: array
+          minItems: 1
+          description: An array of product UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    CreateProductResponse:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+      type: object
+      required:
+      - id
+    CreateProductBase:
+      properties:
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - productKey
+      - name
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    BulkCreateProductsResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of product UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkUpdateProductsRequest:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/UpdateProductBase'
+          type: array
+          description: Array of products to update
+      type: object
+      required:
+      - products
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token

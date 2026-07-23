@@ -1,0 +1,1247 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource Product structure inputs API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Product structure inputs
+  description: '### Altruistiq’s Product Structure API enables you to:
+
+
+    - Create new product structure inputs
+
+    - Update existing product structure inputs
+
+    - Delete product structure inputs
+
+    - Get a list of all product structure inputs
+
+    - All the above in bulk against a single product structure
+
+
+    The product structure input bulk actions are useful for creating and updating product structure inputs in bulk. These inputs are managed under the context of a single product, so require the product UUID to be provided in the request.'
+paths:
+  /api/public/v1/product-structure-inputs:
+    post:
+      operationId: PublicStructureInputController.createSingleStructureInput
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductStructureInputQuery'
+        description: CreateProductStructureInputQuery
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductStructureInputResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to create a single product structure input record.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structure-inputs/{id}:
+    get:
+      operationId: PublicStructureInputController.getSingleStructureInput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductStructureInputResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Structure Input not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to retrieve information about a single product structure input
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructureInputController.updateSingleStructureInput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductStructureInputBody'
+        description: UpdateProductStructureInputBody
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductStructureInputResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Structure Input not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to update a single product structure input record.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructureInputController.deleteSingleStructureInput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Structure Input not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to delete a single product structure input record.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structures/{structureId}/inputs:
+    post:
+      operationId: PublicStructureInputsController.bulkCreateStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateProductStructuresInputsBody'
+        description: BulkCreateProductStructuresInputsBody
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductStructureInputsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Product Structure Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to create multiple product structure inputs for a single structure at the same time.
+      security:
+      - bearerAuth: []
+    get:
+      operationId: PublicStructureInputsController.bulkGetStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: perPage
+        schema:
+          maximum: 500
+          type: number
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      - in: query
+        name: sortField
+        schema:
+          enum:
+          - input_code
+          - product_structure_id
+          - input_name
+          - input_category
+          - product_or_packaging
+          - weight
+          - supplier_name
+          - created_at
+          - updated_at
+          type: string
+          description: The field name to sort the records on
+          example: name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetProductStructureInputResponse'
+                type: array
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+                  invalidIds:
+                    type: array
+                    items:
+                      type: string
+                    example: '["aee349fd-28e4-450d-9e20-af64d9c0d813", "bdd8f526-4c6a-4ea5-b740-4762aac04697"]'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Product Structure Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to retrieve information about multiple products structure inputs
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructureInputsController.bulkUpdateStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateProductStructureInputsRequest'
+        description: BulkUpdateProductStructureInputsRequest
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateProductStructureInputsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid input IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+                  invalidIds:
+                    type: array
+                    items:
+                      type: string
+                    example: '["aee349fd-28e4-450d-9e20-af64d9c0d813", "bdd8f526-4c6a-4ea5-b740-4762aac04697"]'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Product Structure Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to update multiple product structure inputs at the same time.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructureInputsController.bulkDeleteStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteProductStructureInputsBody'
+        description: BulkDeleteProductStructureInputsBody
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Invalid structure ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+                  invalidIds:
+                    type: array
+                    items:
+                      type: string
+                    example: '["aee349fd-28e4-450d-9e20-af64d9c0d813", "bdd8f526-4c6a-4ea5-b740-4762aac04697"]'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to delete multiple inputs at the same time.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structure-inputs/bulk:
+    post:
+      operationId: PublicStructureInputsController.bulkCreateInputs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateProductInputsBody'
+        description: BulkCreateProductInputsBody
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductStructureInputsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Product Structure Inputs In Bulk For Any Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to create multiple product structure inputs for any structure ID.
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    GetProductStructureInputResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        structureId:
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          type: string
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          type: string
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        createdAt:
+          type: string
+          description: The creation date of the input record
+          example: '2025-01-01'
+        updatedAt:
+          type: string
+          description: The last updated date of the input record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - structureId
+      - inputCode
+      - inputName
+      - inputCategory
+      - inputSubCategory
+      - sourceCountry
+      - supplierName
+      - supplierCountryCode
+      - productOrPackaging
+      - weight
+      - weightUnit
+      - recyclePercentage
+      - createdAt
+      - updatedAt
+    CreateProductStructureInputs:
+      properties:
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    CreateProductStructureInputQuery:
+      properties:
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    BulkCreateProductStructureInputsResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of input UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    UpdateProductStructureInputBody:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+    BulkUpdateProductStructureInputsRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ProductStructureInput'
+          maxItems: 500
+          type: array
+          minItems: 1
+          description: Array of product structure inputs to update
+      type: object
+      required:
+      - inputs
+    UpdateProductStructureInputResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    BulkCreateProductStructuresInputsBody:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/CreateProductStructureInputs'
+          type: array
+          minItems: 1
+          description: Array of product structure inputs to create
+      type: object
+      required:
+      - inputs
+    CreateProductInputs:
+      properties:
+        structureId:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+        downstreamInputType:
+          enum:
+          - Glass
+          - Steel Cans
+          - Aluminium Cans
+          - Paper
+          - PET
+          - Rigid Plastic
+          - Mixed Plastic
+          - LDPE
+          - Other
+          - CO2 for carbonation
+          type: string
+          description: The type of the input, for downstream calculations.
+          example: Glass
+        noOfUses:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The reuse rate of the input, for downstream calculations.
+          example: 5
+      type: object
+      required:
+      - structureId
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    BulkDeleteProductStructureInputsBody:
+      properties:
+        ids:
+          items:
+            format: uuid
+            type: string
+          type: array
+          minItems: 1
+          description: An array of input UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkUpdateProductStructureInputsResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    ProductStructureInput:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - inputCode
+      - inputName
+      - inputCategory
+      - inputSubCategory
+      - sourceCountry
+      - supplierName
+      - supplierCountryCode
+      - productOrPackaging
+      - weight
+      - weightUnit
+      - recyclePercentage
+    CreateProductStructureInputResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+      type: object
+      required:
+      - id
+    BulkCreateProductInputsBody:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/CreateProductInputs'
+          type: array
+          maxItems: 1000
+          minItems: 1
+          description: Array of product structure inputs to create
+      type: object
+      required:
+      - inputs
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token

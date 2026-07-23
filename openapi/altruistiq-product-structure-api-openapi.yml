@@ -1,0 +1,781 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource Product structure API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Product structure
+  description: '### Altruistiq’s Product Structure API enables you to:
+
+
+    - Create new product structures
+
+    - Update existing product structures
+
+    - Delete product structures
+
+    - Get a list of all product structures
+
+    - All the above in bulk against a single product
+
+
+    The product structure bulk actions are useful for creating and updating product structures in bulk. These structures are managed under the context of a single product, so require the product UUID to be provided in the request.'
+paths:
+  /api/public/v1/product-structures:
+    post:
+      operationId: PublicStructureController.createSingleStructure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductStructureRequest'
+        description: CreateProductStructureRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductStructureResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Single Product Structures
+      tags:
+      - Product structure
+      description: Product structures represent a single production structure or BOM of a product. Create the structure record in order to add inputs for packaging and materials. Each structure is uniquely identified by `customerStructureId` — if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structures/{id}:
+    get:
+      operationId: PublicStructureController.getSingleStructure
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductStructureEntity'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Single Product Structure
+      tags:
+      - Product structure
+      description: Return details for a single product structure, without its related inputs.
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructureController.updateSingleStructure
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductStructureBody'
+        description: UpdateProductStructureBody
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductStructureResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Single Product Structure
+      tags:
+      - Product structure
+      description: The endpoint allows the updating of editable fields in product structure records. Product ID, facility and valid from dates are not editable in this endpoint. If those need updating, create a new structure record.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructureController.deleteSingleStructure
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Single Product Structure
+      tags:
+      - Product structure
+      description: Use this endpoint to delete a single product structure. When deleting a product structure, all related inputs will also be deleted.
+      security:
+      - bearerAuth: []
+  /api/public/v1/products/{productId}/structures:
+    post:
+      operationId: PublicStructuresController.bulkCreateStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductStructureRequest'
+        description: CreateProductStructureRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductStructuresResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '409':
+          description: One or more structures already exist for the given product, facility and date. Returned when the unique combination of product, facility and date collides with a record that already exists in the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: One or more structures already exist for the given product, facility and date
+                  conflictingCustomerStructureIds:
+                    type: array
+                    description: The customer_structure_id values that already exist.
+                    items:
+                      type: string
+                    example:
+                    - aq|<productId>|<validFrom>|<facilityId>
+                  success:
+                    type: boolean
+                    example: false
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Creates Product Structures In Bulk Within A Single Product
+      tags:
+      - Product structure
+      description: Use this endpoint to create multiple product structures for a single product in one call. Each structure is uniquely identified by `customerStructureId` — if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`.
+      security:
+      - bearerAuth: []
+    get:
+      operationId: PublicStructuresController.bulkGetStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      - in: query
+        name: sortField
+        schema:
+          enum:
+          - customerStructureId
+          - validFromDate
+          - facilityName
+          - routeDescription
+          - createdAt
+          - updatedAt
+          type: string
+          description: The field name to sort the records on
+          example: name
+      - in: query
+        name: perPage
+        schema:
+          minimum: 1
+          type: number
+          maximum: 500
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          minimum: 0
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkGetProductStructuresResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Multiple Product Structure Within A Single Product
+      tags:
+      - Product structure
+      description: Return details for multiple product structures within a single product.
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructuresController.bulkUpdateStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateProductStructuresBody'
+        description: BulkUpdateProductStructuresBody
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateProductStructuresSuccessResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Product Structures In Bulk Within A Single Product
+      tags:
+      - Product structure
+      description: Use this endpoint to update multiple product structures for a single product in one call. Currently the only editable field is route description
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructuresController.bulkDeleteStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Deletes Product Structures In Bulk Within A Single Product
+      tags:
+      - Product structure
+      description: Use this endpoint to delete multiple product structures. When deleting a product structure, all related inputs will also be deleted.
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    UpdateProductStructureResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    GetProductStructureEntity:
+      properties:
+        id:
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        productId:
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        facilityId:
+          type: string
+          description: The Altruistiq UUID of the linked facility
+          example: 6a99a4d5-a126-4fcd-93f4-1ca7c6a219b6
+        facilityName:
+          type: string
+          description: The name of the facility in which the product structure is manufactured.
+          example: Large factory
+        validFrom:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The date for which the structure was first used. Date-only granularity — any time component is discarded (e.g. `2025-01-01T14:30:00Z` is stored as `2025-01-01`).
+          example: '2025-01-01'
+        customerStructureId:
+          type: string
+          description: (Optional) Structure ID if you have your own generated identifiers for structures. Must be globally unique across all your product structures — the same `customerStructureId` cannot be reused for a different product, facility or date.
+          example: STRUC-001-ABC
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+        createdAt:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The creation date of the product structure record
+          example: '2025-01-01'
+        updatedAt:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The last updated date of the product structure record
+          example: '2025-01-01'
+      type: object
+      required:
+      - id
+      - productId
+      - facilityId
+      - facilityName
+      - validFrom
+      - customerStructureId
+      - routeDescription
+      - createdAt
+      - updatedAt
+    BulkCreateProductStructuresResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of product structure UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkUpdateProductStructuresBody:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/UpdateProductStructureItem'
+          type: array
+          minItems: 1
+          description: Array of structures to update
+      type: object
+      required:
+      - structures
+    BulkGetProductStructuresResponse:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/GetProductStructureEntity'
+          type: array
+          description: Array of product structures
+      type: object
+      required:
+      - structures
+    UpdateProductStructureItem:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - id
+      - routeDescription
+    CreateProductStructureResponse:
+      properties:
+        id:
+          type: string
+          description: ID of the created structure
+          example: 52f78ded-ccad-4d8f-b474-29a4f6181e50
+      type: object
+      required:
+      - id
+    CreateProductStructureRequest:
+      properties:
+        productId:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        validFrom:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The date for which the structure was first used. Date-only granularity — any time component is discarded (e.g. `2025-01-01T14:30:00Z` is stored as `2025-01-01`).
+          example: '2025-01-01'
+        facilityName:
+          type: string
+          description: The name of the facility in which the product structure is manufactured.
+          example: Large factory
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+        customerStructureId:
+          type: string
+          description: (Optional) Structure ID if you have your own generated identifiers for structures. Must be globally unique across all your product structures — the same `customerStructureId` cannot be reused for a different product, facility or date.
+          example: STRUC-001-ABC
+      type: object
+      required:
+      - productId
+      - validFrom
+      - facilityName
+    UpdateProductStructureBody:
+      properties:
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - routeDescription
+    BulkUpdateProductStructuresSuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token

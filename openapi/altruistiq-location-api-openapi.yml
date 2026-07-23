@@ -1,0 +1,219 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource Location API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: '# Definitions
+
+
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
+
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
+
+    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
+
+    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
+
+
+    # Datasource API Outline
+
+
+    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
+
+
+    The Datasource API is governed by the oauth2 protocol.
+
+
+    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
+
+
+    # PACT API Outline
+
+
+    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
+
+
+    The PACT API is is governed by the oauth2 protocol (see Security).
+
+
+    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Location
+  description: '
+
+    Altruistiq''s Location API enables you to:
+
+
+    - Get a list of countries with their alpha_2 codes and names
+
+    - Get country subdivisions for a specific country by its alpha-2 code
+
+    '
+paths:
+  /api/public/v1/location/countries:
+    get:
+      operationId: LocationController.getCountries
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCountriesPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A List Of Countries
+      tags:
+      - Location
+      description: Retrieve a list of countries with their alpha_2 codes and names.
+      security:
+      - bearerAuth: []
+  /api/public/v1/location/countries/{countryCode}/subdivisions:
+    get:
+      operationId: LocationController.getCountrySubdivisions
+      parameters:
+      - in: path
+        name: countryCode
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCountrySubdivisionsPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Country Subdivisions By Country Code
+      tags:
+      - Location
+      description: Retrieve a list of country subdivisions for a specific country by its alpha-2 code.
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    CountrySubdivisionPublicGet:
+      properties:
+        code:
+          type: string
+          description: The code of the country subdivision
+          example: US-NY
+        name:
+          type: string
+          description: The name of the country subdivision
+          example: New York
+        type:
+          type: string
+          description: The type of the country subdivision
+          example: state
+        countryCode:
+          type: string
+          description: The ISO 3166-1 alpha-2 code of the country this subdivision belongs to
+          example: US
+      type: object
+      required:
+      - code
+      - name
+      - type
+      - countryCode
+    GetCountrySubdivisionsPublicDtoRes:
+      properties:
+        subdivisions:
+          items:
+            type: object
+            $ref: '#/components/schemas/CountrySubdivisionPublicGet'
+          type: array
+          description: The list of country subdivisions
+      type: object
+      required:
+      - subdivisions
+    CountryPublicGet:
+      properties:
+        code:
+          type: string
+          description: The ISO 3166-1 alpha-2 code of the country
+          example: US
+        name:
+          type: string
+          description: The name of the country
+          example: United States
+      type: object
+      required:
+      - code
+      - name
+    GetCountriesPublicDtoRes:
+      properties:
+        countries:
+          items:
+            type: object
+            $ref: '#/components/schemas/CountryPublicGet'
+          type: array
+          description: The list of countries
+      type: object
+      required:
+      - countries
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
