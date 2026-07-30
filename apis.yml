@@ -12,9 +12,22 @@ description: >-
   FMCG and food and beverage brands.
 type: Index
 kind: contract
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Provider
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/altruistiq.png
 tags:
   - Sustainability
   - Climate
@@ -36,79 +49,861 @@ created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.20'
 apis:
-  - aid: altruistiq:altruistiq-datasource-api
-    name: Altruistiq Datasource API
-    description: >-
-      Upload, manage, and export activity and product data used to calculate enterprise emissions on the Altruistiq
-      platform. Covers multipart file uploads into named Datasources, corporate emissions Exports with filtering and
-      download URLs, full CRUD on Products, Product Structures (bills of materials), and Product Structure Inputs
-      (material and packaging line items), Facility version management, geographic Location reference data (countries
-      and subdivisions), and Organization and business unit lookups. Authenticated via OAuth 2.0 Client Credentials
-      against /api/public/v1/oauth2/token. Production server is https://app.altruistiq.com/api/public/v1.
-    humanURL: https://docs.altruistiq.com
-    baseURL: https://app.altruistiq.com/api/public/v1
-    tags:
-      - Sustainability
-      - Carbon Accounting
-      - Emissions
-      - Datasource
-      - Products
-      - Facilities
-      - Export
-    properties:
-      - url: https://docs.altruistiq.com
-        type: Documentation
-      - url: openapi/altruistiq-openapi.yml
-        type: OpenAPI
-      - url: https://docs.altruistiq.com
-        type: Authentication
-      - url: json-schema/altruistiq-product-schema.json
-        type: JSONSchema
-      - url: json-schema/altruistiq-facility-schema.json
-        type: JSONSchema
-      - url: json-schema/altruistiq-emission-record-schema.json
-        type: JSONSchema
-      - url: json-structure/altruistiq-product-structure.json
-        type: JSONStructure
-      - url: json-ld/altruistiq-context.jsonld
-        type: JSONLD
-      - url: rules/altruistiq-rules.yml
-        type: SpectralRuleset
-      - url: vocabulary/altruistiq-vocabulary.yml
-        type: Vocabulary
-      - url: examples/altruistiq-oauth-token-example.json
-        type: Examples
-      - url: examples/altruistiq-create-product-example.json
-        type: Examples
-      - url: examples/altruistiq-create-export-example.json
-        type: Examples
-      - url: examples/altruistiq-get-export-example.json
-        type: Examples
-  - aid: altruistiq:altruistiq-pact-api
-    name: Altruistiq PACT API
-    description: >-
-      PACT-conformant Product Carbon Footprint data exchange surface for sharing ingredient-level PCF data with
-      customers and partners per the WBCSD Partnership for Carbon Transparency (PACT) Pathfinder Framework. Exposed
-      through the same /api/public/v1 surface alongside the Datasource API. Used to fulfil B2B customer RFPs and
-      downstream Scope 3 reporting requests with traceable, methodology-aware PCFs.
-    humanURL: https://docs.altruistiq.com
-    baseURL: https://app.altruistiq.com/api/public/v1
-    tags:
-      - Sustainability
-      - Carbon Accounting
-      - Product Carbon Footprint
-      - PACT
-      - Pathfinder
-      - Interoperability
-    properties:
-      - url: https://docs.altruistiq.com
-        type: Documentation
-      - url: openapi/altruistiq-openapi.yml
-        type: OpenAPI
-      - url: https://www.carbon-transparency.org
-        type: Standards
-      - url: json-ld/altruistiq-context.jsonld
-        type: JSONLD
+- aid: altruistiq:altruistiq-datasource-api
+  name: Altruistiq Datasource API
+  description: >-
+    ### Altruistiq’s datasource API enables you to:
+
+      - Create new datasources
+      - Manage existing datasources (read, update)
+      - Upload data to a datasource
+
+    A datasource is the place where you will share a single data format with altruistiq and where you
+    will categorise it so that we can calculate emissions in an automated way.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Datasource
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-datasource-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-export-api
+  name: Altruistiq Export API
+  description: >-
+    ### Altruistiq’s Export API enables you to:
+
+      - Export corporate data
+
+    Exporting data is a key part of the Altruistiq platform. It allows you to take your data and use it
+    in other systems, or to share it with other stakeholders.
+
+
+    Currently, our Export API allows you to export your Corporate Emissions data available in Altruistiq,
+    down to a daily grain. We are working hard to also add Product Emissions data to your Export API.
+    If you need to share Product emissions data today, see the PACT API.
+
+
+    Schema of files which can be retrieved via this API (data dictionary):<br/>
+
+    <table>
+      <tbody><tr><th>Column</th><th>Data Type</th><th>Format</th><th>Optional</th><th>Description</th></tr>
+        <tr>
+            <td>fact_uuid</td>
+            <td>string</td>
+            <td>uuid</td>
+            <td>no</td>
+            <td>Unique identifier for emission record.</td>
+        </tr>
+        <tr>
+            <td>calendar_date</td>
+            <td>string</td>
+            <td>date</td>
+            <td>no</td>
+            <td>Date of the emission record.</td>
+        </tr>
+        <tr>
+            <td>calendar_year</td>
+            <td>integer</td>
+            <td></td>
+            <td>no</td>
+            <td>Year of the emission record.</td>
+        </tr>
+        <tr>
+            <td>emission_quantity</td>
+            <td>number | string</td>
+            <td>decimal(28, 10)</td>
+            <td>no</td>
+            <td>Quantity of the emission record.</td>
+        </tr>
+        <tr>
+            <td>emission_unit</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Unit the emissions are in.</td>
+        </tr>
+        <tr>
+            <td>calculation_input_quantity</td>
+            <td>number | string | null</td>
+            <td>decimal(28, 10)</td>
+            <td>yes</td>
+            <td>Input quantity used for the actual emission calculation (if applicable).</td>
+        </tr>
+        <tr>
+            <td>calculation_input_quantity_unit</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Unit of the input quantity used for the actual emission calculation(if applicable).</td>
+        </tr>
+        <tr>
+            <td>spend_usd</td>
+            <td>number | string | null</td>
+            <td>decimal(28, 10)</td>
+            <td>yes</td>
+            <td>Spend in USD used for the actual emission calculation (if applicable).</td>
+        </tr>
+        <tr>
+            <td>spend_eur</td>
+            <td>number | string | null</td>
+            <td>decimal(28, 10)</td>
+            <td>yes</td>
+            <td>Spend in EUR used for the actual emission calculation (if applicable).</td>
+        </tr>
+        <tr>
+            <td>spend_gbp</td>
+            <td>number | string | null</td>
+            <td>decimal(28, 10)</td>
+            <td>yes</td>
+            <td>Spend in EUR used for the actual emission calculation (if applicable).</td>
+        </tr>
+        <tr>
+            <td>per_unit</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Emission Factor divisor.</td>
+        </tr>
+        <tr>
+            <td>input_dimensionality</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Dimensionality of the input quantity for the emission factor.</td>
+        </tr>
+        <tr>
+            <td>scope_category</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Scope categories are a subdivision of GHG Scopes with more detail about the emission’s
+    cause. Scope categories are similar to, and overlapping with Activities.</td>
+        </tr>
+        <tr>
+            <td>scope</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Refers to the three scopes of the GHG Protocol.</td>
+        </tr>
+        <tr>
+            <td>activity_area_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Activity areas are groups of activities that have similar emissions calculation methodologies
+    in the Altruistiq platform.</td>
+        </tr>
+        <tr>
+            <td>activity_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Activities areas are activities of a customer causing emissions.</td>
+        </tr>
+        <tr>
+            <td>sub_activity_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Sub-Activities areas are a sub-dicision activities of a customer causing emissions.</td>
+        </tr>
+        <tr>
+            <td>aq_calc_method</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Calculation Methodology used in the Altruistiq platform.</td>
+        </tr>
+        <tr>
+            <td>ghg_calc_method</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Calculation Methodology according to the GHG protocol.</td>
+        </tr>
+        <tr>
+            <td>ef_specificity</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Specificity level that Emission Factors refer to, e.g. Global Average or Country Average.</td>
+        </tr>
+        <tr>
+            <td>accuracy_score</td>
+            <td>integer</td>
+            <td></td>
+            <td>no</td>
+            <td>A measure of how accurate emissions calculations are for a particular activity, based
+    on the quality of data available and the calculation methodology applied as a result.</td>
+        </tr>
+        <tr>
+            <td>accuracy_score_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>A measure of how accurate emissions calculations are for a particular activity, based
+    on the quality of data available and the calculation methodology applied as a result.</td>
+        </tr>
+        <tr>
+            <td>lifecycle</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Emissions caused by an activity can be further subdivided by the lifecycle they are associated
+    with. For example, a business trip in a company car will cause emissions from vehicle use (i.e. burning
+    the fuel) and well-to-tank emissions (i.e. drilling for oil, fuel production, and any other activities
+    in the supply chain).</td>
+        </tr>
+        <tr>
+            <td>bu_uuid</td>
+            <td>string</td>
+            <td>uuid</td>
+            <td>no</td>
+            <td>Unique identifier for a BU.</td>
+        </tr>
+        <tr>
+            <td>bu_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Name of the BU this record belongs to.</td>
+        </tr>
+        <tr>
+            <td>root_org_uuid</td>
+            <td>string</td>
+            <td>uuid</td>
+            <td>no</td>
+            <td>Unique identifier of the root organisation.</td>
+        </tr>
+        <tr>
+            <td>root_org_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Name of the root organisation this record belongs to.</td>
+        </tr>
+        <tr>
+            <td>facility_name</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Name of the facility this record belongs to (if it is assigned at facility level).</td>
+        </tr>
+        <tr>
+            <td>facility_uuid</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Unique identifier of the facility.</td>
+        </tr>
+        <tr>
+            <td>facility_country_name</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Country this facility belongs to.</td>
+        </tr>
+        <tr>
+            <td>facility_country_code</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Country code of the country this facility belongs to.</td>
+        </tr>
+        <tr>
+            <td>facility_post_code</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Post code of this facility.</td>
+        </tr>
+        <tr>
+            <td>facility_type</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Type of this facility.</td>
+        </tr>
+        <tr>
+            <td>facility_capacity_ratio</td>
+            <td>number | string | null</td>
+            <td>decimal(28, 10)</td>
+            <td>yes</td>
+            <td>Capacity of this facility.</td>
+        </tr>
+        <tr>
+            <td>data_source_name</td>
+            <td>string</td>
+            <td></td>
+            <td>yes</td>
+            <td>Name of the datasource which was used for this record.</td>
+        </tr>
+        <tr>
+            <td>file_name</td>
+            <td>string</td>
+            <td></td>
+            <td>no</td>
+            <td>Name of the file which was used for this record.</td>
+        </tr>
+        <tr>
+            <td>supplier_legal_name</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Supplier legal name (if applicable).</td>
+        </tr>
+        <tr>
+            <td>supplier_country_code</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Supplier country code (if applicable).</td>
+        </tr>
+        <tr>
+            <td>supplier_country_name</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Supplier country name (if applicable).</td>
+        </tr>
+        <tr>
+            <td>supplier_vat_number</td>
+            <td>string | null</td>
+            <td></td>
+            <td>yes</td>
+            <td>Supplier VAT number (if applicable).</td>
+        </tr>
+        <tr>
+            <td>tags</td>
+            <td>object</td>
+            <td></td>
+            <td>no</td>
+            <td>Mapping of tag category -&gt; value (e.g. energy_type -&gt; mixed).
+      <p><b>PREVIEW WARNING: THESE ARE CURRENTLY BEING CHANGED, SO ARE NOT STABLE!</b></p>
+      <p>Categories:</p>
+      <ul>
+        <li>energy_type</li>
+        <li>fuel_type</li>
+        <li>fuel_net_or_gross_cv</li>
+        <li>gas_type</li>
+        <li>isic_section</li>
+        <li>isic_division</li>
+        <li>isic_group</li>
+        <li>isic_class</li>
+        <li>goods_service_type</li>
+        <li>material_life_phase</li>
+        <li>heating_type</li>
+        <li>industry_type</li>
+        <li>purchased_energy_type</li>
+        <li>refrigerant_type</li>
+        <li>renewable</li>
+        <li>vehicle_type</li>
+        <li>journey_type</li>
+        <li>energy_generation_type</li>
+        <li>vehicle_emission_type</li>
+        <li>traffic_scenario</li>
+        <li>vehicle_load</li>
+        <li>waste_category</li>
+        <li>wastewater_spend_type</li>
+        <li>waste_treatment_type</li>
+        <li>waste_type</li>
+        <li>water_spend_type</li>
+      </ul></td>
+        </tr>
+        <tr>
+            <td>financial_year</td>
+            <td>integer</td>
+            <td></td>
+            <td>no</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>custom_analytics_fields</td>
+            <td>object</td>
+            <td></td>
+            <td>no</td>
+            <td>Custom Analytics Fields.</td>
+        </tr>
+        <tr>
+            <td>custom_tags</td>
+            <td>object</td>
+            <td></td>
+            <td>no</td>
+            <td>Fields used to tag/classify the record.</td>
+        </tr>
+        <tr>
+            <td>emission_factor_name</td>
+            <td>string | null</td>
+            <td></td>
+            <td>no</td>
+            <td>Name of the emission factor used for this record.</td>
+        </tr>
+        <tr>
+            <td>emission_factor_specificity</td>
+            <td>string | null</td>
+            <td></td>
+            <td>no</td>
+            <td>Specificity of the emission factor used for this record.</td>
+        </tr>
+        <tr>
+            <td>emission_factor_specificity_code</td>
+            <td>string | null</td>
+            <td></td>
+            <td>no</td>
+            <td>Specificity Code of the emission factor used for this record.</td>
+        </tr>
+        <tr>
+            <td>emission_factor_source</td>
+            <td>string | null</td>
+            <td></td>
+            <td>no</td>
+            <td>Source of the emission factor used for this record.</td>
+        </tr>
+        <tr>
+            <td>emission_factor_source_version</td>
+            <td>string | null</td>
+            <td></td>
+            <td>no</td>
+            <td>Source version of the emission factor used for this record.</td>
+        </tr>
+        <tr>
+            <td>created_at</td>
+            <td>string</td>
+            <td>date-time</td>
+            <td>no</td>
+            <td>Timestamp when the record was created. NOTE: this might change if we do a full refresh
+    in the backend.</td>
+        </tr>
+        <tr>
+            <td>updated_at</td>
+            <td>string</td>
+            <td>date-time</td>
+            <td>no</td>
+            <td>Timestamp when the record was updated. NOTE: this might change if we do a full refresh
+    in the backend.</td>
+        </tr>
+      </tbody></table>
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Export
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-export-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-facility-api
+  name: Altruistiq Facility API
+  description: >-
+    Altruistiq's Facility API enables you to:
+
+
+    - Create new facilities in bulk
+
+    - Update existing facility persistent properties
+
+    - Update facility version
+
+    - Create new facility version
+
+    - Delete facility versions
+
+    - Delete facility
+
+    - Get a list of facilities
+
+    - Get a single facility
+
+
+
+    The facility API provides comprehensive management of facility data including location, capacity,
+    and organizational structure.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Facility
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-facility-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-location-api
+  name: Altruistiq Location API
+  description: >-
+    Altruistiq's Location API enables you to:
+
+
+    - Get a list of countries with their alpha_2 codes and names
+
+    - Get country subdivisions for a specific country by its alpha-2 code
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Location
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-location-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-organization-api
+  name: Altruistiq Organization API
+  description: >-
+    Altruistiq's Organization API enables you to:
+
+
+    - Get organization details and business units
+
+
+    The organization API provides access to organizational structure data including the root organization
+    and its business units.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-organization-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-product-api
+  name: Altruistiq Product API
+  description: >-
+    ### Altruistiq’s Product API enables you to:
+
+
+    - Create new products
+
+    - Update existing products
+
+    - Delete products
+
+    - Get a list of products
+
+    - All the above in bulk
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Product
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-product-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-product-structure-api
+  name: Altruistiq Product structure API
+  description: >-
+    ### Altruistiq’s Product Structure API enables you to:
+
+
+    - Create new product structures
+
+    - Update existing product structures
+
+    - Delete product structures
+
+    - Get a list of all product structures
+
+    - All the above in bulk against a single product
+
+
+    The product structure bulk actions are useful for creating and updating product structures in bulk.
+    These structures are managed under the context of a single product, so require the product UUID to
+    be provided in the request.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Product structure
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-product-structure-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-product-structure-inputs-api
+  name: Altruistiq Product structure inputs API
+  description: >-
+    ### Altruistiq’s Product Structure API enables you to:
+
+
+    - Create new product structure inputs
+
+    - Update existing product structure inputs
+
+    - Delete product structure inputs
+
+    - Get a list of all product structure inputs
+
+    - All the above in bulk against a single product structure
+
+
+    The product structure input bulk actions are useful for creating and updating product structure inputs
+    in bulk. These inputs are managed under the context of a single product, so require the product UUID
+    to be provided in the request.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Product structure inputs
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-product-structure-inputs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-security-api
+  name: Altruistiq Security API
+  description: >-
+    The Altruistiq API uses TLS and follows the OAuth 2.0 Client credentials flow as per [RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4)
+
+
+    ### Generating `client_id` and `client_secret`
+
+
+    In order to generate your `client_id` and `client_secret`, go to the altruistiq application’s organisation
+    settings.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Security
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-security-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
 common:
   - type: AgenticAccess
     url: agentic-access/altruistiq-agentic-access.yml
