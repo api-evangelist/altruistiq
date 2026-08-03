@@ -1,0 +1,5730 @@
+openapi: 3.0.0
+info:
+  title: Altruistiq Datasource API
+  x-logo:
+    url: ./aq.svg
+    altText: Altruistiq Logo
+  version: 1.0.0
+  description: "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions\
+    \ measurement. Examples of an **Activity** in Altruistiq\u2019s data model are **ElectricityUse** or **WasteGenerated**.\n\
+    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods\
+    \ have a unique set of data requirements, but are not unique to an **Activity**.\nA **Datasource** is a single data format\
+    \ that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data\
+    \ format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation\
+    \ Methods**, status).\n**Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live\
+    \ status for full data lineage and transparency that you can track in the application.\n\n# Datasource API Outline\n\n\
+    Primarily, Altruistiq\u2019s Datasource API enables the creation and management of Datasources and the upload of new Datasets.\
+    \ Alongside this there are a number of supporting functions.\n\nThe Datasource API is governed by the oauth2 protocol.\n\
+    \nThe Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once),\
+    \ but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb\
+    \ and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case\
+    \ for your business, do raise this at your Kick Off call and we will accommodate this.\n\n# PACT API Outline\n\nPrimarily,\
+    \ Altruistiq\u2019s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way.\
+    \ PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological\
+    \ standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant\
+    \ solutions globally.\n\nThe PACT API is is governed by the oauth2 protocol (see Security).\n\nFor full documentation\
+    \ of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full\
+    \ documentation for product data exports, and the associated data model."
+servers:
+- url: https://app.altruistiq.com/
+  description: Altruistiq Server
+tags:
+- name: Security
+  description: "The Altruistiq API uses TLS and follows the OAuth 2.0 Client credentials flow as per [RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4)\n\
+    \n### Generating `client_id` and `client_secret`\n\nIn order to generate your `client_id` and `client_secret`, go to the\
+    \ altruistiq application\u2019s organisation settings."
+- name: Datasource
+  description: "### Altruistiq\u2019s datasource API enables you to:\n\n  - Create new datasources\n  - Manage existing datasources\
+    \ (read, update)\n  - Upload data to a datasource\n\nA datasource is the place where you will share a single data format\
+    \ with altruistiq and where you will categorise it so that we can calculate emissions in an automated way."
+- name: Export
+  description: "### Altruistiq\u2019s Export API enables you to:\n\n  - Export corporate data\n\nExporting data is a key part\
+    \ of the Altruistiq platform. It allows you to take your data and use it in other systems, or to share it with other stakeholders.\n\
+    \nCurrently, our Export API allows you to export your Corporate Emissions data available in Altruistiq, down to a daily\
+    \ grain. We are working hard to also add Product Emissions data to your Export API. If you need to share Product emissions\
+    \ data today, see the PACT API.\n\nSchema of files which can be retrieved via this API (data dictionary):<br/>\n<table>\n\
+    \  <tbody><tr><th>Column</th><th>Data Type</th><th>Format</th><th>Optional</th><th>Description</th></tr>\n    <tr>\n \
+    \       <td>fact_uuid</td>\n        <td>string</td>\n        <td>uuid</td>\n        <td>no</td>\n        <td>Unique identifier\
+    \ for emission record.</td>\n    </tr>\n    <tr>\n        <td>calendar_date</td>\n        <td>string</td>\n        <td>date</td>\n\
+    \        <td>no</td>\n        <td>Date of the emission record.</td>\n    </tr>\n    <tr>\n        <td>calendar_year</td>\n\
+    \        <td>integer</td>\n        <td></td>\n        <td>no</td>\n        <td>Year of the emission record.</td>\n   \
+    \ </tr>\n    <tr>\n        <td>emission_quantity</td>\n        <td>number | string</td>\n        <td>decimal(28, 10)</td>\n\
+    \        <td>no</td>\n        <td>Quantity of the emission record.</td>\n    </tr>\n    <tr>\n        <td>emission_unit</td>\n\
+    \        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Unit the emissions are in.</td>\n    </tr>\n\
+    \    <tr>\n        <td>calculation_input_quantity</td>\n        <td>number | string | null</td>\n        <td>decimal(28,\
+    \ 10)</td>\n        <td>yes</td>\n        <td>Input quantity used for the actual emission calculation (if applicable).</td>\n\
+    \    </tr>\n    <tr>\n        <td>calculation_input_quantity_unit</td>\n        <td>string | null</td>\n        <td></td>\n\
+    \        <td>yes</td>\n        <td>Unit of the input quantity used for the actual emission calculation(if applicable).</td>\n\
+    \    </tr>\n    <tr>\n        <td>spend_usd</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n\
+    \        <td>yes</td>\n        <td>Spend in USD used for the actual emission calculation (if applicable).</td>\n    </tr>\n\
+    \    <tr>\n        <td>spend_eur</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n   \
+    \     <td>yes</td>\n        <td>Spend in EUR used for the actual emission calculation (if applicable).</td>\n    </tr>\n\
+    \    <tr>\n        <td>spend_gbp</td>\n        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n   \
+    \     <td>yes</td>\n        <td>Spend in EUR used for the actual emission calculation (if applicable).</td>\n    </tr>\n\
+    \    <tr>\n        <td>per_unit</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Emission\
+    \ Factor divisor.</td>\n    </tr>\n    <tr>\n        <td>input_dimensionality</td>\n        <td>string</td>\n        <td></td>\n\
+    \        <td>no</td>\n        <td>Dimensionality of the input quantity for the emission factor.</td>\n    </tr>\n    <tr>\n\
+    \        <td>scope_category</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Scope categories\
+    \ are a subdivision of GHG Scopes with more detail about the emission\u2019s cause. Scope categories are similar to, and\
+    \ overlapping with Activities.</td>\n    </tr>\n    <tr>\n        <td>scope</td>\n        <td>string</td>\n        <td></td>\n\
+    \        <td>no</td>\n        <td>Refers to the three scopes of the GHG Protocol.</td>\n    </tr>\n    <tr>\n        <td>activity_area_name</td>\n\
+    \        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Activity areas are groups of activities\
+    \ that have similar emissions calculation methodologies in the Altruistiq platform.</td>\n    </tr>\n    <tr>\n      \
+    \  <td>activity_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Activities areas\
+    \ are activities of a customer causing emissions.</td>\n    </tr>\n    <tr>\n        <td>sub_activity_name</td>\n    \
+    \    <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Sub-Activities areas are a sub-dicision activities\
+    \ of a customer causing emissions.</td>\n    </tr>\n    <tr>\n        <td>aq_calc_method</td>\n        <td>string</td>\n\
+    \        <td></td>\n        <td>no</td>\n        <td>Calculation Methodology used in the Altruistiq platform.</td>\n \
+    \   </tr>\n    <tr>\n        <td>ghg_calc_method</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n\
+    \        <td>Calculation Methodology according to the GHG protocol.</td>\n    </tr>\n    <tr>\n        <td>ef_specificity</td>\n\
+    \        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Specificity level that Emission Factors\
+    \ refer to, e.g. Global Average or Country Average.</td>\n    </tr>\n    <tr>\n        <td>accuracy_score</td>\n     \
+    \   <td>integer</td>\n        <td></td>\n        <td>no</td>\n        <td>A measure of how accurate emissions calculations\
+    \ are for a particular activity, based on the quality of data available and the calculation methodology applied as a result.</td>\n\
+    \    </tr>\n    <tr>\n        <td>accuracy_score_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n\
+    \        <td>A measure of how accurate emissions calculations are for a particular activity, based on the quality of data\
+    \ available and the calculation methodology applied as a result.</td>\n    </tr>\n    <tr>\n        <td>lifecycle</td>\n\
+    \        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Emissions caused by an activity can be further\
+    \ subdivided by the lifecycle they are associated with. For example, a business trip in a company car will cause emissions\
+    \ from vehicle use (i.e. burning the fuel) and well-to-tank emissions (i.e. drilling for oil, fuel production, and any\
+    \ other activities in the supply chain).</td>\n    </tr>\n    <tr>\n        <td>bu_uuid</td>\n        <td>string</td>\n\
+    \        <td>uuid</td>\n        <td>no</td>\n        <td>Unique identifier for a BU.</td>\n    </tr>\n    <tr>\n     \
+    \   <td>bu_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the BU this\
+    \ record belongs to.</td>\n    </tr>\n    <tr>\n        <td>root_org_uuid</td>\n        <td>string</td>\n        <td>uuid</td>\n\
+    \        <td>no</td>\n        <td>Unique identifier of the root organisation.</td>\n    </tr>\n    <tr>\n        <td>root_org_name</td>\n\
+    \        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the root organisation this record\
+    \ belongs to.</td>\n    </tr>\n    <tr>\n        <td>facility_name</td>\n        <td>string | null</td>\n        <td></td>\n\
+    \        <td>yes</td>\n        <td>Name of the facility this record belongs to (if it is assigned at facility level).</td>\n\
+    \    </tr>\n    <tr>\n        <td>facility_uuid</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n\
+    \        <td>Unique identifier of the facility.</td>\n    </tr>\n    <tr>\n        <td>facility_country_name</td>\n  \
+    \      <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Country this facility belongs to.</td>\n\
+    \    </tr>\n    <tr>\n        <td>facility_country_code</td>\n        <td>string | null</td>\n        <td></td>\n    \
+    \    <td>yes</td>\n        <td>Country code of the country this facility belongs to.</td>\n    </tr>\n    <tr>\n     \
+    \   <td>facility_post_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Post\
+    \ code of this facility.</td>\n    </tr>\n    <tr>\n        <td>facility_type</td>\n        <td>string | null</td>\n \
+    \       <td></td>\n        <td>yes</td>\n        <td>Type of this facility.</td>\n    </tr>\n    <tr>\n        <td>facility_capacity_ratio</td>\n\
+    \        <td>number | string | null</td>\n        <td>decimal(28, 10)</td>\n        <td>yes</td>\n        <td>Capacity\
+    \ of this facility.</td>\n    </tr>\n    <tr>\n        <td>data_source_name</td>\n        <td>string</td>\n        <td></td>\n\
+    \        <td>yes</td>\n        <td>Name of the datasource which was used for this record.</td>\n    </tr>\n    <tr>\n\
+    \        <td>file_name</td>\n        <td>string</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the\
+    \ file which was used for this record.</td>\n    </tr>\n    <tr>\n        <td>supplier_legal_name</td>\n        <td>string\
+    \ | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Supplier legal name (if applicable).</td>\n    </tr>\n\
+    \    <tr>\n        <td>supplier_country_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n\
+    \        <td>Supplier country code (if applicable).</td>\n    </tr>\n    <tr>\n        <td>supplier_country_name</td>\n\
+    \        <td>string | null</td>\n        <td></td>\n        <td>yes</td>\n        <td>Supplier country name (if applicable).</td>\n\
+    \    </tr>\n    <tr>\n        <td>supplier_vat_number</td>\n        <td>string | null</td>\n        <td></td>\n      \
+    \  <td>yes</td>\n        <td>Supplier VAT number (if applicable).</td>\n    </tr>\n    <tr>\n        <td>tags</td>\n \
+    \       <td>object</td>\n        <td></td>\n        <td>no</td>\n        <td>Mapping of tag category -&gt; value (e.g.\
+    \ energy_type -&gt; mixed).\n  <p><b>PREVIEW WARNING: THESE ARE CURRENTLY BEING CHANGED, SO ARE NOT STABLE!</b></p>\n\
+    \  <p>Categories:</p>\n  <ul>\n    <li>energy_type</li>\n    <li>fuel_type</li>\n    <li>fuel_net_or_gross_cv</li>\n \
+    \   <li>gas_type</li>\n    <li>isic_section</li>\n    <li>isic_division</li>\n    <li>isic_group</li>\n    <li>isic_class</li>\n\
+    \    <li>goods_service_type</li>\n    <li>material_life_phase</li>\n    <li>heating_type</li>\n    <li>industry_type</li>\n\
+    \    <li>purchased_energy_type</li>\n    <li>refrigerant_type</li>\n    <li>renewable</li>\n    <li>vehicle_type</li>\n\
+    \    <li>journey_type</li>\n    <li>energy_generation_type</li>\n    <li>vehicle_emission_type</li>\n    <li>traffic_scenario</li>\n\
+    \    <li>vehicle_load</li>\n    <li>waste_category</li>\n    <li>wastewater_spend_type</li>\n    <li>waste_treatment_type</li>\n\
+    \    <li>waste_type</li>\n    <li>water_spend_type</li>\n  </ul></td>\n    </tr>\n    <tr>\n        <td>financial_year</td>\n\
+    \        <td>integer</td>\n        <td></td>\n        <td>no</td>\n        <td></td>\n    </tr>\n    <tr>\n        <td>custom_analytics_fields</td>\n\
+    \        <td>object</td>\n        <td></td>\n        <td>no</td>\n        <td>Custom Analytics Fields.</td>\n    </tr>\n\
+    \    <tr>\n        <td>custom_tags</td>\n        <td>object</td>\n        <td></td>\n        <td>no</td>\n        <td>Fields\
+    \ used to tag/classify the record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_name</td>\n        <td>string\
+    \ | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Name of the emission factor used for this record.</td>\n\
+    \    </tr>\n    <tr>\n        <td>emission_factor_specificity</td>\n        <td>string | null</td>\n        <td></td>\n\
+    \        <td>no</td>\n        <td>Specificity of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n\
+    \        <td>emission_factor_specificity_code</td>\n        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n\
+    \        <td>Specificity Code of the emission factor used for this record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_source</td>\n\
+    \        <td>string | null</td>\n        <td></td>\n        <td>no</td>\n        <td>Source of the emission factor used\
+    \ for this record.</td>\n    </tr>\n    <tr>\n        <td>emission_factor_source_version</td>\n        <td>string | null</td>\n\
+    \        <td></td>\n        <td>no</td>\n        <td>Source version of the emission factor used for this record.</td>\n\
+    \    </tr>\n    <tr>\n        <td>created_at</td>\n        <td>string</td>\n        <td>date-time</td>\n        <td>no</td>\n\
+    \        <td>Timestamp when the record was created. NOTE: this might change if we do a full refresh in the backend.</td>\n\
+    \    </tr>\n    <tr>\n        <td>updated_at</td>\n        <td>string</td>\n        <td>date-time</td>\n        <td>no</td>\n\
+    \        <td>Timestamp when the record was updated. NOTE: this might change if we do a full refresh in the backend.</td>\n\
+    \    </tr>\n  </tbody></table>"
+- name: Product
+  description: "### Altruistiq\u2019s Product API enables you to:\n\n- Create new products\n- Update existing products\n-\
+    \ Delete products\n- Get a list of products\n- All the above in bulk"
+- name: Product structure
+  description: "### Altruistiq\u2019s Product Structure API enables you to:\n\n- Create new product structures\n- Update existing\
+    \ product structures\n- Delete product structures\n- Get a list of all product structures\n- All the above in bulk against\
+    \ a single product\n\nThe product structure bulk actions are useful for creating and updating product structures in bulk.\
+    \ These structures are managed under the context of a single product, so require the product UUID to be provided in the\
+    \ request."
+- name: Product structure inputs
+  description: "### Altruistiq\u2019s Product Structure API enables you to:\n\n- Create new product structure inputs\n- Update\
+    \ existing product structure inputs\n- Delete product structure inputs\n- Get a list of all product structure inputs\n\
+    - All the above in bulk against a single product structure\n\nThe product structure input bulk actions are useful for\
+    \ creating and updating product structure inputs in bulk. These inputs are managed under the context of a single product,\
+    \ so require the product UUID to be provided in the request."
+- name: Facility
+  description: '
+
+    Altruistiq''s Facility API enables you to:
+
+
+    - Create new facilities in bulk
+
+    - Update existing facility persistent properties
+
+    - Update facility version
+
+    - Create new facility version
+
+    - Delete facility versions
+
+    - Delete facility
+
+    - Get a list of facilities
+
+    - Get a single facility
+
+
+
+    The facility API provides comprehensive management of facility data including location, capacity, and organizational structure.
+
+    '
+- name: Location
+  description: '
+
+    Altruistiq''s Location API enables you to:
+
+
+    - Get a list of countries with their alpha_2 codes and names
+
+    - Get country subdivisions for a specific country by its alpha-2 code
+
+    '
+- name: Organization
+  description: '
+
+    Altruistiq''s Organization API enables you to:
+
+
+    - Get organization details and business units
+
+
+    The organization API provides access to organizational structure data including the root organization and its business
+    units.
+
+    '
+paths:
+  /api/public/v1/oauth2/token:
+    post:
+      security:
+      - oauth2: []
+      tags:
+      - Security
+      summary: Retrieve An Access Token
+      operationId: getOauth2Token
+      description: Retrieve an access token which will enable access to private areas of the API
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "token_req_data = {\n  'grant_type': 'client_credentials',\n  'client_id': client_id,\n  'client_secret':\
+          \ client_secret\n}\ntoken_response = requests.post(\n  \"https://app.altruistiq.com/api/public/v1/oauth2/token\"\
+          ,\n  data=token_req_data\n)\ntoken = token_response.json()['access_token']\n"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OauthToken'
+      responses:
+        '200':
+          description: Token Retrieved
+          content:
+            application/json:
+              schema:
+                properties:
+                  access_token:
+                    type: string
+                    description: The access token
+                  token_type:
+                    type: string
+                    example: Bearer
+                    description: The type of token
+                  expires_in:
+                    type: integer
+                    example: 4000
+                    description: Token TTL
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  /api/public/v1/datasource/{dataSourceId}/upload:
+    get:
+      security:
+      - bearerAuth: []
+      tags:
+      - Datasource
+      summary: Start A Multipart Upload
+      operationId: startMultipartUpload
+      description: Use this endpoint to start your multipart upload and retrieve an uploadId and fileId.
+      x-codeSamples:
+      - lang: javascript
+        label: JS
+        source: "const headers = {\n    'Authorization': 'Bearer tokenId123',\n    'Content-Type': 'application/json'\n}\n\
+          \nconst response = await fetch(`https://app.altruistiq.com/api/public/v1/datasource/123/upload?fileName=testing.csv&userEmail=user@altruistiq.com`,\
+          \ {\n  method: 'GET',\n  headers: headers,\n})\n\nconst multipartStartResponse = await response.json()\n\nconst\
+          \ results = {\n  uploadId: multipartStartResponse.uploadId,\n  fileId: multipartStartResponse.fileId\n}\n"
+      - lang: python
+        label: Python
+        source: "file_name = \"testing.csv\"\nuser_email = \"user@altruistiq.com\"\nauth_headers = {'Authorization': 'Bearer\
+          \ ' + token}\nstart_response = requests.get(\n  f\"https://app.altruistiq.com/api/public/v1/datasource/{datasource_id}/upload?fileName={file_name}&userEmail={user_email}\"\
+          ,\n  headers=auth_headers\n)\nstart_response_json = start_response.json()\nupload_id = start_response_json[\"uploadId\"\
+          ]\nfile_id = start_response_json[\"fileId\"]\n"
+      parameters:
+      - name: userEmail
+        in: query
+        description: Email of user initiating upload.
+        required: true
+        schema:
+          type: string
+      - name: fileName
+        in: query
+        description: Name of file that is being uploaded.
+        required: true
+        schema:
+          type: string
+      - name: dataSourceId
+        in: path
+        description: ID of datasource
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Multipart upload started
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: Multipart Upload started
+                  uploadId:
+                    type: string
+                    example: '123'
+                  fileId:
+                    type: string
+                    example: '123'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Datasource
+      summary: Upload A File To A Datasource
+      operationId: uploadFile
+      description: Use this endpoint to upload your binary.
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "part = 1\nparts = []\nauth_headers = {'Authorization': 'Bearer ' + token}\nfor chunk in chunk_file(file_name):\n\
+          \    files = [\n        ('file', (file_name, chunk, 'application/octet-stream')),\n        ('uploadId', (None, upload_id)),\n\
+          \        ('partNo', (None, part))\n    ]\n    upload_response = requests.post(datasource_url, headers=auth_headers,\
+          \ files=files)\n    upload_response_json = upload_response.json()\n    parts.append(upload_response_json[\"parts\"\
+          ])\n    part += 1\n"
+      - lang: javascript
+        label: JS
+        source: "// First part\nlet formData = new FormData()\n\nformData.append(\n  'file',\n  new Blob([fileChunk], {type:\
+          \ 'application/octet-stream'}),\n  'fileName.csv'\n)\nformData.append('partNo', 1)\nformData.append('uploadId',\
+          \ 123)\n\nconst headers = {\n  'Content-Type': 'multipart/form-data;',\n  'Content-Range': 'bytes 0-100/1000',\n\
+          \  'Authorization': 'Bearer tokenId123',\n}\n\nconst res1 = axios({\n  method: 'POST',\n  data: formData,\n  url:\
+          \ `https://app.altruistiq.com/api/public/v1/datasource/123/upload`,\n  headers\n});\n\nparts.push(res.data)\n\n\
+          // Second part\nformData = new FormData()\n\nformData.append('partNo', 2)\nformData.append('uploadId', 123)\n\n\
+          const headers = {\n  'Content-Type': 'multipart/form-data;',\n  'Content-Range': 'bytes 101-200/1000',\n  'Authorization':\
+          \ 'Bearer tokenId123',\n}\n\nconst res2 = axios({\n  method: 'POST',\n  data: formData,\n  url: `https://app.altruistiq.com/api/public/v1/datasource/123/upload`,\n\
+          \  headers\n});\n\nparts.push(res.data)\n\n//etc...\n"
+      parameters:
+      - name: Content-Type
+        in: header
+        type: string
+        example: multipart/form-data
+      - name: Content-Range
+        in: header
+        type: string
+        example: bytes 0-100/1000
+      - name: dataSourceId
+        in: path
+        description: ID of datasource
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              - uploadId
+              - partNo
+              type: object
+              properties:
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                uploadId:
+                  type: string
+                  example: '123'
+                partNo:
+                  type: number
+                  example: 1
+      responses:
+        '201':
+          description: File Uploaded
+          content:
+            application/json:
+              schema:
+                properties:
+                  dataSourceId:
+                    type: string
+                    example: '123'
+                  parts:
+                    type: array
+                    example:
+                    - PartNumber: 1
+                      ETag: '123'
+                    - PartNumber: 2
+                      ETag: '123'
+                  status:
+                    type: string
+                    example: Upload Complete
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  /api/public/v1/datasource/{dataSourceId}/upload/{uploadId}/file/{fileId}/complete:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Datasource
+      summary: Complete A Multipart File Upload
+      operationId: completeFileUpload
+      description: Use this endpoint to complete a file upload.
+      x-codeSamples:
+      - lang: javascript
+        label: JS
+        source: "const headers = {\n    'Authorization': `Bearer tokenId123`,\n    'Content-Type': 'application/json'\n}\n\
+          \n await fetch('https://app.altruistiq.com/api/public/v1/datasource/123/upload/uploadId123/file/fileId123/complete',\
+          \ {\n      method: 'POST',\n      headers: headers,\n      body: JSON.stringify({\n          [\n            {\n\
+          \              \"PartNumber\": 1,\n              \"ETag\": \"123\"\n            },\n            {\n            \
+          \  \"PartNumber\": 2,\n              \"ETag\": \"123\"\n            }\n          ],\n          'test.csv'\n    \
+          \  })\n  })\n"
+      - lang: python
+        label: Python
+        source: "end_req_headers = {\n  'Authorization': 'Bearer ' + token,\n  'Content-Type': 'application/json'\n}\nend_req_data\
+          \ = {'fileName': file_name, 'parts': parts}\nend_response = requests.post(\n  f\"https://app.altruistiq.com/api/public/v1/datasource/{datasource_id}/upload/{upload_id}/file/{file_id}/complete\"\
+          ,\n  data=json.dumps(end_req_data),\n  headers=end_req_headers\n)\n"
+      parameters:
+      - name: dataSourceId
+        in: path
+        description: ID of datasource
+        required: true
+        schema:
+          type: string
+      - name: uploadId
+        in: path
+        description: ID of upload
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        description: ID of file
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileName:
+                  type: string
+                  example: test.csv
+                parts:
+                  format: array
+                  example:
+                  - PartNumber: 1
+                    ETag: '123'
+                  - PartNumber: 2
+                    ETag: '123'
+      responses:
+        '200':
+          description: File Multipart Upload Complete
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: Multipart Upload Complete
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  /api/public/v1/export:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Export
+      summary: Create An Export
+      operationId: createExport
+      description: Use this endpoint to create and start an export.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - filters
+              - format
+              properties:
+                format:
+                  type: object
+                  required:
+                  - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - auto
+                      - brotli
+                      - bz2
+                      - deflate
+                      - lzo
+                      - none
+                      - raw_deflate
+                      - snappy
+                      - gzip
+                      - zstd
+                      example: snappy
+                      description: "Not all compression types are supported for all file types.\nIn particular: \n  * JSON\
+                        \ supports: auto, brotli, bz2, deflate, raw_deflate, gzip and zstd\n  * PARQUET supports: auto, lzo,\
+                        \ none and snappy"
+                    partitionedBy:
+                      type: array
+                      items:
+                        type: string
+                      example:
+                      - facility_name
+                filters:
+                  type: object
+                  required:
+                  - financial_years
+                  - endDate
+                  - startDate
+                  properties:
+                    financialYears:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                      - 2022
+                      description: The financial years you want to export data for.
+                    endDate:
+                      type: string
+                      format: date
+                      description: The end date of the export.
+                    startDate:
+                      type: string
+                      format: date
+                      description: The start date of the export.
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "import requests\n\n# needs token from /api/public/v1/oauth2/token\nresponse = requests.post(\n  f\"https://app.altruistiq.com/api/public/v1/export\"\
+          \n  headers={\n    \"Authorization\": f\"Bearer {token}\"\n  },\n  json={\n    \"filters\": {\"financialYears\"\
+          : [2022]},\n    \"format\": {\"type\": \"PARQUET\", \"compression\": \"snappy\"}\n  }\n)\nresponse.raise_for_status()\n\
+          \nexport_id = response.json()[\"exportId\"]\n"
+      responses:
+        '201':
+          description: Export Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ExportStatus'
+                  exportId:
+                    type: number
+                    example: 3f0b7fbd-fa45-445a-8862-49cd1871eebc
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        '504':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/504'
+  /api/public/v1/export/{exportId}:
+    get:
+      security:
+      - bearerAuth: []
+      tags:
+      - Export
+      summary: Get Export Status And Download Urls
+      operationId: getDownloadUrls
+      description: Poll this endpoint to retrieve download URLs and the status of an export.
+      x-codeSamples:
+      - lang: python
+        label: Python
+        source: "# needs export_id from GET /api/public/v1/export\n# needs token from /api/public/v1/oauth2/token\n\nimport\
+          \ requests\nfrom time import sleep\n# if using pandas also\nimport pandas as pd\n\n\ndef wait_for_success(export_id:\
+          \ str):\n  while True:\n    response = requests.get(\n      f\"https://app.altruistiq.com/api/public/v1/export/{export_id}\"\
+          ,\n      headers={\n        \"Authorization\": f\"Bearer {token}\"\n      }\n    )\n    response.raise_for_status()\n\
+          \    export = response.json()\n    status = export[\"status\"]\n    if status in {\"FAILED\", \"CANCELLED\"}:\n\
+          \      raise RuntimeError(f\"Failed export {export}.\")\n    if status == \"SUCCEEDED\":\n      break\n    sleep(5.0)\n\
+          \  return export\n\nexport = wait_for_success(export_id)\nfor i, url in enumerate(export[\"urls\"]):\n  file_download\
+          \ = requests.get(url)\n  file_download.raise_for_status()\n  file_type = export['format']['type'].lower()\n  compression\
+          \ = export['format'].get('compression', 'gz')\n  with open(f\"my_folder/file_{i}.{file_type}.{compression}\", \"\
+          w\") as f:\n    f.write(file_download.content)\n\n# alternatively if using pandas and you specified parquet format\
+          \ - this assumes data fits into memory\npd.concat((pd.read_parquet(url) for url in export[\"urls\"]))\n"
+      responses:
+        '200':
+          description: Export Done
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ExportStatus'
+                  exportId:
+                    type: number
+                    example: 3f0b7fbd-fa45-445a-8862-49cd1871eebc
+                  urls:
+                    type: array
+                    items:
+                      type: string
+                      example: https://app.altruistiq.com/api/public/v1/export/3f0b7fbd-fa45-445a-8862-49cd1871eebc/download
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        '504':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/504'
+  /api/public/v1/products:
+    post:
+      operationId: PublicProductController.createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+        description: CreateProductRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to create a single product record.
+      security:
+      - bearerAuth: []
+    get:
+      operationId: PublicProductsController.bulkGetProducts
+      parameters:
+      - in: query
+        name: query
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: perPage
+        schema:
+          maximum: 500
+          type: number
+          minimum: 1
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          minimum: 1
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      - in: query
+        name: sortField
+        schema:
+          enum:
+          - name
+          - description
+          - category
+          - declared_unit
+          - declared_unit_weight
+          - created_at
+          - updated_at
+          - product_key
+          type: string
+          description: The field name to sort the records on
+          example: name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BulkGetProductsResponse'
+                type: array
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to retrieve information about multiple products
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicProductsController.bulkUpdateProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateProductsRequest'
+        description: BulkUpdateProductsRequest
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateProductsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to update multiple products at the same time.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicProductsController.bulkDeleteProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteProductsRequest'
+        description: BulkDeleteProductsRequest
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to delete multiple products at the same time.
+      security:
+      - bearerAuth: []
+  /api/public/v1/products/{id}:
+    get:
+      operationId: PublicProductController.getProduct
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to retrieve information about a single product
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicProductController.updateProduct
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+        description: UpdateProductRequest
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to update a single product record.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicProductController.deleteProduct
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Single Product
+      tags:
+      - Product
+      description: Use this endpoint to delete a single product record. When deleting a product, all related structures and
+        inputs will also be deleted.
+      security:
+      - bearerAuth: []
+  /api/public/v1/products/bulk:
+    post:
+      operationId: PublicProductsController.bulkCreateProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateProductsRequest'
+        description: BulkCreateProductsRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Products In Bulk
+      tags:
+      - Product
+      description: Use this endpoint to create multiple products at the same time.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structures:
+    post:
+      operationId: PublicStructureController.createSingleStructure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductStructureRequest'
+        description: CreateProductStructureRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductStructureResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Single Product Structures
+      tags:
+      - Product structure
+      description: "Product structures represent a single production structure or BOM of a product. Create the structure record\
+        \ in order to add inputs for packaging and materials. Each structure is uniquely identified by `customerStructureId`\
+        \ \u2014 if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one\
+        \ structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`."
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structures/{id}:
+    get:
+      operationId: PublicStructureController.getSingleStructure
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductStructureEntity'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Single Product Structure
+      tags:
+      - Product structure
+      description: Return details for a single product structure, without its related inputs.
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructureController.updateSingleStructure
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductStructureBody'
+        description: UpdateProductStructureBody
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductStructureResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Single Product Structure
+      tags:
+      - Product structure
+      description: The endpoint allows the updating of editable fields in product structure records. Product ID, facility
+        and valid from dates are not editable in this endpoint. If those need updating, create a new structure record.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructureController.deleteSingleStructure
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Single Product Structure
+      tags:
+      - Product structure
+      description: Use this endpoint to delete a single product structure. When deleting a product structure, all related
+        inputs will also be deleted.
+      security:
+      - bearerAuth: []
+  /api/public/v1/products/{productId}/structures:
+    post:
+      operationId: PublicStructuresController.bulkCreateStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductStructureRequest'
+        description: CreateProductStructureRequest
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductStructuresResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '409':
+          description: One or more structures already exist for the given product, facility and date. Returned when the unique
+            combination of product, facility and date collides with a record that already exists in the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: One or more structures already exist for the given product, facility and date
+                  conflictingCustomerStructureIds:
+                    type: array
+                    description: The customer_structure_id values that already exist.
+                    items:
+                      type: string
+                    example:
+                    - aq|<productId>|<validFrom>|<facilityId>
+                  success:
+                    type: boolean
+                    example: false
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Creates Product Structures In Bulk Within A Single Product
+      tags:
+      - Product structure
+      description: "Use this endpoint to create multiple product structures for a single product in one call. Each structure\
+        \ is uniquely identified by `customerStructureId` \u2014 if none is supplied, the server derives one from the product,\
+        \ facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless\
+        \ you provide your own unique `customerStructureId`."
+      security:
+      - bearerAuth: []
+    get:
+      operationId: PublicStructuresController.bulkGetStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      - in: query
+        name: sortField
+        schema:
+          enum:
+          - customerStructureId
+          - validFromDate
+          - facilityName
+          - routeDescription
+          - createdAt
+          - updatedAt
+          type: string
+          description: The field name to sort the records on
+          example: name
+      - in: query
+        name: perPage
+        schema:
+          minimum: 1
+          type: number
+          maximum: 500
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          minimum: 0
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkGetProductStructuresResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Multiple Product Structure Within A Single Product
+      tags:
+      - Product structure
+      description: Return details for multiple product structures within a single product.
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructuresController.bulkUpdateStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateProductStructuresBody'
+        description: BulkUpdateProductStructuresBody
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateProductStructuresSuccessResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Product Structures In Bulk Within A Single Product
+      tags:
+      - Product structure
+      description: Use this endpoint to update multiple product structures for a single product in one call. Currently the
+        only editable field is route description
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructuresController.bulkDeleteStructures
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Not processable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Deletes Product Structures In Bulk Within A Single Product
+      tags:
+      - Product structure
+      description: Use this endpoint to delete multiple product structures. When deleting a product structure, all related
+        inputs will also be deleted.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structure-inputs:
+    post:
+      operationId: PublicStructureInputController.createSingleStructureInput
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductStructureInputQuery'
+        description: CreateProductStructureInputQuery
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductStructureInputResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to create a single product structure input record.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structure-inputs/{id}:
+    get:
+      operationId: PublicStructureInputController.getSingleStructureInput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductStructureInputResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Structure Input not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to retrieve information about a single product structure input
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructureInputController.updateSingleStructureInput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductStructureInputBody'
+        description: UpdateProductStructureInputBody
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductStructureInputResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Structure Input not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to update a single product structure input record.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructureInputController.deleteSingleStructureInput
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Structure Input not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Single Product Structure Input
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to delete a single product structure input record.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structures/{structureId}/inputs:
+    post:
+      operationId: PublicStructureInputsController.bulkCreateStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateProductStructuresInputsBody'
+        description: BulkCreateProductStructuresInputsBody
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductStructureInputsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Product Structure Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to create multiple product structure inputs for a single structure at the same time.
+      security:
+      - bearerAuth: []
+    get:
+      operationId: PublicStructureInputsController.bulkGetStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: perPage
+        schema:
+          maximum: 500
+          type: number
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      - in: query
+        name: sortField
+        schema:
+          enum:
+          - input_code
+          - product_structure_id
+          - input_name
+          - input_category
+          - product_or_packaging
+          - weight
+          - supplier_name
+          - created_at
+          - updated_at
+          type: string
+          description: The field name to sort the records on
+          example: name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetProductStructureInputResponse'
+                type: array
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+                  invalidIds:
+                    type: array
+                    items:
+                      type: string
+                    example: '["aee349fd-28e4-450d-9e20-af64d9c0d813", "bdd8f526-4c6a-4ea5-b740-4762aac04697"]'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Product Structure Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to retrieve information about multiple products structure inputs
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: PublicStructureInputsController.bulkUpdateStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateProductStructureInputsRequest'
+        description: BulkUpdateProductStructureInputsRequest
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateProductStructureInputsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid input IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+                  invalidIds:
+                    type: array
+                    items:
+                      type: string
+                    example: '["aee349fd-28e4-450d-9e20-af64d9c0d813", "bdd8f526-4c6a-4ea5-b740-4762aac04697"]'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Product Structure Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to update multiple product structure inputs at the same time.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: PublicStructureInputsController.bulkDeleteStructureInputs
+      parameters:
+      - in: path
+        name: structureId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteProductStructureInputsBody'
+        description: BulkDeleteProductStructureInputsBody
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Invalid structure ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '422':
+          description: Invalid structure IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not processable
+                  success:
+                    type: boolean
+                    example: false
+                  invalidIds:
+                    type: array
+                    items:
+                      type: string
+                    example: '["aee349fd-28e4-450d-9e20-af64d9c0d813", "bdd8f526-4c6a-4ea5-b740-4762aac04697"]'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete Inputs In Bulk Within A Single Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to delete multiple inputs at the same time.
+      security:
+      - bearerAuth: []
+  /api/public/v1/product-structure-inputs/bulk:
+    post:
+      operationId: PublicStructureInputsController.bulkCreateInputs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateProductInputsBody'
+        description: BulkCreateProductInputsBody
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateProductStructureInputsResponse'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Product Structure Inputs In Bulk For Any Structure
+      tags:
+      - Product structure inputs
+      description: Use this endpoint to create multiple product structure inputs for any structure ID.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/:
+    get:
+      operationId: FacilitiesPublicController.getFacilities
+      parameters:
+      - in: query
+        name: search
+        schema:
+          type: string
+          description: A search string to filter records by
+          example: example search string
+      - in: query
+        name: pageSize
+        schema:
+          maximum: 1000
+          type: number
+          description: The number of records to return in the response
+          example: 10
+      - in: query
+        name: pageNo
+        schema:
+          minimum: 1
+          type: number
+          description: The paginated page number of records to return
+          example: 1
+      - in: query
+        name: buId
+        schema:
+          format: uuid
+          type: string
+          description: The UUID of the business unit
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+      - in: query
+        name: showClosed
+        schema:
+          type: boolean
+          description: Whether to include closed facilities in the results
+          example: false
+      - in: query
+        name: sortBy
+        schema:
+          enum:
+          - facilityName
+          - internalId
+          - organization
+          - country
+          type: string
+          description: The field name to sort the records on
+          example: facilityName
+      - in: query
+        name: sortOrder
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+          description: Ordering of the results, Ascending or Descending
+          example: ASC
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilitiesPublicDtoRes'
+          description: ''
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A List Of Facilities
+      tags:
+      - Facility
+      description: Retrieve a paginated list of facilities with optional filtering and sorting.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}:
+    get:
+      operationId: FacilitiesPublicController.getFacility
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilityPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Single Facility
+      tags:
+      - Facility
+      description: Retrieve detailed information about a specific facility.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: FacilitiesPublicController.deleteFacility
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Facility
+      tags:
+      - Facility
+      description: Delete an entire facility and all its versions.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}/versions/{versionId}:
+    get:
+      operationId: FacilitiesPublicController.getFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      - in: path
+        name: versionId
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilityPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A Specific Facility Version
+      tags:
+      - Facility
+      description: Retrieve detailed information about a specific version of a facility.
+      security:
+      - bearerAuth: []
+    delete:
+      operationId: FacilitiesPublicController.deleteFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      - in: path
+        name: versionId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Delete A Facility Version
+      tags:
+      - Facility
+      description: Delete a specific version of a facility.
+      security:
+      - bearerAuth: []
+    patch:
+      operationId: FacilitiesPublicController.updateFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      - in: path
+        name: versionId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatableFacilityVersionDTO'
+        description: UpdatableFacilityVersionDTO
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update A Facility Version
+      tags:
+      - Facility
+      description: Update properties of a specific facility version.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/bulk:
+    post:
+      operationId: FacilitiesPublicController.bulkInsertFacilities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityBulkPublicDto'
+        description: FacilityBulkPublicDto
+        required: true
+      responses:
+        '201':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create Multiple Facilities In Bulk
+      tags:
+      - Facility
+      description: Create multiple facilities in a single request.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}/persistent:
+    patch:
+      operationId: FacilitiesPublicController.updateFacilityPersistent
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityPublicPersistentUpdateDTO'
+        description: FacilityPublicPersistentUpdateDTO
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Update Facility Persistent Properties
+      tags:
+      - Facility
+      description: Update persistent properties of a facility such as tags, internal ID, and facility type.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/{facilityId}/versions:
+    post:
+      operationId: FacilitiesPublicController.createFacilityVersion
+      parameters:
+      - in: path
+        name: facilityId
+        required: true
+        schema:
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFacilityVersionDTO'
+        description: CreateFacilityVersionDTO
+        required: true
+      responses:
+        '204':
+          content:
+            application/json: {}
+          description: Successful response
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Create A New Facility Version
+      tags:
+      - Facility
+      description: Create a new version of an existing facility.
+      security:
+      - bearerAuth: []
+  /api/public/v1/facilities/types:
+    get:
+      operationId: FacilitiesPublicController.getFacilityTypes
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilityTypesPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Facility Types
+      tags:
+      - Facility
+      description: Retrieve a list of facility types available for the organization, including both generic and organization-specific
+        types.
+      security:
+      - bearerAuth: []
+  /api/public/v1/location/countries:
+    get:
+      operationId: LocationController.getCountries
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCountriesPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get A List Of Countries
+      tags:
+      - Location
+      description: Retrieve a list of countries with their alpha_2 codes and names.
+      security:
+      - bearerAuth: []
+  /api/public/v1/location/countries/{countryCode}/subdivisions:
+    get:
+      operationId: LocationController.getCountrySubdivisions
+      parameters:
+      - in: path
+        name: countryCode
+        required: true
+        schema:
+          pattern: '[^\/#\?]+?'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCountrySubdivisionsPublicDtoRes'
+          description: ''
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Country Subdivisions By Country Code
+      tags:
+      - Location
+      description: Retrieve a list of country subdivisions for a specific country by its alpha-2 code.
+      security:
+      - bearerAuth: []
+  /api/public/v1/organization/:
+    get:
+      operationId: OrganizationPublicController.getOrganization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrganizationPublicDtoRes'
+          description: ''
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Not authorised
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not authorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Something went wrong
+      summary: Get Organization And Business Units
+      tags:
+      - Organization
+      description: Retrieve all organizations including the root organization and its business units (id and name).
+      security:
+      - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: apiKey`.'
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+  schemas:
+    '401':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Unauthorized
+          description: Request was unauthorized
+    '404':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Not found
+          description: Resource not found
+    '500':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Server Error
+          description: Internal Error
+    '504':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Not Implemented
+          description: Not Implemented
+    OauthToken:
+      required:
+      - client_id
+      - client_secret
+      - grant_type
+      type: object
+      properties:
+        client_id:
+          type: string
+          example: client-id-123
+          description: The client ID.
+        client_secret:
+          type: string
+          example: client_secret-123
+          description: The client secret.
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+          example: client_credentials
+    DataSourceResponse:
+      allOf:
+      - type: object
+        properties:
+          datasourceId:
+            type: string
+            example: '123'
+      - $ref: '#/components/schemas/DataSource'
+    DataSourcesResponse:
+      type: array
+      items:
+        allOf:
+        - type: object
+          properties:
+            datasourceId:
+              type: string
+              example: '123'
+        - $ref: '#/components/schemas/DataSource'
+    ExportStatus:
+      type: string
+      enum:
+      - QUEUED
+      - RUNNING
+      - SUCCEEDED
+      - FAILED
+      - CANCELLED
+      example: QUEUED
+    DataSource:
+      required:
+      - userEmail
+      - name
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          description: Start date can be inferred from the data. ISO 8601, UTC
+        updateFrequency:
+          type: string
+          enum:
+          - yearly
+          - quarterly
+          - monthly
+          - fortnightly
+          - weekly
+        endDate:
+          type: string
+          format: date-time
+          description: End date does not have to be set if the datasource is going to be updated frequently, ISO 8601, UTC
+        userEmail:
+          type: string
+          example: hello@email.com
+          description: The user who will be owning the data source and will receive notifications
+        name:
+          type: string
+          example: My Datasource Name
+          description: 'Name of the datasource. A good practice is to write it like this:
+
+
+            {Source system} {Short description}'
+        methods:
+          type: array
+          items:
+            type: string
+          description: "Methods are important to assign the right emission factor and align with GHG accounting standards.\
+            \ If you\u2019re not sure about the method, leave it blank or ask a sustainability expert."
+        activities:
+          type: array
+          description: "Activities are Altruistiq\u2019s way of categorising emissions. One datasource may be related to a\
+            \ multitude of activities. It is best to define activities ahead of creating a datasource with a solution advisor.\n\
+            \nActivities can be left blank and edited in-app."
+          items:
+            type: string
+            enum:
+            - ElectricityPurchased
+            - ElectricityFuel
+            - ElectricityRenewable
+            - HeatingOnsite
+            - HeatingDistrict
+            - WaterUse
+            - StationaryCombustion
+            - SolidWaste
+            - Wastewater
+            - FugitiveEmissions
+            - DirectEmissions
+            - LogisticsOwn
+            - Logistics3rd
+            - LogisticsInboundProductFootprint
+            - BusinessTravelOwn
+            - BusinessTravel3rd
+            - CommutingLocation
+            - CommutingSurvey
+            - ProductInputs
+            - CapitalGoods
+            - IndirectPurchases
+            - Processing
+            - UseOfSold
+            - PostConsumerWaste
+            - UseOfLeased
+            - Investments
+            - Franchises
+    CreateProductResponse:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+      type: object
+      required:
+      - id
+    CreateProductRequest:
+      properties:
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - productKey
+      - name
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    GetProductResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        updatedAt:
+          type: string
+          description: The last updated date of the record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - productKey
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+      - updatedAt
+      - additionalData
+    UpdateProductResponse:
+      properties:
+        success:
+          type: boolean
+      type: object
+      required:
+      - success
+    UpdateProductRequest:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+    CreateProductStructureResponse:
+      properties:
+        id:
+          type: string
+          description: ID of the created structure
+          example: 52f78ded-ccad-4d8f-b474-29a4f6181e50
+      type: object
+      required:
+      - id
+    CreateProductStructureRequest:
+      properties:
+        productId:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        validFrom:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: "The date for which the structure was first used. Date-only granularity \u2014 any time component is\
+            \ discarded (e.g. `2025-01-01T14:30:00Z` is stored as `2025-01-01`)."
+          example: '2025-01-01'
+        facilityName:
+          type: string
+          description: The name of the facility in which the product structure is manufactured.
+          example: Large factory
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+        customerStructureId:
+          type: string
+          description: "(Optional) Structure ID if you have your own generated identifiers for structures. Must be globally\
+            \ unique across all your product structures \u2014 the same `customerStructureId` cannot be reused for a different\
+            \ product, facility or date."
+          example: STRUC-001-ABC
+      type: object
+      required:
+      - productId
+      - validFrom
+      - facilityName
+    GetProductStructureEntity:
+      properties:
+        id:
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        productId:
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        facilityId:
+          type: string
+          description: The Altruistiq UUID of the linked facility
+          example: 6a99a4d5-a126-4fcd-93f4-1ca7c6a219b6
+        facilityName:
+          type: string
+          description: The name of the facility in which the product structure is manufactured.
+          example: Large factory
+        validFrom:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: "The date for which the structure was first used. Date-only granularity \u2014 any time component is\
+            \ discarded (e.g. `2025-01-01T14:30:00Z` is stored as `2025-01-01`)."
+          example: '2025-01-01'
+        customerStructureId:
+          type: string
+          description: "(Optional) Structure ID if you have your own generated identifiers for structures. Must be globally\
+            \ unique across all your product structures \u2014 the same `customerStructureId` cannot be reused for a different\
+            \ product, facility or date."
+          example: STRUC-001-ABC
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+        createdAt:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The creation date of the product structure record
+          example: '2025-01-01'
+        updatedAt:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The last updated date of the product structure record
+          example: '2025-01-01'
+      type: object
+      required:
+      - id
+      - productId
+      - facilityId
+      - facilityName
+      - validFrom
+      - customerStructureId
+      - routeDescription
+      - createdAt
+      - updatedAt
+    UpdateProductStructureResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    UpdateProductStructureBody:
+      properties:
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - routeDescription
+    CreateProductStructureInputResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+      type: object
+      required:
+      - id
+    CreateProductStructureInputQuery:
+      properties:
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    GetProductStructureInputResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        structureId:
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          type: string
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          type: string
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        createdAt:
+          type: string
+          description: The creation date of the input record
+          example: '2025-01-01'
+        updatedAt:
+          type: string
+          description: The last updated date of the input record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - structureId
+      - inputCode
+      - inputName
+      - inputCategory
+      - inputSubCategory
+      - sourceCountry
+      - supplierName
+      - supplierCountryCode
+      - productOrPackaging
+      - weight
+      - weightUnit
+      - recyclePercentage
+      - createdAt
+      - updatedAt
+    UpdateProductStructureInputResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    UpdateProductStructureInputBody:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+    BulkCreateProductsResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of product UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkCreateProductsRequest:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/CreateProductBase'
+          type: array
+          description: Array of products to create
+      type: object
+      required:
+      - products
+    CreateProductBase:
+      properties:
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - productKey
+      - name
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    BulkGetProductsResponse:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        updatedAt:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The last updated date of the record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - productKey
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+      - updatedAt
+      - additionalData
+      description: Response data for products retrieved in bulk
+    BulkUpdateProductsResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    BulkUpdateProductsRequest:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/UpdateProductBase'
+          type: array
+          description: Array of products to update
+      type: object
+      required:
+      - products
+    UpdateProductBase:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    BulkDeleteProductsRequest:
+      properties:
+        ids:
+          items:
+            format: uuid
+            type: string
+          type: array
+          minItems: 1
+          description: An array of product UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkCreateProductStructuresResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of product structure UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkGetProductStructuresResponse:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/GetProductStructureEntity'
+          type: array
+          description: Array of product structures
+      type: object
+      required:
+      - structures
+    BulkUpdateProductStructuresSuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    BulkUpdateProductStructuresBody:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/UpdateProductStructureItem'
+          type: array
+          minItems: 1
+          description: Array of structures to update
+      type: object
+      required:
+      - structures
+    UpdateProductStructureItem:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - id
+      - routeDescription
+    BulkCreateProductStructureInputsResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of input UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkCreateProductStructuresInputsBody:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/CreateProductStructureInputs'
+          type: array
+          minItems: 1
+          description: Array of product structure inputs to create
+      type: object
+      required:
+      - inputs
+    CreateProductStructureInputs:
+      properties:
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    BulkUpdateProductStructureInputsResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    BulkUpdateProductStructureInputsRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ProductStructureInput'
+          maxItems: 500
+          type: array
+          minItems: 1
+          description: Array of product structure inputs to update
+      type: object
+      required:
+      - inputs
+    ProductStructureInput:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - inputCode
+      - inputName
+      - inputCategory
+      - inputSubCategory
+      - sourceCountry
+      - supplierName
+      - supplierCountryCode
+      - productOrPackaging
+      - weight
+      - weightUnit
+      - recyclePercentage
+    BulkDeleteProductStructureInputsBody:
+      properties:
+        ids:
+          items:
+            format: uuid
+            type: string
+          type: array
+          minItems: 1
+          description: An array of input UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkCreateProductInputsBody:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/CreateProductInputs'
+          type: array
+          maxItems: 1000
+          minItems: 1
+          description: Array of product structure inputs to create
+      type: object
+      required:
+      - inputs
+    CreateProductInputs:
+      properties:
+        structureId:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+        downstreamInputType:
+          enum:
+          - Glass
+          - Steel Cans
+          - Aluminium Cans
+          - Paper
+          - PET
+          - Rigid Plastic
+          - Mixed Plastic
+          - LDPE
+          - Other
+          - CO2 for carbonation
+          type: string
+          description: The type of the input, for downstream calculations.
+          example: Glass
+        noOfUses:
+          exclusiveMinimum: true
+          minimum: 0
+          type: number
+          description: The reuse rate of the input, for downstream calculations.
+          example: 5
+      type: object
+      required:
+      - structureId
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    GetFacilitiesPublicDtoRes:
+      properties:
+        facilities:
+          items:
+            type: object
+            $ref: '#/components/schemas/FacilitiesGet'
+          type: array
+          description: The list of facilities
+      type: object
+      required:
+      - facilities
+    FacilitiesGet:
+      properties:
+        areas:
+          items:
+            type: object
+            $ref: '#/components/schemas/AreasGet'
+          type: array
+          description: Information about the areas of the facility
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - areas
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - versionId
+    AreasGet:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - versionId
+    FacilityTypeGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the facility type
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        name:
+          type: string
+          description: The name of the facility type
+          example: Manufacturing Plant
+      type: object
+      required:
+      - id
+      - name
+    OrganizationGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the organization
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        name:
+          type: string
+          description: The name of the organization
+          example: Acme Corporation
+      type: object
+      required:
+      - id
+      - name
+    CountryGet:
+      properties:
+        code:
+          type: string
+          description: The 2 character country code (ISO 3166-1 alpha-2)
+          example: US
+        name:
+          type: string
+          description: The name of the country
+          example: United States
+      type: object
+      required:
+      - code
+      - name
+    RegionGet:
+      properties:
+        code:
+          type: string
+          description: The region/state code
+          example: NY
+        name:
+          type: string
+          description: The name of the region/state
+          example: New York
+      type: object
+      required:
+      - code
+      - name
+    CountrySubGet:
+      properties:
+        code:
+          type: string
+          description: The subdivision code
+          example: NYC
+        name:
+          type: string
+          description: The name of the subdivision
+          example: New York City
+      type: object
+      required:
+      - code
+      - name
+    GetFacilityPublicDtoRes:
+      properties:
+        facility:
+          type: object
+          description: The facility data
+          $ref: '#/components/schemas/FacilityGet'
+      type: object
+      required:
+      - facility
+    FacilityGet:
+      properties:
+        areas:
+          items:
+            type: object
+            $ref: '#/components/schemas/AreaGet'
+          type: array
+          description: Information about the areas of the facility
+        versions:
+          items:
+            type: object
+            $ref: '#/components/schemas/VersionGet'
+          type: array
+          description: Facility versions
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        regionCode:
+          type: string
+          description: The region/state code
+          example: NY
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - versions
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - regionCode
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - postalCode
+    AreaGet:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        regionCode:
+          type: string
+          description: The region/state code
+          example: NY
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - regionCode
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - postalCode
+    VersionGet:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        facilityType:
+          type: object
+          description: Information about the facility type
+          $ref: '#/components/schemas/FacilityTypeGet'
+        organization:
+          type: object
+          description: Information about the organization that owns the facility
+          $ref: '#/components/schemas/OrganizationGet'
+        country:
+          type: object
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          $ref: '#/components/schemas/CountryGet'
+        region:
+          type: object
+          description: Region/state where the facility is located
+          $ref: '#/components/schemas/RegionGet'
+        countrySub:
+          type: object
+          description: Subdivision of the country where the facility is located
+          $ref: '#/components/schemas/CountrySubGet'
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityName:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        addressLine1:
+          type: string
+          description: The first line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The second line of the facility address
+          example: Suite 100
+        city:
+          type: string
+          description: City where the facility is located
+          example: New York
+        regionCode:
+          type: string
+          description: The region/state code
+          example: NY
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          type: number
+          description: Number of employees at the facility
+          example: 150
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        endDate:
+          type: string
+          description: Date when this facility version ends
+          example: '2025-12-31'
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        versionId:
+          format: uuid
+          type: string
+          description: The UUID of the facility version record
+          example: bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - facilityId
+      - internalId
+      - facilityType
+      - organization
+      - country
+      - region
+      - countrySub
+      - tags
+      - facilityName
+      - addressLine1
+      - addressLine2
+      - city
+      - regionCode
+      - ownershipType
+      - capacityUnit
+      - capacity
+      - employeeCount
+      - isOpen
+      - effectiveDate
+      - endDate
+      - parentId
+      - postalCode
+    FacilityBulkPublicDto:
+      properties:
+        facilities:
+          items:
+            $ref: '#/components/schemas/FacilityPublic'
+          type: array
+          minItems: 1
+          description: Array of facilities to create
+          example:
+          - name: Facility Main
+            internalId: FAC-001
+            facilityTypeId: fd131576-1c3d-41aa-b5a9-633fb93c060a
+            buId: 81a2133d-2dbe-4f54-b508-1100bd73c78d
+            tags:
+            - manufacturing
+            - primary
+            hasAddress: true
+            inheritParentAddress: false
+            addressLine1: 123 Main Street
+            addressLine2: Suite 100
+            postalCode: '12345'
+            city: New York
+            effectiveDate: '2025-01-01'
+            country: US
+            countrySub: US-NY
+            ownershipType: standalone_tracked
+            employeeCount: 150
+            capacityUnit: m2
+            capacity: 1000
+            boundaryIndicator: OPERATIONAL_CONTROL
+            areas:
+            - name: Area of Main Facility
+              internalId: FAC-002
+              facilityTypeId: fd131576-1c3d-41aa-b5a9-633fb93c060a
+              buId: 81a2133d-2dbe-4f54-b508-1100bd73c78d
+              tags:
+              - manufacturing
+              - primary
+              hasAddress: true
+              parentId: eff8f526-4c6a-4ea5-b740-4762aac0469a
+              inheritParentAddress: false
+              addressLine1: 123 Main Street
+              addressLine2: Suite 100
+              postalCode: '12345'
+              city: New York
+              effectiveDate: '2025-01-01'
+              country: US
+              countrySub: US-NY
+              ownershipType: area
+              employeeCount: 150
+              capacityUnit: m2
+              capacity: 1000
+              boundaryIndicator: OPERATIONAL_CONTROL
+      type: object
+      required:
+      - facilities
+    FacilityPublic:
+      properties:
+        areas:
+          items:
+            $ref: '#/components/schemas/AreaPublic'
+          type: array
+          description: Array of areas within this facility
+        name:
+          minLength: 1
+          type: string
+          description: The name of the facility. Unique across organization
+          example: Large Factory
+        internalId:
+          type: string
+          description: Internal identifier for the facility. Null or unique across organization
+          example: FAC-001
+        facilityTypeId:
+          type: string
+          description: The UUID of the facility type. Null for STANDALONE_TRACKED or SHARED. Required on AREA and STANDALONE
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        buId:
+          type: string
+          description: The UUID of the organization
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        parentId:
+          type: string
+          description: The UUID of the parent facility. Required only when an area is being created on an existing facility.
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        inheritParentAddress:
+          type: boolean
+          description: Whether to inherit address from parent facility. Only applicable on areas.
+          example: false
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        region:
+          type: string
+          description: Region where the facility is located
+          example: NY
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: NYLI
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility. For facilities with parent, this is always "area".
+          example: standalone
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+      type: object
+      required:
+      - name
+      - hasAddress
+      - capacityUnit
+      - boundaryIndicator
+    AreaPublic:
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: The name of the facility. Unique across organization
+          example: Large Factory
+        internalId:
+          type: string
+          description: Internal identifier for the facility. Null or unique across organization
+          example: FAC-001
+        facilityTypeId:
+          type: string
+          description: The UUID of the facility type. Null for STANDALONE_TRACKED or SHARED. Required on AREA and STANDALONE
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        buId:
+          type: string
+          description: The UUID of the organization
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        parentId:
+          type: string
+          description: The UUID of the parent facility. Required only when an area is being created on an existing facility.
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        inheritParentAddress:
+          type: boolean
+          description: Whether to inherit address from parent facility. Only applicable on areas.
+          example: false
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        region:
+          type: string
+          description: Region where the facility is located
+          example: NY
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: NYLI
+        ownershipType:
+          enum:
+          - shared
+          - standalone
+          - standalone_tracked
+          - area
+          type: string
+          description: The ownership type of the facility. For facilities with parent, this is always "area".
+          example: standalone
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        capacityUnit:
+          type: string
+          description: Unit of measurement for capacity
+          example: m2
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+      type: object
+      required:
+      - name
+      - hasAddress
+      - capacityUnit
+      - boundaryIndicator
+    FacilityPublicPersistentUpdateDTO:
+      properties:
+        facilityId:
+          format: uuid
+          type: string
+          description: The UUID of the facility record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        internalId:
+          type: string
+          description: Your internal identifier for the facility
+          example: FAC-001
+        tags:
+          items:
+            type: string
+          type: array
+          description: Array of tags associated with the facility
+          example:
+          - manufacturing
+          - primary
+        facilityTypeId:
+          format: uuid
+          type: string
+          description: The UUID of the facility type
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+      type: object
+      required:
+      - facilityId
+    UpdatableFacilityVersionDTO:
+      properties:
+        buId:
+          format: uuid
+          type: string
+          description: The UUID of the business unit
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        name:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: US-NY
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+      type: object
+      required:
+      - buId
+      - name
+      - hasAddress
+    CreateFacilityVersionDTO:
+      properties:
+        effectiveDate:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: Date when this facility version becomes effective
+          example: '2025-01-01'
+        buId:
+          format: uuid
+          type: string
+          description: The UUID of the business unit
+          example: dff8f526-4c6a-4ea5-b740-4762aac04699
+        name:
+          type: string
+          description: The name of the facility
+          example: Large Factory
+        parentId:
+          format: uuid
+          type: string
+          description: The UUID of the parent facility
+          example: eff8f526-4c6a-4ea5-b740-4762aac0469a
+        inheritParentAddress:
+          type: boolean
+          description: Whether to inherit address from parent facility
+          example: false
+        hasAddress:
+          type: boolean
+          description: Whether the facility has an address
+          example: true
+        addressLine1:
+          type: string
+          description: First line of the facility address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Second line of the facility address
+          example: Suite 100
+        postalCode:
+          type: string
+          description: Postal code of the facility
+          example: '12345'
+        city:
+          minLength: 1
+          type: string
+          description: City where the facility is located
+          example: New York
+        region:
+          type: string
+          description: Region/state where the facility is located
+          example: NY
+        country:
+          type: string
+          description: Country where the facility is located (ISO 3166-1 alpha-2)
+          example: US
+        countrySub:
+          minLength: 1
+          type: string
+          description: Subdivision of the country where the facility is located
+          example: US-NY
+        capacity:
+          minimum: 0
+          type: number
+          description: Capacity of the facility
+          example: 1000
+        employeeCount:
+          minimum: 0
+          type: integer
+          description: Number of employees at the facility
+          example: 150
+        boundaryIndicator:
+          enum:
+          - OPERATIONAL_CONTROL
+          - SUPPLIER
+          - UPSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - UPSTREAM_LEASED
+          - DOWNSTREAM_TRANSPORT_AND_DISTRIBUTION
+          - PROCESSING_OF_SOLD_PRODUCTS
+          - DOWNSTREAM_LEASED
+          - FRANCHISE
+          - INVESTMENT
+          type: string
+          description: The boundary indicator for the facility
+          example: OPERATIONAL_CONTROL
+        isOpen:
+          type: boolean
+          description: Whether the facility is currently open
+          example: true
+      type: object
+      required:
+      - effectiveDate
+      - buId
+      - name
+      - hasAddress
+      example:
+        effectiveDate: '2025-01-01'
+        buId: 465ada2c-de62-48b9-97aa-f63bac84d323
+        name: Large Factory 232
+        inheritParentAddress: false
+        hasAddress: true
+        addressLine1: 123 Main Street
+        addressLine2: Suite 100
+        postalCode: '12345'
+        city: New York
+        ownershipType: standalone_tracked
+        country: US
+        countrySub: US-NY
+        boundaryIndicator: OPERATIONAL_CONTROL
+        isOpen: true
+    GetFacilityTypesPublicDtoRes:
+      properties:
+        types:
+          items:
+            type: object
+            $ref: '#/components/schemas/FacilityTypePublicGet'
+          type: array
+          description: The list of facility types available for the organization
+      type: object
+      required:
+      - types
+    FacilityTypePublicGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the facility type
+          example: cff8f526-4c6a-4ea5-b740-4762aac04698
+        name:
+          type: string
+          description: The name of the facility type
+          example: Manufacturing Plant
+      type: object
+      required:
+      - id
+      - name
+    GetCountriesPublicDtoRes:
+      properties:
+        countries:
+          items:
+            type: object
+            $ref: '#/components/schemas/CountryPublicGet'
+          type: array
+          description: The list of countries
+      type: object
+      required:
+      - countries
+    CountryPublicGet:
+      properties:
+        code:
+          type: string
+          description: The ISO 3166-1 alpha-2 code of the country
+          example: US
+        name:
+          type: string
+          description: The name of the country
+          example: United States
+      type: object
+      required:
+      - code
+      - name
+    GetCountrySubdivisionsPublicDtoRes:
+      properties:
+        subdivisions:
+          items:
+            type: object
+            $ref: '#/components/schemas/CountrySubdivisionPublicGet'
+          type: array
+          description: The list of country subdivisions
+      type: object
+      required:
+      - subdivisions
+    CountrySubdivisionPublicGet:
+      properties:
+        code:
+          type: string
+          description: The code of the country subdivision
+          example: US-NY
+        name:
+          type: string
+          description: The name of the country subdivision
+          example: New York
+        type:
+          type: string
+          description: The type of the country subdivision
+          example: state
+        countryCode:
+          type: string
+          description: The ISO 3166-1 alpha-2 code of the country this subdivision belongs to
+          example: US
+      type: object
+      required:
+      - code
+      - name
+      - type
+      - countryCode
+    GetOrganizationPublicDtoRes:
+      properties:
+        organizations:
+          items:
+            type: object
+            $ref: '#/components/schemas/OrganizationPublicGet'
+          type: array
+          description: The list of organizations including root organization and business units
+      type: object
+      required:
+      - organizations
+    OrganizationPublicGet:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the organization record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the organization
+          example: Acme Corporation
+      type: object
+      required:
+      - id
+      - name

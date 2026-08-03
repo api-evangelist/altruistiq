@@ -1,0 +1,30 @@
+{
+  "provider": "altruistiq",
+  "sources": [
+    "altruistiq-datasource-api-openapi.yml",
+    "altruistiq-export-api-openapi.yml",
+    "altruistiq-facility-api-openapi.yml",
+    "altruistiq-location-api-openapi.yml",
+    "altruistiq-organization-api-openapi.yml",
+    "altruistiq-product-api-openapi.yml",
+    "altruistiq-product-structure-api-openapi.yml",
+    "altruistiq-product-structure-inputs-api-openapi.yml",
+    "altruistiq-security-api-openapi.yml"
+  ],
+  "outputs": [
+    "altruistiq-datasource-api-openapi.yml",
+    "altruistiq-export-api-openapi.yml",
+    "altruistiq-facility-api-openapi.yml",
+    "altruistiq-location-api-openapi.yml",
+    "altruistiq-organization-api-openapi.yml",
+    "altruistiq-product-api-openapi.yml",
+    "altruistiq-product-structure-api-openapi.yml",
+    "altruistiq-product-structure-inputs-api-openapi.yml",
+    "altruistiq-security-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
