@@ -1,0 +1,222 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource Product API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about multiple products"
+        },
+        {
+          "info": {
+            "name": "Create A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create a single product record."
+        },
+        {
+          "info": {
+            "name": "Update Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update multiple products at the same time."
+        },
+        {
+          "info": {
+            "name": "Delete Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete multiple products at the same time."
+        },
+        {
+          "info": {
+            "name": "Get A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about a single product"
+        },
+        {
+          "info": {
+            "name": "Update A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update a single product record."
+        },
+        {
+          "info": {
+            "name": "Delete A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete a single product record. When deleting a product, all related structures and inputs will also be deleted."
+        },
+        {
+          "info": {
+            "name": "Create Products In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/products/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple products at the same time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

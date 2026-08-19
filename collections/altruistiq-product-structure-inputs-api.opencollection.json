@@ -1,0 +1,269 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource Product structure inputs API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product structure inputs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create a single product structure input record."
+        },
+        {
+          "info": {
+            "name": "Get A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about a single product structure input"
+        },
+        {
+          "info": {
+            "name": "Update A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update a single product structure input record."
+        },
+        {
+          "info": {
+            "name": "Delete A Single Product Structure Input",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete a single product structure input record."
+        },
+        {
+          "info": {
+            "name": "Get Product Structure Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to retrieve information about multiple products structure inputs"
+        },
+        {
+          "info": {
+            "name": "Create Product Structure Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple product structure inputs for a single structure at the same time."
+        },
+        {
+          "info": {
+            "name": "Update Product Structure Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update multiple product structure inputs at the same time."
+        },
+        {
+          "info": {
+            "name": "Delete Inputs In Bulk Within A Single Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:structureId/inputs",
+            "params": [
+              {
+                "name": "structureId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete multiple inputs at the same time."
+        },
+        {
+          "info": {
+            "name": "Create Product Structure Inputs In Bulk For Any Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structure-inputs/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple product structure inputs for any structure ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

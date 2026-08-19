@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource Export API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create An Export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/export",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create and start an export."
+        },
+        {
+          "info": {
+            "name": "Get Export Status And Download Urls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/export/:exportId",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Poll this endpoint to retrieve download URLs and the status of an export."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,244 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource Product structure API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product structure",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Single Product Structures",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Product structures represent a single production structure or BOM of a product. Create the structure record in order to add inputs for packaging and materials. Each structure is uniquely identified by `customerStructureId` — if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`."
+        },
+        {
+          "info": {
+            "name": "Get Single Product Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return details for a single product structure, without its related inputs."
+        },
+        {
+          "info": {
+            "name": "Update A Single Product Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "The endpoint allows the updating of editable fields in product structure records. Product ID, facility and valid from dates are not editable in this endpoint. If those need updating, create a new structure record."
+        },
+        {
+          "info": {
+            "name": "Delete A Single Product Structure",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/product-structures/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete a single product structure. When deleting a product structure, all related inputs will also be deleted."
+        },
+        {
+          "info": {
+            "name": "Get Multiple Product Structure Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return details for multiple product structures within a single product."
+        },
+        {
+          "info": {
+            "name": "Creates Product Structures In Bulk Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to create multiple product structures for a single product in one call. Each structure is uniquely identified by `customerStructureId` — if none is supplied, the server derives one from the product, facility and `validFrom` date, so only one structure can exist per `(product, facility, date)` combination unless you provide your own unique `customerStructureId`."
+        },
+        {
+          "info": {
+            "name": "Update Product Structures In Bulk Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to update multiple product structures for a single product in one call. Currently the only editable field is route description"
+        },
+        {
+          "info": {
+            "name": "Deletes Product Structures In Bulk Within A Single Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/products/:productId/structures",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to delete multiple product structures. When deleting a product structure, all related inputs will also be deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

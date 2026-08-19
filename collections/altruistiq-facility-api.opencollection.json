@@ -1,0 +1,305 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource Facility API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Facility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get A List Of Facilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "buId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "showClosed",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a paginated list of facilities with optional filtering and sorting."
+        },
+        {
+          "info": {
+            "name": "Get A Single Facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve detailed information about a specific facility."
+        },
+        {
+          "info": {
+            "name": "Delete A Facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete an entire facility and all its versions."
+        },
+        {
+          "info": {
+            "name": "Get A Specific Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions/:versionId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve detailed information about a specific version of a facility."
+        },
+        {
+          "info": {
+            "name": "Update A Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions/:versionId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update properties of a specific facility version."
+        },
+        {
+          "info": {
+            "name": "Delete A Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions/:versionId",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a specific version of a facility."
+        },
+        {
+          "info": {
+            "name": "Create Multiple Facilities In Bulk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create multiple facilities in a single request."
+        },
+        {
+          "info": {
+            "name": "Update Facility Persistent Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/persistent",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update persistent properties of a facility such as tags, internal ID, and facility type."
+        },
+        {
+          "info": {
+            "name": "Create A New Facility Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/:facilityId/versions",
+            "params": [
+              {
+                "name": "facilityId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new version of an existing facility."
+        },
+        {
+          "info": {
+            "name": "Get Facility Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/facilities/types",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of facility types available for the organization, including both generic and organization-specific types."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

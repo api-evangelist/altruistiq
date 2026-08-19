@@ -1,0 +1,3368 @@
+{
+  "item": [
+    {
+      "id": "3074f072-8fce-4e93-89d7-b9f213850808",
+      "name": "Facility",
+      "description": {
+        "content": "\nAltruistiq's Facility API enables you to:\n\n- Create new facilities in bulk\n- Update existing facility persistent properties\n- Update facility version\n- Create new facility version\n- Delete facility versions\n- Delete facility\n- Get a list of facilities\n- Get a single facility\n\n\nThe facility API provides comprehensive management of facility data including location, capacity, and organizational structure.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f26fbf40-4cc4-42ad-8aef-63f02cf2b7a4",
+          "name": "Get A List Of Facilities",
+          "request": {
+            "name": "Get A List Of Facilities",
+            "description": {
+              "content": "Retrieve a paginated list of facilities with optional filtering and sorting.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<number>"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNo",
+                  "value": "<number>"
+                },
+                {
+                  "disabled": false,
+                  "key": "buId",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "showClosed",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5d15bb6b-2a2e-435a-9899-bbeda9517847",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "example search string"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageNo",
+                      "value": "1"
+                    },
+                    {
+                      "key": "buId",
+                      "value": "dff8f526-4c6a-4ea5-b740-4762aac04699"
+                    },
+                    {
+                      "key": "showClosed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "facilityName"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"facilities\": [\n    {\n      \"areas\": [\n        {\n          \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n          \"internalId\": \"FAC-001\",\n          \"facilityType\": {\n            \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n            \"name\": \"Manufacturing Plant\"\n          },\n          \"organization\": {\n            \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n            \"name\": \"Acme Corporation\"\n          },\n          \"country\": {\n            \"code\": \"US\",\n            \"name\": \"United States\"\n          },\n          \"region\": {\n            \"code\": \"NY\",\n            \"name\": \"New York\"\n          },\n          \"countrySub\": {\n            \"code\": \"NYC\",\n            \"name\": \"New York City\"\n          },\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"facilityName\": \"Large Factory\",\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"city\": \"New York\",\n          \"ownershipType\": \"standalone\",\n          \"capacityUnit\": \"m2\",\n          \"capacity\": 1000,\n          \"employeeCount\": 150,\n          \"isOpen\": true,\n          \"effectiveDate\": \"2025-01-01\",\n          \"endDate\": \"2025-12-31\",\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n        },\n        {\n          \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n          \"internalId\": \"FAC-001\",\n          \"facilityType\": {\n            \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n            \"name\": \"Manufacturing Plant\"\n          },\n          \"organization\": {\n            \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n            \"name\": \"Acme Corporation\"\n          },\n          \"country\": {\n            \"code\": \"US\",\n            \"name\": \"United States\"\n          },\n          \"region\": {\n            \"code\": \"NY\",\n            \"name\": \"New York\"\n          },\n          \"countrySub\": {\n            \"code\": \"NYC\",\n            \"name\": \"New York City\"\n          },\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"facilityName\": \"Large Factory\",\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"city\": \"New York\",\n          \"ownershipType\": \"shared\",\n          \"capacityUnit\": \"m2\",\n          \"capacity\": 1000,\n          \"employeeCount\": 150,\n          \"isOpen\": true,\n          \"effectiveDate\": \"2025-01-01\",\n          \"endDate\": \"2025-12-31\",\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n        }\n      ],\n      \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n      \"internalId\": \"FAC-001\",\n      \"facilityType\": {\n        \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n        \"name\": \"Manufacturing Plant\"\n      },\n      \"organization\": {\n        \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n        \"name\": \"Acme Corporation\"\n      },\n      \"country\": {\n        \"code\": \"US\",\n        \"name\": \"United States\"\n      },\n      \"region\": {\n        \"code\": \"NY\",\n        \"name\": \"New York\"\n      },\n      \"countrySub\": {\n        \"code\": \"NYC\",\n        \"name\": \"New York City\"\n      },\n      \"tags\": [\n        \"manufacturing\",\n        \"primary\"\n      ],\n      \"facilityName\": \"Large Factory\",\n      \"addressLine1\": \"123 Main Street\",\n      \"addressLine2\": \"Suite 100\",\n      \"city\": \"New York\",\n      \"ownershipType\": \"area\",\n      \"capacityUnit\": \"m2\",\n      \"capacity\": 1000,\n      \"employeeCount\": 150,\n      \"isOpen\": true,\n      \"effectiveDate\": \"2025-01-01\",\n      \"endDate\": \"2025-12-31\",\n      \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n      \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n    },\n    {\n      \"areas\": [\n        {\n          \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n          \"internalId\": \"FAC-001\",\n          \"facilityType\": {\n            \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n            \"name\": \"Manufacturing Plant\"\n          },\n          \"organization\": {\n            \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n            \"name\": \"Acme Corporation\"\n          },\n          \"country\": {\n            \"code\": \"US\",\n            \"name\": \"United States\"\n          },\n          \"region\": {\n            \"code\": \"NY\",\n            \"name\": \"New York\"\n          },\n          \"countrySub\": {\n            \"code\": \"NYC\",\n            \"name\": \"New York City\"\n          },\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"facilityName\": \"Large Factory\",\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"city\": \"New York\",\n          \"ownershipType\": \"standalone_tracked\",\n          \"capacityUnit\": \"m2\",\n          \"capacity\": 1000,\n          \"employeeCount\": 150,\n          \"isOpen\": true,\n          \"effectiveDate\": \"2025-01-01\",\n          \"endDate\": \"2025-12-31\",\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n        },\n        {\n          \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n          \"internalId\": \"FAC-001\",\n          \"facilityType\": {\n            \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n            \"name\": \"Manufacturing Plant\"\n          },\n          \"organization\": {\n            \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n            \"name\": \"Acme Corporation\"\n          },\n          \"country\": {\n            \"code\": \"US\",\n            \"name\": \"United States\"\n          },\n          \"region\": {\n            \"code\": \"NY\",\n            \"name\": \"New York\"\n          },\n          \"countrySub\": {\n            \"code\": \"NYC\",\n            \"name\": \"New York City\"\n          },\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"facilityName\": \"Large Factory\",\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"city\": \"New York\",\n          \"ownershipType\": \"area\",\n          \"capacityUnit\": \"m2\",\n          \"capacity\": 1000,\n          \"employeeCount\": 150,\n          \"isOpen\": true,\n          \"effectiveDate\": \"2025-01-01\",\n          \"endDate\": \"2025-12-31\",\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n        }\n      ],\n      \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n      \"internalId\": \"FAC-001\",\n      \"facilityType\": {\n        \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n        \"name\": \"Manufacturing Plant\"\n      },\n      \"organization\": {\n        \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n        \"name\": \"Acme Corporation\"\n      },\n      \"country\": {\n        \"code\": \"US\",\n        \"name\": \"United States\"\n      },\n      \"region\": {\n        \"code\": \"NY\",\n        \"name\": \"New York\"\n      },\n      \"countrySub\": {\n        \"code\": \"NYC\",\n        \"name\": \"New York City\"\n      },\n      \"tags\": [\n        \"manufacturing\",\n        \"primary\"\n      ],\n      \"facilityName\": \"Large Factory\",\n      \"addressLine1\": \"123 Main Street\",\n      \"addressLine2\": \"Suite 100\",\n      \"city\": \"New York\",\n      \"ownershipType\": \"shared\",\n      \"capacityUnit\": \"m2\",\n      \"capacity\": 1000,\n      \"employeeCount\": 150,\n      \"isOpen\": true,\n      \"effectiveDate\": \"2025-01-01\",\n      \"endDate\": \"2025-12-31\",\n      \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n      \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea6cadc1-bfdb-405c-8efb-da63fa574b9e",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "example search string"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageNo",
+                      "value": "1"
+                    },
+                    {
+                      "key": "buId",
+                      "value": "dff8f526-4c6a-4ea5-b740-4762aac04699"
+                    },
+                    {
+                      "key": "showClosed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "facilityName"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7482937c-9a04-47a4-9e0c-42d88a223dea",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "example search string"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageNo",
+                      "value": "1"
+                    },
+                    {
+                      "key": "buId",
+                      "value": "dff8f526-4c6a-4ea5-b740-4762aac04699"
+                    },
+                    {
+                      "key": "showClosed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "facilityName"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b46caba7-334b-4bee-8c24-212c0696cc9f",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "example search string"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageNo",
+                      "value": "1"
+                    },
+                    {
+                      "key": "buId",
+                      "value": "dff8f526-4c6a-4ea5-b740-4762aac04699"
+                    },
+                    {
+                      "key": "showClosed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "facilityName"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "ASC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "056f88cf-b262-4032-ae25-7d765fccf1d8",
+          "name": "Get A Single Facility",
+          "request": {
+            "name": "Get A Single Facility",
+            "description": {
+              "content": "Retrieve detailed information about a specific facility.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8332f0bd-792a-41fe-8aba-d0c709a39bdc",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"facility\": {\n    \"versions\": [\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"area\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      },\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"shared\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      }\n    ],\n    \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n    \"internalId\": \"FAC-001\",\n    \"facilityType\": {\n      \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"name\": \"Manufacturing Plant\"\n    },\n    \"organization\": {\n      \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n      \"name\": \"Acme Corporation\"\n    },\n    \"country\": {\n      \"code\": \"US\",\n      \"name\": \"United States\"\n    },\n    \"region\": {\n      \"code\": \"NY\",\n      \"name\": \"New York\"\n    },\n    \"countrySub\": {\n      \"code\": \"NYC\",\n      \"name\": \"New York City\"\n    },\n    \"tags\": [\n      \"manufacturing\",\n      \"primary\"\n    ],\n    \"facilityName\": \"Large Factory\",\n    \"addressLine1\": \"123 Main Street\",\n    \"addressLine2\": \"Suite 100\",\n    \"city\": \"New York\",\n    \"regionCode\": \"NY\",\n    \"ownershipType\": \"area\",\n    \"capacityUnit\": \"m2\",\n    \"capacity\": 1000,\n    \"employeeCount\": 150,\n    \"isOpen\": true,\n    \"effectiveDate\": \"2025-01-01\",\n    \"endDate\": \"2025-12-31\",\n    \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n    \"postalCode\": \"12345\",\n    \"areas\": [\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"shared\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      },\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"standalone\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      }\n    ],\n    \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fd167b7-95ce-4531-b1c6-dcd1b3638139",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d130401e-e622-4d51-9dd7-d4009d3742e5",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "138134c6-0110-4254-bfbc-76f302fd86b1",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db487ad7-9398-4507-aceb-89991f58a9d3",
+          "name": "Delete A Facility",
+          "request": {
+            "name": "Delete A Facility",
+            "description": {
+              "content": "Delete an entire facility and all its versions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "92cec14f-b865-45f7-9336-95899bda8607",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8d9d142-bed5-43f1-80d3-73daa3065136",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9bef74c-2e3d-4814-8f32-3d7a1ee24008",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4cacbce0-387d-4713-a4b1-161b90592db3",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "802a320a-27f2-494c-87cf-14810e43f8b2",
+          "name": "Get A Specific Facility Version",
+          "request": {
+            "name": "Get A Specific Facility Version",
+            "description": {
+              "content": "Retrieve detailed information about a specific version of a facility.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId",
+                "versions",
+                ":versionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "137ea9cc-f8b9-4789-9d51-aee42bda1c34",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"facility\": {\n    \"versions\": [\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"area\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      },\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"standalone\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      }\n    ],\n    \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n    \"internalId\": \"FAC-001\",\n    \"facilityType\": {\n      \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"name\": \"Manufacturing Plant\"\n    },\n    \"organization\": {\n      \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n      \"name\": \"Acme Corporation\"\n    },\n    \"country\": {\n      \"code\": \"US\",\n      \"name\": \"United States\"\n    },\n    \"region\": {\n      \"code\": \"NY\",\n      \"name\": \"New York\"\n    },\n    \"countrySub\": {\n      \"code\": \"NYC\",\n      \"name\": \"New York City\"\n    },\n    \"tags\": [\n      \"manufacturing\",\n      \"primary\"\n    ],\n    \"facilityName\": \"Large Factory\",\n    \"addressLine1\": \"123 Main Street\",\n    \"addressLine2\": \"Suite 100\",\n    \"city\": \"New York\",\n    \"regionCode\": \"NY\",\n    \"ownershipType\": \"standalone\",\n    \"capacityUnit\": \"m2\",\n    \"capacity\": 1000,\n    \"employeeCount\": 150,\n    \"isOpen\": true,\n    \"effectiveDate\": \"2025-01-01\",\n    \"endDate\": \"2025-12-31\",\n    \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n    \"postalCode\": \"12345\",\n    \"areas\": [\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"standalone_tracked\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      },\n      {\n        \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n        \"internalId\": \"FAC-001\",\n        \"facilityType\": {\n          \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"name\": \"Manufacturing Plant\"\n        },\n        \"organization\": {\n          \"id\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"name\": \"Acme Corporation\"\n        },\n        \"country\": {\n          \"code\": \"US\",\n          \"name\": \"United States\"\n        },\n        \"region\": {\n          \"code\": \"NY\",\n          \"name\": \"New York\"\n        },\n        \"countrySub\": {\n          \"code\": \"NYC\",\n          \"name\": \"New York City\"\n        },\n        \"tags\": [\n          \"manufacturing\",\n          \"primary\"\n        ],\n        \"facilityName\": \"Large Factory\",\n        \"addressLine1\": \"123 Main Street\",\n        \"addressLine2\": \"Suite 100\",\n        \"city\": \"New York\",\n        \"regionCode\": \"NY\",\n        \"ownershipType\": \"standalone_tracked\",\n        \"capacityUnit\": \"m2\",\n        \"capacity\": 1000,\n        \"employeeCount\": 150,\n        \"isOpen\": true,\n        \"effectiveDate\": \"2025-01-01\",\n        \"endDate\": \"2025-12-31\",\n        \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n        \"postalCode\": \"12345\",\n        \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n      }\n    ],\n    \"versionId\": \"bdd8f526-4c6a-4ea5-b740-4762aac04697\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d100313-cc6b-4dca-b474-51de58587ce7",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "151db886-1384-4fb8-8a5e-2a12d06b86de",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "652d3bd4-3b24-49ac-88fd-b8c4ceb38b35",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a9079b8d-4f45-4a7f-9a95-3816152798b2",
+          "name": "Delete A Facility Version",
+          "request": {
+            "name": "Delete A Facility Version",
+            "description": {
+              "content": "Delete a specific version of a facility.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId",
+                "versions",
+                ":versionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "eb09e425-731f-47c4-a18b-eaebe2d86b78",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c788aa2d-5581-42d2-a0dd-ee4c75481de7",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0b1bd8b-15b0-4ec0-8cd2-8b48db2db0c5",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb6ea4d3-1576-4e53-acdd-6c18bafcfab6",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ac10846-b252-4e72-b2a1-298bbf7d6ec0",
+          "name": "Update A Facility Version",
+          "request": {
+            "name": "Update A Facility Version",
+            "description": {
+              "content": "Update properties of a specific facility version.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId",
+                "versions",
+                ":versionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"buId\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"hasAddress\": \"<boolean>\",\n  \"addressLine1\": \"<string>\",\n  \"addressLine2\": \"<string>\",\n  \"postalCode\": \"<string>\",\n  \"city\": \"<string>\",\n  \"country\": \"<string>\",\n  \"countrySub\": \"<string>\",\n  \"capacity\": \"<number>\",\n  \"employeeCount\": \"<integer>\",\n  \"boundaryIndicator\": \"<string>\",\n  \"isOpen\": \"<boolean>\",\n  \"effectiveDate\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "071cb3b4-82e9-443e-8242-e41a8205e3a1",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true,\n  \"effectiveDate\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a997a82e-e9b6-43e9-8a7d-1ac6c63cea3a",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true,\n  \"effectiveDate\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "663a188d-2c1b-4d18-b9fd-c0802f34f4fc",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true,\n  \"effectiveDate\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "acfac17d-ce84-4e23-92a6-b23cc196b98e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true,\n  \"effectiveDate\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4cbc6b0-5f4e-4348-bff1-e7950464f925",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions",
+                    ":versionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true,\n  \"effectiveDate\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b3ca5966-e7a0-4ae6-9492-dd89c55aed87",
+          "name": "Create Multiple Facilities In Bulk",
+          "request": {
+            "name": "Create Multiple Facilities In Bulk",
+            "description": {
+              "content": "Create multiple facilities in a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"facilities\": [\n    {\n      \"name\": \"<string>\",\n      \"hasAddress\": \"<boolean>\",\n      \"capacityUnit\": \"<string>\",\n      \"boundaryIndicator\": \"<string>\",\n      \"areas\": [\n        {\n          \"name\": \"<string>\",\n          \"hasAddress\": \"<boolean>\",\n          \"capacityUnit\": \"<string>\",\n          \"boundaryIndicator\": \"<string>\",\n          \"internalId\": \"<string>\",\n          \"facilityTypeId\": \"<string>\",\n          \"buId\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"parentId\": \"<string>\",\n          \"inheritParentAddress\": \"<boolean>\",\n          \"addressLine1\": \"<string>\",\n          \"addressLine2\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"city\": \"<string>\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"<string>\",\n          \"country\": \"<string>\",\n          \"countrySub\": \"<string>\",\n          \"ownershipType\": \"<string>\",\n          \"employeeCount\": \"<integer>\",\n          \"capacity\": \"<number>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"hasAddress\": \"<boolean>\",\n          \"capacityUnit\": \"<string>\",\n          \"boundaryIndicator\": \"<string>\",\n          \"internalId\": \"<string>\",\n          \"facilityTypeId\": \"<string>\",\n          \"buId\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"parentId\": \"<string>\",\n          \"inheritParentAddress\": \"<boolean>\",\n          \"addressLine1\": \"<string>\",\n          \"addressLine2\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"city\": \"<string>\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"<string>\",\n          \"country\": \"<string>\",\n          \"countrySub\": \"<string>\",\n          \"ownershipType\": \"<string>\",\n          \"employeeCount\": \"<integer>\",\n          \"capacity\": \"<number>\"\n        }\n      ],\n      \"internalId\": \"<string>\",\n      \"facilityTypeId\": \"<string>\",\n      \"buId\": \"<string>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"parentId\": \"<string>\",\n      \"inheritParentAddress\": \"<boolean>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"city\": \"<string>\",\n      \"effectiveDate\": \"<string>\",\n      \"region\": \"<string>\",\n      \"country\": \"<string>\",\n      \"countrySub\": \"<string>\",\n      \"ownershipType\": \"<string>\",\n      \"employeeCount\": \"<integer>\",\n      \"capacity\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "abbb3da2-f3fe-430b-8181-200615c43fd5",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilities\": [\n    {\n      \"name\": \"Large Factory\",\n      \"hasAddress\": true,\n      \"capacityUnit\": \"m2\",\n      \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n      \"areas\": [\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        },\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        }\n      ],\n      \"internalId\": \"FAC-001\",\n      \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n      \"tags\": [\n        \"manufacturing\",\n        \"primary\"\n      ],\n      \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n      \"inheritParentAddress\": false,\n      \"addressLine1\": \"123 Main Street\",\n      \"addressLine2\": \"Suite 100\",\n      \"postalCode\": \"12345\",\n      \"city\": \"New York\",\n      \"effectiveDate\": \"<string>\",\n      \"region\": \"NY\",\n      \"country\": \"US\",\n      \"countrySub\": \"NYLI\",\n      \"ownershipType\": \"standalone\",\n      \"employeeCount\": 150,\n      \"capacity\": 1000\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36409006-1cd4-45fb-8257-bcaf261d1bbc",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilities\": [\n    {\n      \"name\": \"Large Factory\",\n      \"hasAddress\": true,\n      \"capacityUnit\": \"m2\",\n      \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n      \"areas\": [\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        },\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        }\n      ],\n      \"internalId\": \"FAC-001\",\n      \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n      \"tags\": [\n        \"manufacturing\",\n        \"primary\"\n      ],\n      \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n      \"inheritParentAddress\": false,\n      \"addressLine1\": \"123 Main Street\",\n      \"addressLine2\": \"Suite 100\",\n      \"postalCode\": \"12345\",\n      \"city\": \"New York\",\n      \"effectiveDate\": \"<string>\",\n      \"region\": \"NY\",\n      \"country\": \"US\",\n      \"countrySub\": \"NYLI\",\n      \"ownershipType\": \"standalone\",\n      \"employeeCount\": 150,\n      \"capacity\": 1000\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e3fab70-5092-4261-8f3f-3b4b9c4bafc3",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilities\": [\n    {\n      \"name\": \"Large Factory\",\n      \"hasAddress\": true,\n      \"capacityUnit\": \"m2\",\n      \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n      \"areas\": [\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        },\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        }\n      ],\n      \"internalId\": \"FAC-001\",\n      \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n      \"tags\": [\n        \"manufacturing\",\n        \"primary\"\n      ],\n      \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n      \"inheritParentAddress\": false,\n      \"addressLine1\": \"123 Main Street\",\n      \"addressLine2\": \"Suite 100\",\n      \"postalCode\": \"12345\",\n      \"city\": \"New York\",\n      \"effectiveDate\": \"<string>\",\n      \"region\": \"NY\",\n      \"country\": \"US\",\n      \"countrySub\": \"NYLI\",\n      \"ownershipType\": \"standalone\",\n      \"employeeCount\": 150,\n      \"capacity\": 1000\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "674329a5-11b1-4b67-b1ae-f74321b62ca1",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilities\": [\n    {\n      \"name\": \"Large Factory\",\n      \"hasAddress\": true,\n      \"capacityUnit\": \"m2\",\n      \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n      \"areas\": [\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        },\n        {\n          \"name\": \"Large Factory\",\n          \"hasAddress\": true,\n          \"capacityUnit\": \"m2\",\n          \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n          \"internalId\": \"FAC-001\",\n          \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n          \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n          \"tags\": [\n            \"manufacturing\",\n            \"primary\"\n          ],\n          \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n          \"inheritParentAddress\": false,\n          \"addressLine1\": \"123 Main Street\",\n          \"addressLine2\": \"Suite 100\",\n          \"postalCode\": \"12345\",\n          \"city\": \"New York\",\n          \"effectiveDate\": \"<string>\",\n          \"region\": \"NY\",\n          \"country\": \"US\",\n          \"countrySub\": \"NYLI\",\n          \"ownershipType\": \"standalone\",\n          \"employeeCount\": 150,\n          \"capacity\": 1000\n        }\n      ],\n      \"internalId\": \"FAC-001\",\n      \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n      \"tags\": [\n        \"manufacturing\",\n        \"primary\"\n      ],\n      \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n      \"inheritParentAddress\": false,\n      \"addressLine1\": \"123 Main Street\",\n      \"addressLine2\": \"Suite 100\",\n      \"postalCode\": \"12345\",\n      \"city\": \"New York\",\n      \"effectiveDate\": \"<string>\",\n      \"region\": \"NY\",\n      \"country\": \"US\",\n      \"countrySub\": \"NYLI\",\n      \"ownershipType\": \"standalone\",\n      \"employeeCount\": 150,\n      \"capacity\": 1000\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71bc366e-a9e8-44d4-878d-d2d1383acb72",
+          "name": "Update Facility Persistent Properties",
+          "request": {
+            "name": "Update Facility Persistent Properties",
+            "description": {
+              "content": "Update persistent properties of a facility such as tags, internal ID, and facility type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId",
+                "persistent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"facilityId\": \"<uuid>\",\n  \"internalId\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"facilityTypeId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8f877656-93e9-4937-b35c-a2931f011844",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "persistent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n  \"internalId\": \"FAC-001\",\n  \"tags\": [\n    \"manufacturing\",\n    \"primary\"\n  ],\n  \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cfa032eb-4d93-4aec-b009-c63b98be8034",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "persistent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n  \"internalId\": \"FAC-001\",\n  \"tags\": [\n    \"manufacturing\",\n    \"primary\"\n  ],\n  \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d874bab-3f05-4522-a128-bf1c999ca32b",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "persistent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n  \"internalId\": \"FAC-001\",\n  \"tags\": [\n    \"manufacturing\",\n    \"primary\"\n  ],\n  \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "915f08c4-1810-4ff1-8057-91c6c35cf606",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "persistent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n  \"internalId\": \"FAC-001\",\n  \"tags\": [\n    \"manufacturing\",\n    \"primary\"\n  ],\n  \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b14887f-7cb8-47f9-8080-4f87cc2ca2e8",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "persistent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"facilityId\": \"aee349fd-28e4-450d-9e20-af64d9c0d813\",\n  \"internalId\": \"FAC-001\",\n  \"tags\": [\n    \"manufacturing\",\n    \"primary\"\n  ],\n  \"facilityTypeId\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2e505ff-235a-42a9-878a-70f8b3decb01",
+          "name": "Create A New Facility Version",
+          "request": {
+            "name": "Create A New Facility Version",
+            "description": {
+              "content": "Create a new version of an existing facility.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                ":facilityId",
+                "versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "facilityId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"buId\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"hasAddress\": \"<boolean>\",\n  \"parentId\": \"<uuid>\",\n  \"inheritParentAddress\": \"<boolean>\",\n  \"addressLine1\": \"<string>\",\n  \"addressLine2\": \"<string>\",\n  \"postalCode\": \"<string>\",\n  \"city\": \"<string>\",\n  \"region\": \"<string>\",\n  \"country\": \"<string>\",\n  \"countrySub\": \"<string>\",\n  \"capacity\": \"<number>\",\n  \"employeeCount\": \"<integer>\",\n  \"boundaryIndicator\": \"<string>\",\n  \"isOpen\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b3bb83c-4000-49df-833c-16181a51542c",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n  \"inheritParentAddress\": false,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"region\": \"NY\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df7a149c-089a-4cba-ad35-812e945013f3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n  \"inheritParentAddress\": false,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"region\": \"NY\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bad request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf0a8257-acbf-4306-bf6a-5c5b213a9861",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n  \"inheritParentAddress\": false,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"region\": \"NY\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ef5a867-6801-45fd-b12b-22edfc461d15",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n  \"inheritParentAddress\": false,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"region\": \"NY\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cca038bb-1f63-4948-bb39-0d5246500473",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    ":facilityId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "facilityId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"buId\": \"dff8f526-4c6a-4ea5-b740-4762aac04699\",\n  \"name\": \"Large Factory\",\n  \"hasAddress\": true,\n  \"parentId\": \"eff8f526-4c6a-4ea5-b740-4762aac0469a\",\n  \"inheritParentAddress\": false,\n  \"addressLine1\": \"123 Main Street\",\n  \"addressLine2\": \"Suite 100\",\n  \"postalCode\": \"12345\",\n  \"city\": \"New York\",\n  \"region\": \"NY\",\n  \"country\": \"US\",\n  \"countrySub\": \"US-NY\",\n  \"capacity\": 1000,\n  \"employeeCount\": 150,\n  \"boundaryIndicator\": \"OPERATIONAL_CONTROL\",\n  \"isOpen\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e34fb395-05c2-45a2-a388-b90c26ed77cb",
+          "name": "Get Facility Types",
+          "request": {
+            "name": "Get Facility Types",
+            "description": {
+              "content": "Retrieve a list of facility types available for the organization, including both generic and organization-specific types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "public",
+                "v1",
+                "facilities",
+                "types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1f0edc92-61ed-458f-9cc8-678f2ffb56cd",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"types\": [\n    {\n      \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"name\": \"Manufacturing Plant\"\n    },\n    {\n      \"id\": \"cff8f526-4c6a-4ea5-b740-4762aac04698\",\n      \"name\": \"Manufacturing Plant\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a456c68-09a2-4a8b-a79a-f45a68cc6a31",
+              "name": "Not authorised",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not authorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62c626d6-2ac7-462b-891f-0544a6d47041",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "public",
+                    "v1",
+                    "facilities",
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.altruistiq.com/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eb161d72-f8fc-4f45-82ea-e23c824ceda7",
+    "name": "Altruistiq Datasource Facility API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.\nA **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.\nA **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).\n**Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.\n\n# Datasource API Outline\n\nPrimarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.\n\nThe Datasource API is governed by the oauth2 protocol.\n\nThe Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.\n\n# PACT API Outline\n\nPrimarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.\n\nThe PACT API is is governed by the oauth2 protocol (see Security).\n\nFor full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.",
+      "type": "text/plain"
+    }
+  }
+}

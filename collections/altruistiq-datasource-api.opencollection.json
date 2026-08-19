@@ -1,0 +1,151 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Altruistiq Datasource API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datasource",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start A Multipart Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.altruistiq.com/api/public/v1/datasource/:dataSourceId/upload",
+            "params": [
+              {
+                "name": "userEmail",
+                "value": "",
+                "type": "query",
+                "description": "Email of user initiating upload."
+              },
+              {
+                "name": "fileName",
+                "value": "",
+                "type": "query",
+                "description": "Name of file that is being uploaded."
+              },
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "ID of datasource"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to start your multipart upload and retrieve an uploadId and fileId."
+        },
+        {
+          "info": {
+            "name": "Upload A File To A Datasource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/datasource/:dataSourceId/upload",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "name": "Content-Range",
+                "value": "bytes 0-100/1000"
+              }
+            ],
+            "params": [
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "ID of datasource"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "uploadId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "partNo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to upload your binary."
+        },
+        {
+          "info": {
+            "name": "Complete A Multipart File Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.altruistiq.com/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+            "params": [
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "ID of datasource"
+              },
+              {
+                "name": "uploadId",
+                "value": "",
+                "type": "path",
+                "description": "ID of upload"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path",
+                "description": "ID of file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this endpoint to complete a file upload."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
