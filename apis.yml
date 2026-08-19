@@ -47,7 +47,7 @@ tags:
   - Sustainability Intelligence
 created: '2026-05-25'
 modified: '2026-05-25'
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 apis:
 - aid: altruistiq:altruistiq-datasource-api
   name: Altruistiq Datasource API
