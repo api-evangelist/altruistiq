@@ -75,7 +75,7 @@ apis:
   humanURL: https://docs.altruistiq.com
   baseURL: https://app.altruistiq.com/api/public/v1
   tags:
-  - Datasource
+  - DataSource
   tags_raw:
   - Datasource
   properties:
@@ -590,7 +590,7 @@ apis:
   humanURL: https://docs.altruistiq.com
   baseURL: https://app.altruistiq.com/api/public/v1
   tags:
-  - Facility
+  - Facilities
   tags_raw:
   - Facility
   properties:
