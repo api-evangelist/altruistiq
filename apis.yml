@@ -61,54 +61,6 @@ created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.23'
 apis:
-- aid: altruistiq:altruistiq-datasource-api
-  name: Altruistiq Datasource API
-  description: >-
-    ### Altruistiq’s datasource API enables you to:
-
-      - Create new datasources
-      - Manage existing datasources (read, update)
-      - Upload data to a datasource
-
-    A datasource is the place where you will share a single data format with altruistiq and where you
-    will categorise it so that we can calculate emissions in an automated way.
-  humanURL: https://docs.altruistiq.com
-  baseURL: https://app.altruistiq.com/api/public/v1
-  tags:
-  - DataSource
-  tags_raw:
-  - Datasource
-  properties:
-  - type: OpenAPI
-    url: openapi/altruistiq-datasource-api-openapi.yml
-  - type: Documentation
-    url: https://docs.altruistiq.com
-  - type: Authentication
-    url: https://docs.altruistiq.com
-  - type: JSONSchema
-    url: json-schema/altruistiq-product-schema.json
-  - type: JSONSchema
-    url: json-schema/altruistiq-facility-schema.json
-  - type: JSONSchema
-    url: json-schema/altruistiq-emission-record-schema.json
-  - type: JSONStructure
-    url: json-structure/altruistiq-product-structure.json
-  - type: JSONLD
-    url: json-ld/altruistiq-context.jsonld
-  - type: SpectralRuleset
-    url: rules/altruistiq-rules.yml
-  - type: Vocabulary
-    url: vocabulary/altruistiq-vocabulary.yml
-  - type: Examples
-    url: examples/altruistiq-oauth-token-example.json
-  - type: Examples
-    url: examples/altruistiq-create-product-example.json
-  - type: Examples
-    url: examples/altruistiq-create-export-example.json
-  - type: Examples
-    url: examples/altruistiq-get-export-example.json
-  - type: Standards
-    url: https://www.carbon-transparency.org
 - aid: altruistiq:altruistiq-export-api
   name: Altruistiq Export API
   description: >-
@@ -892,6 +844,56 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/altruistiq-security-api-openapi.yml
+  - type: Documentation
+    url: https://docs.altruistiq.com
+  - type: Authentication
+    url: https://docs.altruistiq.com
+  - type: JSONSchema
+    url: json-schema/altruistiq-product-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-facility-schema.json
+  - type: JSONSchema
+    url: json-schema/altruistiq-emission-record-schema.json
+  - type: JSONStructure
+    url: json-structure/altruistiq-product-structure.json
+  - type: JSONLD
+    url: json-ld/altruistiq-context.jsonld
+  - type: SpectralRuleset
+    url: rules/altruistiq-rules.yml
+  - type: Vocabulary
+    url: vocabulary/altruistiq-vocabulary.yml
+  - type: Examples
+    url: examples/altruistiq-oauth-token-example.json
+  - type: Examples
+    url: examples/altruistiq-create-product-example.json
+  - type: Examples
+    url: examples/altruistiq-create-export-example.json
+  - type: Examples
+    url: examples/altruistiq-get-export-example.json
+  - type: Standards
+    url: https://www.carbon-transparency.org
+- aid: altruistiq:altruistiq-data-source-api
+  name: Altruistiq Data Source API
+  description: >-
+    ### Altruistiq’s datasource API enables you to:
+
+
+    - Create new datasources
+
+    - Manage existing datasources (read, update)
+
+    - Upload data to a datasource
+
+
+    A datasource is the place where you will share a single data format with altruistiq and where you
+    will categorise it so that we can calculate emissions in an automated way.
+  humanURL: https://docs.altruistiq.com
+  baseURL: https://app.altruistiq.com/api/public/v1
+  tags:
+  - Data Source
+  properties:
+  - type: OpenAPI
+    url: openapi/altruistiq-data-source-api-openapi.yml
   - type: Documentation
     url: https://docs.altruistiq.com
   - type: Authentication
