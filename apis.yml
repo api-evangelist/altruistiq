@@ -40,6 +40,9 @@ accessModel:
 position: Producing
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/altruistiq.png
+x-docs-platform: redocly
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-17
 tags:
   - Sustainability
   - Climate
@@ -890,6 +893,8 @@ apis:
   humanURL: https://docs.altruistiq.com
   baseURL: https://app.altruistiq.com/api/public/v1
   tags:
+  - DataSource
+  tags_raw:
   - Data Source
   properties:
   - type: OpenAPI
