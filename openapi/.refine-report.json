@@ -1,15 +1,7 @@
 {
   "provider": "altruistiq",
   "sources": [
-    "altruistiq-datasource-api-openapi.yml",
-    "altruistiq-export-api-openapi.yml",
-    "altruistiq-facility-api-openapi.yml",
-    "altruistiq-location-api-openapi.yml",
-    "altruistiq-organization-api-openapi.yml",
-    "altruistiq-product-api-openapi.yml",
-    "altruistiq-product-structure-api-openapi.yml",
-    "altruistiq-product-structure-inputs-api-openapi.yml",
-    "altruistiq-security-api-openapi.yml"
+    "_original/altruistiq-openapi.yml"
   ],
   "outputs": [
     "altruistiq-datasource-api-openapi.yml",
@@ -22,9 +14,26 @@
     "altruistiq-product-structure-inputs-api-openapi.yml",
     "altruistiq-security-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "altruistiq-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: altruistiq-data-source-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 9 total)"
+  ],
+  "skipped": [
+    "altruistiq-data-source-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-export-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-facility-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-location-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-product-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-product-structure-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-product-structure-inputs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruistiq-security-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

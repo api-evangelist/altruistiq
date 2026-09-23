@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   title: Altruistiq Datasource Product structure inputs API
   x-logo:
@@ -8,37 +8,7 @@ info:
   description: '# Definitions
 
 
-    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
-
-    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
-
-    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
-
-    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
-
-
-    # Datasource API Outline
-
-
-    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
-
-
-    The Datasource API is governed by the oauth2 protocol.
-
-
-    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
-
-
-    # PACT API Outline
-
-
-    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
-
-
-    The PACT API is is governed by the oauth2 protocol (see Security).
-
-
-    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement.'
 servers:
 - url: https://app.altruistiq.com/
   description: Altruistiq Server
@@ -58,7 +28,7 @@ tags:
     - All the above in bulk against a single product structure
 
 
-    The product structure input bulk actions are useful for creating and updating product structure inputs in bulk. These inputs are managed under the context of a single product, so require the product UUID to be provided in the request.'
+    The product structure input bulk actions are useful for creating and updating product structure inputs in bulk.'
 paths:
   /api/public/v1/product-structure-inputs:
     post:
@@ -684,6 +654,384 @@ paths:
       - bearerAuth: []
 components:
   schemas:
+    BulkUpdateProductStructureInputsResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    UpdateProductStructureInputResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    CreateProductStructureInputQuery:
+      properties:
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    UpdateProductStructureInputBody:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+    BulkCreateProductStructureInputsResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of input UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    CreateProductInputs:
+      properties:
+        structureId:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+        downstreamInputType:
+          enum:
+          - Glass
+          - Steel Cans
+          - Aluminium Cans
+          - Paper
+          - PET
+          - Rigid Plastic
+          - Mixed Plastic
+          - LDPE
+          - Other
+          - CO2 for carbonation
+          type: string
+          description: The type of the input, for downstream calculations.
+          example: Glass
+        noOfUses:
+          type: number
+          description: The reuse rate of the input, for downstream calculations.
+          example: 5
+          exclusiveMinimum: 0
+      type: object
+      required:
+      - structureId
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
+    CreateProductStructureInputResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the structure input record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+      type: object
+      required:
+      - id
+    BulkCreateProductInputsBody:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/CreateProductInputs'
+          type: array
+          maxItems: 1000
+          minItems: 1
+          description: Array of product structure inputs to create
+      type: object
+      required:
+      - inputs
+    BulkDeleteProductStructureInputsBody:
+      properties:
+        ids:
+          items:
+            format: uuid
+            type: string
+          type: array
+          minItems: 1
+          description: An array of input UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkCreateProductStructuresInputsBody:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/CreateProductStructureInputs'
+          type: array
+          minItems: 1
+          description: Array of product structure inputs to create
+      type: object
+      required:
+      - inputs
+    BulkUpdateProductStructureInputsRequest:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/ProductStructureInput'
+          maxItems: 500
+          type: array
+          minItems: 1
+          description: Array of product structure inputs to update
+      type: object
+      required:
+      - inputs
+    CreateProductStructureInputs:
+      properties:
+        inputCode:
+          type: string
+          description: Your identifier for the input.
+          example: INPUT-001
+        inputName:
+          type: string
+          description: The descriptive name of the input
+          example: Tin sheet
+        inputCategory:
+          type: string
+          description: A category for the input
+          example: Metals
+        inputSubCategory:
+          type: string
+          description: A sub-category for the input
+          example: Soft metals
+        sourceCountry:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
+          example: GB
+        supplierName:
+          type: string
+          description: The name of the supplier that the input is purchased from
+          example: Metal Suppliers Ltd
+        supplierCountryCode:
+          minLength: 2
+          type: string
+          maxLength: 2
+          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
+          example: GB
+        productOrPackaging:
+          enum:
+          - PRODUCT
+          - PACKAGING
+          type: string
+          description: Wheter the input is a product or packaging type
+          example: PACKAGING
+        weight:
+          type: number
+          description: The weight of the input in one declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          type: string
+          description: The unit of weight for the input
+          example: g
+        recyclePercentage:
+          type: number
+          description: How much of the input comes from recycled content
+          example: '50'
+        additionalData:
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - inputName
+      - productOrPackaging
+      - weight
+      - weightUnit
     GetProductStructureInputResponse:
       properties:
         id:
@@ -772,368 +1120,6 @@ components:
       - recyclePercentage
       - createdAt
       - updatedAt
-    CreateProductStructureInputs:
-      properties:
-        inputCode:
-          type: string
-          description: Your identifier for the input.
-          example: INPUT-001
-        inputName:
-          type: string
-          description: The descriptive name of the input
-          example: Tin sheet
-        inputCategory:
-          type: string
-          description: A category for the input
-          example: Metals
-        inputSubCategory:
-          type: string
-          description: A sub-category for the input
-          example: Soft metals
-        sourceCountry:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
-          example: GB
-        supplierName:
-          type: string
-          description: The name of the supplier that the input is purchased from
-          example: Metal Suppliers Ltd
-        supplierCountryCode:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
-          example: GB
-        productOrPackaging:
-          enum:
-          - PRODUCT
-          - PACKAGING
-          type: string
-          description: Wheter the input is a product or packaging type
-          example: PACKAGING
-        weight:
-          exclusiveMinimum: true
-          minimum: 0
-          type: number
-          description: The weight of the input in one declared unit
-          example: '100'
-        weightUnit:
-          type: string
-          description: The unit of weight for the input
-          example: g
-        recyclePercentage:
-          type: number
-          description: How much of the input comes from recycled content
-          example: '50'
-        additionalData:
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - inputName
-      - productOrPackaging
-      - weight
-      - weightUnit
-    CreateProductStructureInputQuery:
-      properties:
-        inputCode:
-          type: string
-          description: Your identifier for the input.
-          example: INPUT-001
-        inputName:
-          type: string
-          description: The descriptive name of the input
-          example: Tin sheet
-        inputCategory:
-          type: string
-          description: A category for the input
-          example: Metals
-        inputSubCategory:
-          type: string
-          description: A sub-category for the input
-          example: Soft metals
-        sourceCountry:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
-          example: GB
-        supplierName:
-          type: string
-          description: The name of the supplier that the input is purchased from
-          example: Metal Suppliers Ltd
-        supplierCountryCode:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
-          example: GB
-        productOrPackaging:
-          enum:
-          - PRODUCT
-          - PACKAGING
-          type: string
-          description: Wheter the input is a product or packaging type
-          example: PACKAGING
-        weight:
-          exclusiveMinimum: true
-          minimum: 0
-          type: number
-          description: The weight of the input in one declared unit
-          example: '100'
-        weightUnit:
-          type: string
-          description: The unit of weight for the input
-          example: g
-        recyclePercentage:
-          type: number
-          description: How much of the input comes from recycled content
-          example: '50'
-        additionalData:
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - inputName
-      - productOrPackaging
-      - weight
-      - weightUnit
-    BulkCreateProductStructureInputsResponse:
-      properties:
-        ids:
-          items: {}
-          type: array
-          description: An array of input UUIDs
-          example:
-          - aee349fd-28e4-450d-9e20-af64d9c0d813
-          - bdd8f526-4c6a-4ea5-b740-4762aac04697
-      type: object
-      required:
-      - ids
-    UpdateProductStructureInputBody:
-      properties:
-        id:
-          format: uuid
-          type: string
-          description: The UUID of the structure input record
-          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
-        inputCode:
-          type: string
-          description: Your identifier for the input.
-          example: INPUT-001
-        inputName:
-          type: string
-          description: The descriptive name of the input
-          example: Tin sheet
-        inputCategory:
-          type: string
-          description: A category for the input
-          example: Metals
-        inputSubCategory:
-          type: string
-          description: A sub-category for the input
-          example: Soft metals
-        sourceCountry:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
-          example: GB
-        supplierName:
-          type: string
-          description: The name of the supplier that the input is purchased from
-          example: Metal Suppliers Ltd
-        supplierCountryCode:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
-          example: GB
-        productOrPackaging:
-          enum:
-          - PRODUCT
-          - PACKAGING
-          type: string
-          description: Wheter the input is a product or packaging type
-          example: PACKAGING
-        weight:
-          exclusiveMinimum: true
-          minimum: 0
-          type: number
-          description: The weight of the input in one declared unit
-          example: '100'
-        weightUnit:
-          type: string
-          description: The unit of weight for the input
-          example: g
-        recyclePercentage:
-          type: number
-          description: How much of the input comes from recycled content
-          example: '50'
-        additionalData:
-          type: object
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - id
-    BulkUpdateProductStructureInputsRequest:
-      properties:
-        inputs:
-          items:
-            $ref: '#/components/schemas/ProductStructureInput'
-          maxItems: 500
-          type: array
-          minItems: 1
-          description: Array of product structure inputs to update
-      type: object
-      required:
-      - inputs
-    UpdateProductStructureInputResponse:
-      properties:
-        success:
-          type: boolean
-          description: A string boolean about the response
-          example: true
-      type: object
-      required:
-      - success
-    BulkCreateProductStructuresInputsBody:
-      properties:
-        inputs:
-          items:
-            $ref: '#/components/schemas/CreateProductStructureInputs'
-          type: array
-          minItems: 1
-          description: Array of product structure inputs to create
-      type: object
-      required:
-      - inputs
-    CreateProductInputs:
-      properties:
-        structureId:
-          format: uuid
-          type: string
-          description: The UUID of the product structure record
-          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
-        inputCode:
-          type: string
-          description: Your identifier for the input.
-          example: INPUT-001
-        inputName:
-          type: string
-          description: The descriptive name of the input
-          example: Tin sheet
-        inputCategory:
-          type: string
-          description: A category for the input
-          example: Metals
-        inputSubCategory:
-          type: string
-          description: A sub-category for the input
-          example: Soft metals
-        sourceCountry:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the source country of the input
-          example: GB
-        supplierName:
-          type: string
-          description: The name of the supplier that the input is purchased from
-          example: Metal Suppliers Ltd
-        supplierCountryCode:
-          minLength: 2
-          type: string
-          maxLength: 2
-          description: The 2 character country code (ISO 3166-1 alpha-2) for the location of the supplier of the input.
-          example: GB
-        productOrPackaging:
-          enum:
-          - PRODUCT
-          - PACKAGING
-          type: string
-          description: Wheter the input is a product or packaging type
-          example: PACKAGING
-        weight:
-          exclusiveMinimum: true
-          minimum: 0
-          type: number
-          description: The weight of the input in one declared unit
-          example: '100'
-        weightUnit:
-          type: string
-          description: The unit of weight for the input
-          example: g
-        recyclePercentage:
-          type: number
-          description: How much of the input comes from recycled content
-          example: '50'
-        additionalData:
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-        downstreamInputType:
-          enum:
-          - Glass
-          - Steel Cans
-          - Aluminium Cans
-          - Paper
-          - PET
-          - Rigid Plastic
-          - Mixed Plastic
-          - LDPE
-          - Other
-          - CO2 for carbonation
-          type: string
-          description: The type of the input, for downstream calculations.
-          example: Glass
-        noOfUses:
-          exclusiveMinimum: true
-          minimum: 0
-          type: number
-          description: The reuse rate of the input, for downstream calculations.
-          example: 5
-      type: object
-      required:
-      - structureId
-      - inputName
-      - productOrPackaging
-      - weight
-      - weightUnit
-    BulkDeleteProductStructureInputsBody:
-      properties:
-        ids:
-          items:
-            format: uuid
-            type: string
-          type: array
-          minItems: 1
-          description: An array of input UUIDs
-          example:
-          - aee349fd-28e4-450d-9e20-af64d9c0d813
-          - bdd8f526-4c6a-4ea5-b740-4762aac04697
-      type: object
-      required:
-      - ids
-    BulkUpdateProductStructureInputsResponse:
-      properties:
-        success:
-          type: boolean
-          description: A string boolean about the response
-          example: true
-      type: object
-      required:
-      - success
     ProductStructureInput:
       properties:
         id:
@@ -1181,11 +1167,10 @@ components:
           description: Wheter the input is a product or packaging type
           example: PACKAGING
         weight:
-          exclusiveMinimum: true
-          minimum: 0
           type: number
           description: The weight of the input in one declared unit
           example: '100'
+          exclusiveMinimum: 0
         weightUnit:
           type: string
           description: The unit of weight for the input
@@ -1213,27 +1198,6 @@ components:
       - weight
       - weightUnit
       - recyclePercentage
-    CreateProductStructureInputResponse:
-      properties:
-        id:
-          type: string
-          description: The UUID of the structure input record
-          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
-      type: object
-      required:
-      - id
-    BulkCreateProductInputsBody:
-      properties:
-        inputs:
-          items:
-            $ref: '#/components/schemas/CreateProductInputs'
-          type: array
-          maxItems: 1000
-          minItems: 1
-          description: Array of product structure inputs to create
-      type: object
-      required:
-      - inputs
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -1,0 +1,29 @@
+# Front Door AI Index — altruistiq — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: altruistiq
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.altruistiq.com
+  final_host: www.altruistiq.com
+  ownership: own
+  owner: altruistiq
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 3
+  host_score: 3
+  density: 1.24
+  words: 2425
+  tiers:
+    agentic: 1
+    core: 2
+    model: 0
+  ambiguous: 8
+  top_terms:
+    intelligence: 6
+    AI: 2
+    AI agent: 1
+    agent: 1
+    smart: 1

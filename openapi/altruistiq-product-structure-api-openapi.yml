@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   title: Altruistiq Datasource Product structure API
   x-logo:
@@ -8,37 +8,7 @@ info:
   description: '# Definitions
 
 
-    An **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.
-
-    A **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.
-
-    A **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).
-
-    **Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.
-
-
-    # Datasource API Outline
-
-
-    Primarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.
-
-
-    The Datasource API is governed by the oauth2 protocol.
-
-
-    The Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.
-
-
-    # PACT API Outline
-
-
-    Primarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.
-
-
-    The PACT API is is governed by the oauth2 protocol (see Security).
-
-
-    For full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.'
+    An **Activity** is a business process that has taken place, which is relevant for emissions measurement.'
 servers:
 - url: https://app.altruistiq.com/
   description: Altruistiq Server
@@ -603,6 +573,77 @@ paths:
       - bearerAuth: []
 components:
   schemas:
+    CreateProductStructureRequest:
+      properties:
+        productId:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        validFrom:
+          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
+          type: string
+          description: The date for which the structure was first used. Date-only granularity — any time component is discarded (e.g. `2025-01-01T14:30:00Z` is stored as `2025-01-01`).
+          example: '2025-01-01'
+        facilityName:
+          type: string
+          description: The name of the facility in which the product structure is manufactured.
+          example: Large factory
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+        customerStructureId:
+          type: string
+          description: (Optional) Structure ID if you have your own generated identifiers for structures. Must be globally unique across all your product structures — the same `customerStructureId` cannot be reused for a different product, facility or date.
+          example: STRUC-001-ABC
+      type: object
+      required:
+      - productId
+      - validFrom
+      - facilityName
+    BulkCreateProductStructuresResponse:
+      properties:
+        ids:
+          items: {}
+          type: array
+          description: An array of product structure UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    BulkGetProductStructuresResponse:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/GetProductStructureEntity'
+          type: array
+          description: Array of product structures
+      type: object
+      required:
+      - structures
+    BulkUpdateProductStructuresBody:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/UpdateProductStructureItem'
+          type: array
+          minItems: 1
+          description: Array of structures to update
+      type: object
+      required:
+      - structures
+    UpdateProductStructureBody:
+      properties:
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - routeDescription
     UpdateProductStructureResponse:
       properties:
         success:
@@ -612,6 +653,21 @@ components:
       type: object
       required:
       - success
+    UpdateProductStructureItem:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - id
+      - routeDescription
     GetProductStructureEntity:
       properties:
         id:
@@ -664,54 +720,6 @@ components:
       - routeDescription
       - createdAt
       - updatedAt
-    BulkCreateProductStructuresResponse:
-      properties:
-        ids:
-          items: {}
-          type: array
-          description: An array of product structure UUIDs
-          example:
-          - aee349fd-28e4-450d-9e20-af64d9c0d813
-          - bdd8f526-4c6a-4ea5-b740-4762aac04697
-      type: object
-      required:
-      - ids
-    BulkUpdateProductStructuresBody:
-      properties:
-        structures:
-          items:
-            $ref: '#/components/schemas/UpdateProductStructureItem'
-          type: array
-          minItems: 1
-          description: Array of structures to update
-      type: object
-      required:
-      - structures
-    BulkGetProductStructuresResponse:
-      properties:
-        structures:
-          items:
-            $ref: '#/components/schemas/GetProductStructureEntity'
-          type: array
-          description: Array of product structures
-      type: object
-      required:
-      - structures
-    UpdateProductStructureItem:
-      properties:
-        id:
-          format: uuid
-          type: string
-          description: The UUID of the product structure record
-          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
-        routeDescription:
-          type: string
-          description: A text string describing the route a product takes through the supply chain
-          example: New York > Paris > Munich
-      type: object
-      required:
-      - id
-      - routeDescription
     CreateProductStructureResponse:
       properties:
         id:
@@ -721,44 +729,6 @@ components:
       type: object
       required:
       - id
-    CreateProductStructureRequest:
-      properties:
-        productId:
-          format: uuid
-          type: string
-          description: The UUID of the product record
-          example: aee349fd-28e4-450d-9e20-af64d9c0d813
-        validFrom:
-          pattern: \d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?
-          type: string
-          description: The date for which the structure was first used. Date-only granularity — any time component is discarded (e.g. `2025-01-01T14:30:00Z` is stored as `2025-01-01`).
-          example: '2025-01-01'
-        facilityName:
-          type: string
-          description: The name of the facility in which the product structure is manufactured.
-          example: Large factory
-        routeDescription:
-          type: string
-          description: A text string describing the route a product takes through the supply chain
-          example: New York > Paris > Munich
-        customerStructureId:
-          type: string
-          description: (Optional) Structure ID if you have your own generated identifiers for structures. Must be globally unique across all your product structures — the same `customerStructureId` cannot be reused for a different product, facility or date.
-          example: STRUC-001-ABC
-      type: object
-      required:
-      - productId
-      - validFrom
-      - facilityName
-    UpdateProductStructureBody:
-      properties:
-        routeDescription:
-          type: string
-          description: A text string describing the route a product takes through the supply chain
-          example: New York > Paris > Munich
-      type: object
-      required:
-      - routeDescription
     BulkUpdateProductStructuresSuccessResponse:
       properties:
         success:
