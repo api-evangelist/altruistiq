@@ -53,6 +53,23 @@ tags:
   - Product Carbon Footprint
   - Corporate Carbon Footprint
   - Supply Chain
+  - Consumer Packaged Goods
+  - Food and Beverage
+  - ESG
+  - CSRD
+  - SBTi
+  - PACT
+  - Sustainability Intelligence
+tags_raw:
+  - Sustainability
+  - Climate
+  - Carbon Accounting
+  - Emissions
+  - Greenhouse Gas
+  - Scope 3
+  - Product Carbon Footprint
+  - Corporate Carbon Footprint
+  - Supply Chain
   - FMCG
   - Food and Beverage
   - ESG
@@ -893,8 +910,6 @@ apis:
   humanURL: https://docs.altruistiq.com
   baseURL: https://app.altruistiq.com/api/public/v1
   tags:
-  - DataSource
-  tags_raw:
   - Data Source
   properties:
   - type: OpenAPI

@@ -265,13 +265,6 @@ paths:
                 $ref: '#/components/schemas/500'
 components:
   schemas:
-    '500':
-      type: object
-      properties:
-        status:
-          type: string
-          example: Server Error
-          description: Internal Error
     '404':
       type: object
       properties:
@@ -286,6 +279,13 @@ components:
           type: string
           example: Unauthorized
           description: Request was unauthorized
+    '500':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Server Error
+          description: Internal Error
   securitySchemes:
     bearerAuth:
       type: apiKey

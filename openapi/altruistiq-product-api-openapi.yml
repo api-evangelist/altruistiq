@@ -491,15 +491,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    BulkUpdateProductsResponse:
-      properties:
-        success:
-          type: boolean
-          description: A string boolean about the response
-          example: true
-      type: object
-      required:
-      - success
     CreateProductBase:
       properties:
         productKey:
@@ -553,6 +544,56 @@ components:
       - declaredUnit
       - weightPerDeclaredUnit
       - weightUnit
+    UpdateProductRequest:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          type: string
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
     BulkCreateProductsResponse:
       properties:
         ids:
@@ -565,6 +606,212 @@ components:
       type: object
       required:
       - ids
+    CreateProductRequest:
+      properties:
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - productKey
+      - name
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+    UpdateProductResponse:
+      properties:
+        success:
+          type: boolean
+      type: object
+      required:
+      - success
+    BulkUpdateProductsResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    GetProductResponse:
+      properties:
+        id:
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        productKey:
+          type: string
+          description: Your product code or identifier.
+          example: CAN-1234A
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+        weightUnit:
+          type: string
+          description: The weight unit of the declared unit weight
+          example: kg
+        updatedAt:
+          type: string
+          description: The last updated date of the record
+          example: '2025-01-01'
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - productKey
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
+      - updatedAt
+      - additionalData
+    BulkCreateProductsRequest:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/CreateProductBase'
+          type: array
+          description: Array of products to create
+      type: object
+      required:
+      - products
+    BulkDeleteProductsRequest:
+      properties:
+        ids:
+          items:
+            format: uuid
+            type: string
+          type: array
+          minItems: 1
+          description: An array of product UUIDs
+          example:
+          - aee349fd-28e4-450d-9e20-af64d9c0d813
+          - bdd8f526-4c6a-4ea5-b740-4762aac04697
+      type: object
+      required:
+      - ids
+    UpdateProductBase:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product record
+          example: aee349fd-28e4-450d-9e20-af64d9c0d813
+        name:
+          type: string
+          description: The name of the product
+          example: Canned food - Single
+        description:
+          type: string
+          description: The description of the product.
+          example: Our best ever canned food product
+        category:
+          type: string
+          description: The category the product falls into.
+          example: Food
+        declaredUnit:
+          type: string
+          description: ' A single declared unit of the product.'
+          example: 1 can
+        weightPerDeclaredUnit:
+          type: number
+          description: Weight of a single declared unit
+          example: '100'
+          exclusiveMinimum: 0
+        weightUnit:
+          type: string
+          enum:
+          - g
+          - kg
+          - kt
+          - lb
+          - long_ton
+          - oz
+          - short_ton
+          - t
+          description: The weight unit of the declared unit weight
+          example: kg
+        additionalData:
+          type: object
+          description: Additional JSON data for the product
+          example:
+            key1: value1
+            key2: value2
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - category
+      - declaredUnit
+      - weightPerDeclaredUnit
+      - weightUnit
     BulkUpdateProductsRequest:
       properties:
         products:
@@ -575,13 +822,6 @@ components:
       type: object
       required:
       - products
-    UpdateProductResponse:
-      properties:
-        success:
-          type: boolean
-      type: object
-      required:
-      - success
     BulkGetProductsResponse:
       properties:
         id:
@@ -641,21 +881,6 @@ components:
       - updatedAt
       - additionalData
       description: Response data for products retrieved in bulk
-    BulkDeleteProductsRequest:
-      properties:
-        ids:
-          items:
-            format: uuid
-            type: string
-          type: array
-          minItems: 1
-          description: An array of product UUIDs
-          example:
-          - aee349fd-28e4-450d-9e20-af64d9c0d813
-          - bdd8f526-4c6a-4ea5-b740-4762aac04697
-      type: object
-      required:
-      - ids
     CreateProductResponse:
       properties:
         id:
@@ -666,231 +891,6 @@ components:
       type: object
       required:
       - id
-    UpdateProductRequest:
-      properties:
-        id:
-          format: uuid
-          type: string
-          description: The UUID of the product record
-          example: aee349fd-28e4-450d-9e20-af64d9c0d813
-        name:
-          type: string
-          description: The name of the product
-          example: Canned food - Single
-        description:
-          type: string
-          description: The description of the product.
-          example: Our best ever canned food product
-        category:
-          type: string
-          description: The category the product falls into.
-          example: Food
-        declaredUnit:
-          type: string
-          description: ' A single declared unit of the product.'
-          example: 1 can
-        weightPerDeclaredUnit:
-          type: number
-          description: Weight of a single declared unit
-          example: '100'
-          exclusiveMinimum: 0
-        weightUnit:
-          type: string
-          enum:
-          - g
-          - kg
-          - kt
-          - lb
-          - long_ton
-          - oz
-          - short_ton
-          - t
-          description: The weight unit of the declared unit weight
-          example: kg
-        additionalData:
-          type: object
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - id
-    GetProductResponse:
-      properties:
-        id:
-          type: string
-          description: The UUID of the product record
-          example: aee349fd-28e4-450d-9e20-af64d9c0d813
-        productKey:
-          type: string
-          description: Your product code or identifier.
-          example: CAN-1234A
-        name:
-          type: string
-          description: The name of the product
-          example: Canned food - Single
-        description:
-          type: string
-          description: The description of the product.
-          example: Our best ever canned food product
-        category:
-          type: string
-          description: The category the product falls into.
-          example: Food
-        declaredUnit:
-          type: string
-          description: ' A single declared unit of the product.'
-          example: 1 can
-        weightPerDeclaredUnit:
-          type: number
-          description: Weight of a single declared unit
-          example: '100'
-        weightUnit:
-          type: string
-          description: The weight unit of the declared unit weight
-          example: kg
-        updatedAt:
-          type: string
-          description: The last updated date of the record
-          example: '2025-01-01'
-        additionalData:
-          type: object
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - id
-      - productKey
-      - name
-      - description
-      - category
-      - declaredUnit
-      - weightPerDeclaredUnit
-      - weightUnit
-      - updatedAt
-      - additionalData
-    UpdateProductBase:
-      properties:
-        id:
-          format: uuid
-          type: string
-          description: The UUID of the product record
-          example: aee349fd-28e4-450d-9e20-af64d9c0d813
-        name:
-          type: string
-          description: The name of the product
-          example: Canned food - Single
-        description:
-          type: string
-          description: The description of the product.
-          example: Our best ever canned food product
-        category:
-          type: string
-          description: The category the product falls into.
-          example: Food
-        declaredUnit:
-          type: string
-          description: ' A single declared unit of the product.'
-          example: 1 can
-        weightPerDeclaredUnit:
-          type: number
-          description: Weight of a single declared unit
-          example: '100'
-          exclusiveMinimum: 0
-        weightUnit:
-          type: string
-          enum:
-          - g
-          - kg
-          - kt
-          - lb
-          - long_ton
-          - oz
-          - short_ton
-          - t
-          description: The weight unit of the declared unit weight
-          example: kg
-        additionalData:
-          type: object
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - id
-      - name
-      - description
-      - category
-      - declaredUnit
-      - weightPerDeclaredUnit
-      - weightUnit
-    CreateProductRequest:
-      properties:
-        productKey:
-          type: string
-          description: Your product code or identifier.
-          example: CAN-1234A
-        name:
-          type: string
-          description: The name of the product
-          example: Canned food - Single
-        description:
-          type: string
-          description: The description of the product.
-          example: Our best ever canned food product
-        category:
-          type: string
-          description: The category the product falls into.
-          example: Food
-        declaredUnit:
-          type: string
-          description: ' A single declared unit of the product.'
-          example: 1 can
-        weightPerDeclaredUnit:
-          type: number
-          description: Weight of a single declared unit
-          example: '100'
-          exclusiveMinimum: 0
-        weightUnit:
-          enum:
-          - g
-          - kg
-          - kt
-          - lb
-          - long_ton
-          - oz
-          - short_ton
-          - t
-          type: string
-          description: The weight unit of the declared unit weight
-          example: kg
-        additionalData:
-          type: object
-          description: Additional JSON data for the product
-          example:
-            key1: value1
-            key2: value2
-      type: object
-      required:
-      - productKey
-      - name
-      - declaredUnit
-      - weightPerDeclaredUnit
-      - weightUnit
-    BulkCreateProductsRequest:
-      properties:
-        products:
-          items:
-            $ref: '#/components/schemas/CreateProductBase'
-          type: array
-          description: Array of products to create
-      type: object
-      required:
-      - products
   securitySchemes:
     bearerAuth:
       type: apiKey

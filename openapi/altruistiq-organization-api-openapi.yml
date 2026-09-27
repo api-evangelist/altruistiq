@@ -70,6 +70,17 @@ paths:
       - bearerAuth: []
 components:
   schemas:
+    GetOrganizationPublicDtoRes:
+      properties:
+        organizations:
+          items:
+            type: object
+            $ref: '#/components/schemas/OrganizationPublicGet'
+          type: array
+          description: The list of organizations including root organization and business units
+      type: object
+      required:
+      - organizations
     OrganizationPublicGet:
       properties:
         id:
@@ -85,17 +96,6 @@ components:
       required:
       - id
       - name
-    GetOrganizationPublicDtoRes:
-      properties:
-        organizations:
-          items:
-            type: object
-            $ref: '#/components/schemas/OrganizationPublicGet'
-          type: array
-          description: The list of organizations including root organization and business units
-      type: object
-      required:
-      - organizations
   securitySchemes:
     bearerAuth:
       type: apiKey
