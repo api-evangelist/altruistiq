@@ -123,6 +123,20 @@ components:
       type: object
       required:
       - subdivisions
+    CountryPublicGet:
+      properties:
+        code:
+          type: string
+          description: The ISO 3166-1 alpha-2 code of the country
+          example: US
+        name:
+          type: string
+          description: The name of the country
+          example: United States
+      type: object
+      required:
+      - code
+      - name
     CountrySubdivisionPublicGet:
       properties:
         code:
@@ -147,20 +161,6 @@ components:
       - name
       - type
       - countryCode
-    CountryPublicGet:
-      properties:
-        code:
-          type: string
-          description: The ISO 3166-1 alpha-2 code of the country
-          example: US
-        name:
-          type: string
-          description: The name of the country
-          example: United States
-      type: object
-      required:
-      - code
-      - name
     GetCountriesPublicDtoRes:
       properties:
         countries:

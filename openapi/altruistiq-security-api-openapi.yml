@@ -72,13 +72,6 @@ paths:
                 $ref: '#/components/schemas/500'
 components:
   schemas:
-    '401':
-      type: object
-      properties:
-        status:
-          type: string
-          example: Unauthorized
-          description: Request was unauthorized
     '500':
       type: object
       properties:
@@ -106,6 +99,13 @@ components:
           enum:
           - client_credentials
           example: client_credentials
+    '401':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Unauthorized
+          description: Request was unauthorized
   securitySchemes:
     bearerAuth:
       type: apiKey

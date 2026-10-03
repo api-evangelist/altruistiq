@@ -184,20 +184,6 @@ paths:
                 $ref: '#/components/schemas/504'
 components:
   schemas:
-    '401':
-      type: object
-      properties:
-        status:
-          type: string
-          example: Unauthorized
-          description: Request was unauthorized
-    '504':
-      type: object
-      properties:
-        status:
-          type: string
-          example: Not Implemented
-          description: Not Implemented
     ExportStatus:
       type: string
       enum:
@@ -207,6 +193,13 @@ components:
       - FAILED
       - CANCELLED
       example: QUEUED
+    '504':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Not Implemented
+          description: Not Implemented
     '404':
       type: object
       properties:
@@ -214,6 +207,13 @@ components:
           type: string
           example: Not found
           description: Resource not found
+    '401':
+      type: object
+      properties:
+        status:
+          type: string
+          example: Unauthorized
+          description: Request was unauthorized
     '500':
       type: object
       properties:
