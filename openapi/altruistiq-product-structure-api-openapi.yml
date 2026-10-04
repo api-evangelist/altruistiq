@@ -573,30 +573,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    UpdateProductStructureResponse:
-      properties:
-        success:
-          type: boolean
-          description: A string boolean about the response
-          example: true
-      type: object
-      required:
-      - success
-    UpdateProductStructureItem:
-      properties:
-        id:
-          format: uuid
-          type: string
-          description: The UUID of the product structure record
-          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
-        routeDescription:
-          type: string
-          description: A text string describing the route a product takes through the supply chain
-          example: New York > Paris > Munich
-      type: object
-      required:
-      - id
-      - routeDescription
     BulkUpdateProductStructuresSuccessResponse:
       properties:
         success:
@@ -606,45 +582,6 @@ components:
       type: object
       required:
       - success
-    BulkGetProductStructuresResponse:
-      properties:
-        structures:
-          items:
-            $ref: '#/components/schemas/GetProductStructureEntity'
-          type: array
-          description: Array of product structures
-      type: object
-      required:
-      - structures
-    CreateProductStructureResponse:
-      properties:
-        id:
-          type: string
-          description: ID of the created structure
-          example: 52f78ded-ccad-4d8f-b474-29a4f6181e50
-      type: object
-      required:
-      - id
-    UpdateProductStructureBody:
-      properties:
-        routeDescription:
-          type: string
-          description: A text string describing the route a product takes through the supply chain
-          example: New York > Paris > Munich
-      type: object
-      required:
-      - routeDescription
-    BulkUpdateProductStructuresBody:
-      properties:
-        structures:
-          items:
-            $ref: '#/components/schemas/UpdateProductStructureItem'
-          type: array
-          minItems: 1
-          description: Array of structures to update
-      type: object
-      required:
-      - structures
     CreateProductStructureRequest:
       properties:
         productId:
@@ -674,6 +611,15 @@ components:
       - productId
       - validFrom
       - facilityName
+    CreateProductStructureResponse:
+      properties:
+        id:
+          type: string
+          description: ID of the created structure
+          example: 52f78ded-ccad-4d8f-b474-29a4f6181e50
+      type: object
+      required:
+      - id
     BulkCreateProductStructuresResponse:
       properties:
         ids:
@@ -686,6 +632,60 @@ components:
       type: object
       required:
       - ids
+    BulkUpdateProductStructuresBody:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/UpdateProductStructureItem'
+          type: array
+          minItems: 1
+          description: Array of structures to update
+      type: object
+      required:
+      - structures
+    UpdateProductStructureResponse:
+      properties:
+        success:
+          type: boolean
+          description: A string boolean about the response
+          example: true
+      type: object
+      required:
+      - success
+    BulkGetProductStructuresResponse:
+      properties:
+        structures:
+          items:
+            $ref: '#/components/schemas/GetProductStructureEntity'
+          type: array
+          description: Array of product structures
+      type: object
+      required:
+      - structures
+    UpdateProductStructureBody:
+      properties:
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - routeDescription
+    UpdateProductStructureItem:
+      properties:
+        id:
+          format: uuid
+          type: string
+          description: The UUID of the product structure record
+          example: 84400bd6-ceaf-4f79-9595-4e2f2b9782c5
+        routeDescription:
+          type: string
+          description: A text string describing the route a product takes through the supply chain
+          example: New York > Paris > Munich
+      type: object
+      required:
+      - id
+      - routeDescription
     GetProductStructureEntity:
       properties:
         id:
