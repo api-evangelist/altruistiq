@@ -1,15 +1,56 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/altruistiq-openapi.yml
-docs: https://docs.altruistiq.com
-note: >-
-  Altruistiq authenticates via the OAuth 2.0 client credentials flow (RFC 6749) against
-  /api/public/v1/oauth2/token using only client_id and client_secret, and no OAuth scopes
-  are documented or used (https://docs.altruistiq.com).
+generated: '2026-10-14'
+method: none
+source: openapi/altruistiq-data-source-api-openapi.yml, openapi/altruistiq-export-api-openapi.yml,
+  openapi/altruistiq-facility-api-openapi.yml, openapi/altruistiq-location-api-openapi.yml,
+  openapi/altruistiq-organization-api-openapi.yml, openapi/altruistiq-product-api-openapi.yml,
+  openapi/altruistiq-product-structure-api-openapi.yml, openapi/altruistiq-product-structure-inputs-api-openapi.yml,
+  openapi/altruistiq-security-api-openapi.yml
 schemes:
 - name: oauth2
-  source: openapi/altruistiq-openapi.yml
+  source: openapi/altruistiq-data-source-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-export-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-facility-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-location-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-organization-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-product-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-product-structure-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-product-structure-inputs-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
+- name: oauth2
+  source: openapi/altruistiq-security-api-openapi.yml
   flows:
   - flow: clientCredentials
     tokenUrl: https://app.altruistiq.com/api/public/v1/oauth2/token
 scopes: []
+note: The OAuth2 security scheme(s) in the OpenAPI declare no scopes, and no security requirement
+  references one.
