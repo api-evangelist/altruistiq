@@ -945,6 +945,8 @@ apis:
   - type: Standards
     url: https://www.carbon-transparency.org
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/altruistiq/overview
   - type: AgenticAccess
     url: agentic-access/altruistiq-agentic-access.yml
   - type: TrustCenter
