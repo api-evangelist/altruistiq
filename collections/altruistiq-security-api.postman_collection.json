@@ -1,344 +1,349 @@
 {
+  "info": {
+    "_postman_id": "2970ea45-67f1-4c7e-8aa4-20f010c9e839",
+    "name": "Altruistiq Datasource Security API",
+    "description": "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions measurement.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T01:14:04.000Z",
+    "updatedAt": "2026-10-22T01:14:04.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2970ea45-67f1-4c7e-8aa4-20f010c9e839"
+  },
   "item": [
     {
-      "id": "2a8e0a3d-3161-4779-8b22-14390a7e5d78",
-      "name": "Security",
-      "description": {
-        "content": "The Altruistiq API uses TLS and follows the OAuth 2.0 Client credentials flow as per [RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4)\n\n### Generating `client_id` and `client_secret`\n\nIn order to generate your `client_id` and `client_secret`, go to the altruistiq application’s organisation settings.",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "157de21e-6962-4e61-aa1f-fecb9a885d70",
-          "name": "Retrieve An Access Token",
-          "request": {
-            "name": "Retrieve An Access Token",
-            "description": {
-              "content": "Retrieve an access token which will enable access to private areas of the API",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "public",
-                "v1",
-                "oauth2",
-                "token"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/x-www-form-urlencoded"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "accessTokenUrl",
-                  "value": "https://app.altruistiq.com/api/public/v1/oauth2/token"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials"
-                }
-              ]
-            },
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "disabled": false,
-                  "key": "client_id",
-                  "value": "<string>",
-                  "description": "(Required) The client ID."
-                },
-                {
-                  "disabled": false,
-                  "key": "client_secret",
-                  "value": "<string>",
-                  "description": "(Required) The client secret."
-                },
-                {
-                  "disabled": false,
-                  "key": "grant_type",
-                  "value": "<string>",
-                  "description": "(Required) "
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "public",
+          "item": [
             {
-              "id": "9484ab4b-eb80-418b-b0b1-43ae2b1cf228",
-              "name": "Token Retrieved",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "oauth2",
-                    "token"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) The client ID.",
-                        "type": "text/plain"
-                      },
-                      "key": "client_id",
-                      "value": "client-id-123"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) The client secret.",
-                        "type": "text/plain"
-                      },
-                      "key": "client_secret",
-                      "value": "client_secret-123"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) ",
-                        "type": "text/plain"
-                      },
-                      "key": "grant_type",
-                      "value": "client_credentials"
-                    }
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "oauth2",
+                  "item": [
+                    {
+                      "name": "token",
+                      "item": [
+                        {
+                          "name": "Retrieve An Access Token",
+                          "id": "6f2fa612-eac7-4c42-9d4d-943c5a8e4f75",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "oauth2",
+                              "oauth2": [
+                                {
+                                  "key": "accessTokenUrl",
+                                  "value": "https://app.altruistiq.com/api/public/v1/oauth2/token",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "grant_type",
+                                  "value": "client_credentials",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "urlencoded",
+                              "urlencoded": [
+                                {
+                                  "description": "(Required) The client ID.",
+                                  "key": "client_id",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) The client secret.",
+                                  "key": "client_secret",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) ",
+                                  "key": "grant_type",
+                                  "value": "client_credentials"
+                                }
+                              ]
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/public/v1/oauth2/token",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "public",
+                                "v1",
+                                "oauth2",
+                                "token"
+                              ]
+                            },
+                            "description": "Retrieve an access token which will enable access to private areas of the API"
+                          },
+                          "response": [
+                            {
+                              "id": "9858a733-2cdf-4932-a84e-42fef200332a",
+                              "name": "Token Retrieved",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/x-www-form-urlencoded"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: oauth2",
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "urlencoded",
+                                  "urlencoded": [
+                                    {
+                                      "description": "(Required) The client ID.",
+                                      "key": "client_id",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) The client secret.",
+                                      "key": "client_secret",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "grant_type",
+                                      "value": "client_credentials"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/oauth2/token",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "oauth2",
+                                    "token"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"access_token\": \"<string>\",\n  \"token_type\": \"<string>\",\n  \"expires_in\": \"<integer>\"\n}",
+                              "createdAt": "2026-10-22T01:14:04.000Z",
+                              "updatedAt": "2026-10-22T01:14:04.000Z",
+                              "uid": "35240-9858a733-2cdf-4932-a84e-42fef200332a"
+                            },
+                            {
+                              "id": "0a4bcfc4-f93b-4318-a002-bd5d84f6fb0d",
+                              "name": "Unauthorized",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/x-www-form-urlencoded"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: oauth2",
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "urlencoded",
+                                  "urlencoded": [
+                                    {
+                                      "description": "(Required) The client ID.",
+                                      "key": "client_id",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) The client secret.",
+                                      "key": "client_secret",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "grant_type",
+                                      "value": "client_credentials"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/oauth2/token",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "oauth2",
+                                    "token"
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T01:14:04.000Z",
+                              "updatedAt": "2026-10-22T01:14:04.000Z",
+                              "uid": "35240-0a4bcfc4-f93b-4318-a002-bd5d84f6fb0d"
+                            },
+                            {
+                              "id": "841c1432-7b0e-41d0-800b-4675ee0c4311",
+                              "name": "Server Error",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/x-www-form-urlencoded"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: oauth2",
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "urlencoded",
+                                  "urlencoded": [
+                                    {
+                                      "description": "(Required) The client ID.",
+                                      "key": "client_id",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) The client secret.",
+                                      "key": "client_secret",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "grant_type",
+                                      "value": "client_credentials"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/oauth2/token",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "oauth2",
+                                    "token"
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T01:14:04.000Z",
+                              "updatedAt": "2026-10-22T01:14:04.000Z",
+                              "uid": "35240-841c1432-7b0e-41d0-800b-4675ee0c4311"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T01:14:04.000Z",
+                          "updatedAt": "2026-10-22T01:14:04.000Z",
+                          "uid": "35240-6f2fa612-eac7-4c42-9d4d-943c5a8e4f75"
+                        }
+                      ],
+                      "id": "cd0fecbd-38a9-435d-928f-92eeebb24ffc",
+                      "createdAt": "2026-10-22T01:14:04.000Z",
+                      "updatedAt": "2026-10-22T01:14:04.000Z",
+                      "uid": "35240-cd0fecbd-38a9-435d-928f-92eeebb24ffc"
+                    }
+                  ],
+                  "id": "42651bab-e594-4e77-ab39-d70e8678d738",
+                  "createdAt": "2026-10-22T01:14:04.000Z",
+                  "updatedAt": "2026-10-22T01:14:04.000Z",
+                  "uid": "35240-42651bab-e594-4e77-ab39-d70e8678d738"
                 }
               ],
-              "body": "{\n  \"access_token\": \"string\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 4000\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "337150f3-978a-43fa-b9b0-fa1416719cc6",
-              "name": "Unauthorized",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "oauth2",
-                    "token"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) The client ID.",
-                        "type": "text/plain"
-                      },
-                      "key": "client_id",
-                      "value": "client-id-123"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) The client secret.",
-                        "type": "text/plain"
-                      },
-                      "key": "client_secret",
-                      "value": "client_secret-123"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) ",
-                        "type": "text/plain"
-                      },
-                      "key": "grant_type",
-                      "value": "client_credentials"
-                    }
-                  ]
-                }
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"Unauthorized\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "297dae75-6b9f-4baf-a8da-ccad48ee3a7f",
-              "name": "Server Error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "oauth2",
-                    "token"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) The client ID.",
-                        "type": "text/plain"
-                      },
-                      "key": "client_id",
-                      "value": "client-id-123"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) The client secret.",
-                        "type": "text/plain"
-                      },
-                      "key": "client_secret",
-                      "value": "client_secret-123"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) ",
-                        "type": "text/plain"
-                      },
-                      "key": "grant_type",
-                      "value": "client_credentials"
-                    }
-                  ]
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"Server Error\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "f6b6e646-72a1-4122-bd35-153c13221425",
+              "createdAt": "2026-10-22T01:14:04.000Z",
+              "updatedAt": "2026-10-22T01:14:04.000Z",
+              "uid": "35240-f6b6e646-72a1-4122-bd35-153c13221425"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "576d65a6-fced-44e4-a6c9-7ecd9566791b",
+          "createdAt": "2026-10-22T01:14:04.000Z",
+          "updatedAt": "2026-10-22T01:14:04.000Z",
+          "uid": "35240-576d65a6-fced-44e4-a6c9-7ecd9566791b"
         }
       ],
-      "event": []
+      "id": "5e078e2b-4dd5-4e81-87b5-08b99069f988",
+      "createdAt": "2026-10-22T01:14:04.000Z",
+      "updatedAt": "2026-10-22T01:14:04.000Z",
+      "uid": "35240-5e078e2b-4dd5-4e81-87b5-08b99069f988"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "https://app.altruistiq.com/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://app.altruistiq.com/"
     }
-  ],
-  "info": {
-    "_postman_id": "23eab87b-e662-4003-968e-bd4ffe2df142",
-    "name": "Altruistiq Datasource Security API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.\nA **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.\nA **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).\n**Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.\n\n# Datasource API Outline\n\nPrimarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.\n\nThe Datasource API is governed by the oauth2 protocol.\n\nThe Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.\n\n# PACT API Outline\n\nPrimarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.\n\nThe PACT API is is governed by the oauth2 protocol (see Security).\n\nFor full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

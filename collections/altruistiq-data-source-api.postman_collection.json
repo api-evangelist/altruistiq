@@ -1,0 +1,1267 @@
+{
+  "info": {
+    "_postman_id": "71ff10ad-76d4-408d-ae29-77411d50402e",
+    "name": "Altruistiq Datasource API",
+    "description": "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions measurement.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T01:14:10.000Z",
+    "updatedAt": "2026-10-22T01:14:10.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-71ff10ad-76d4-408d-ae29-77411d50402e"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "public",
+          "item": [
+            {
+              "name": "v1",
+              "item": [
+                {
+                  "name": "datasource",
+                  "item": [
+                    {
+                      "name": "{dataSourceId}",
+                      "item": [
+                        {
+                          "name": "upload",
+                          "item": [
+                            {
+                              "name": "{uploadId}",
+                              "item": [
+                                {
+                                  "name": "file",
+                                  "item": [
+                                    {
+                                      "name": "{fileId}",
+                                      "item": [
+                                        {
+                                          "name": "complete",
+                                          "item": [
+                                            {
+                                              "name": "Complete A Multipart File Upload",
+                                              "id": "73e0b5c1-3360-4d6d-ad68-ee3726704e6e",
+                                              "protocolProfileBehavior": {
+                                                "disableBodyPruning": true
+                                              },
+                                              "request": {
+                                                "auth": {
+                                                  "type": "apikey",
+                                                  "apikey": [
+                                                    {
+                                                      "key": "key",
+                                                      "value": "Authorization",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "key": "value",
+                                                      "value": "{{apiKey}}",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "key": "in",
+                                                      "value": "header",
+                                                      "type": "string"
+                                                    }
+                                                  ]
+                                                },
+                                                "method": "POST",
+                                                "header": [
+                                                  {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                  },
+                                                  {
+                                                    "key": "Accept",
+                                                    "value": "application/json"
+                                                  }
+                                                ],
+                                                "body": {
+                                                  "mode": "raw",
+                                                  "raw": "{\n  \"fileName\": \"<string>\",\n  \"parts\": {\n    \"example\": [\n      {\n        \"PartNumber\": 1,\n        \"ETag\": \"123\"\n      },\n      {\n        \"PartNumber\": 2,\n        \"ETag\": \"123\"\n      }\n    ]\n  }\n}",
+                                                  "options": {
+                                                    "raw": {
+                                                      "headerFamily": "json",
+                                                      "language": "json"
+                                                    }
+                                                  }
+                                                },
+                                                "url": {
+                                                  "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+                                                  "host": [
+                                                    "{{baseUrl}}"
+                                                  ],
+                                                  "path": [
+                                                    "api",
+                                                    "public",
+                                                    "v1",
+                                                    "datasource",
+                                                    ":dataSourceId",
+                                                    "upload",
+                                                    ":uploadId",
+                                                    "file",
+                                                    ":fileId",
+                                                    "complete"
+                                                  ],
+                                                  "variable": [
+                                                    {
+                                                      "id": "4666794e-5a26-4303-9e3f-6d0a1ca412b6",
+                                                      "key": "dataSourceId",
+                                                      "value": "<string>",
+                                                      "description": "(Required) ID of datasource"
+                                                    },
+                                                    {
+                                                      "id": "f89f56ce-7a11-41ae-bee0-a31b0c052e31",
+                                                      "key": "uploadId",
+                                                      "value": "<string>",
+                                                      "description": "(Required) ID of upload"
+                                                    },
+                                                    {
+                                                      "id": "3b274d72-6674-4855-aed1-bba18dc6f6aa",
+                                                      "key": "fileId",
+                                                      "value": "<string>",
+                                                      "description": "(Required) ID of file"
+                                                    }
+                                                  ]
+                                                },
+                                                "description": "Use this endpoint to complete a file upload."
+                                              },
+                                              "response": [
+                                                {
+                                                  "id": "cb382065-7376-49c0-b588-847d2371965b",
+                                                  "name": "File Multipart Upload Complete",
+                                                  "originalRequest": {
+                                                    "method": "POST",
+                                                    "header": [
+                                                      {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "description": "Added as a part of security scheme: apikey",
+                                                        "key": "Authorization",
+                                                        "value": "<API Key>"
+                                                      }
+                                                    ],
+                                                    "body": {
+                                                      "mode": "raw",
+                                                      "raw": "{\n  \"fileName\": \"<string>\",\n  \"parts\": {\n    \"example\": [\n      {\n        \"PartNumber\": 1,\n        \"ETag\": \"123\"\n      },\n      {\n        \"PartNumber\": 2,\n        \"ETag\": \"123\"\n      }\n    ]\n  }\n}",
+                                                      "options": {
+                                                        "raw": {
+                                                          "headerFamily": "json",
+                                                          "language": "json"
+                                                        }
+                                                      }
+                                                    },
+                                                    "url": {
+                                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+                                                      "host": [
+                                                        "{{baseUrl}}"
+                                                      ],
+                                                      "path": [
+                                                        "api",
+                                                        "public",
+                                                        "v1",
+                                                        "datasource",
+                                                        ":dataSourceId",
+                                                        "upload",
+                                                        ":uploadId",
+                                                        "file",
+                                                        ":fileId",
+                                                        "complete"
+                                                      ],
+                                                      "variable": [
+                                                        {
+                                                          "key": "dataSourceId"
+                                                        },
+                                                        {
+                                                          "key": "uploadId"
+                                                        },
+                                                        {
+                                                          "key": "fileId"
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  "status": "OK",
+                                                  "code": 200,
+                                                  "_postman_previewlanguage": "json",
+                                                  "header": [
+                                                    {
+                                                      "key": "Content-Type",
+                                                      "value": "application/json"
+                                                    }
+                                                  ],
+                                                  "cookie": [],
+                                                  "responseTime": null,
+                                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                                  "uid": "35240-cb382065-7376-49c0-b588-847d2371965b"
+                                                },
+                                                {
+                                                  "id": "3b180053-4948-4566-a186-6093126f6e17",
+                                                  "name": "Unauthorized",
+                                                  "originalRequest": {
+                                                    "method": "POST",
+                                                    "header": [
+                                                      {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "description": "Added as a part of security scheme: apikey",
+                                                        "key": "Authorization",
+                                                        "value": "<API Key>"
+                                                      }
+                                                    ],
+                                                    "body": {
+                                                      "mode": "raw",
+                                                      "raw": "{\n  \"fileName\": \"<string>\",\n  \"parts\": {\n    \"example\": [\n      {\n        \"PartNumber\": 1,\n        \"ETag\": \"123\"\n      },\n      {\n        \"PartNumber\": 2,\n        \"ETag\": \"123\"\n      }\n    ]\n  }\n}",
+                                                      "options": {
+                                                        "raw": {
+                                                          "headerFamily": "json",
+                                                          "language": "json"
+                                                        }
+                                                      }
+                                                    },
+                                                    "url": {
+                                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+                                                      "host": [
+                                                        "{{baseUrl}}"
+                                                      ],
+                                                      "path": [
+                                                        "api",
+                                                        "public",
+                                                        "v1",
+                                                        "datasource",
+                                                        ":dataSourceId",
+                                                        "upload",
+                                                        ":uploadId",
+                                                        "file",
+                                                        ":fileId",
+                                                        "complete"
+                                                      ],
+                                                      "variable": [
+                                                        {
+                                                          "key": "dataSourceId"
+                                                        },
+                                                        {
+                                                          "key": "uploadId"
+                                                        },
+                                                        {
+                                                          "key": "fileId"
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  "status": "Unauthorized",
+                                                  "code": 401,
+                                                  "_postman_previewlanguage": "json",
+                                                  "header": [
+                                                    {
+                                                      "key": "Content-Type",
+                                                      "value": "application/json"
+                                                    }
+                                                  ],
+                                                  "cookie": [],
+                                                  "responseTime": null,
+                                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                                  "uid": "35240-3b180053-4948-4566-a186-6093126f6e17"
+                                                },
+                                                {
+                                                  "id": "3e7f52cc-0de3-48dc-9a75-5b28897a8282",
+                                                  "name": "Not Found",
+                                                  "originalRequest": {
+                                                    "method": "POST",
+                                                    "header": [
+                                                      {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "description": "Added as a part of security scheme: apikey",
+                                                        "key": "Authorization",
+                                                        "value": "<API Key>"
+                                                      }
+                                                    ],
+                                                    "body": {
+                                                      "mode": "raw",
+                                                      "raw": "{\n  \"fileName\": \"<string>\",\n  \"parts\": {\n    \"example\": [\n      {\n        \"PartNumber\": 1,\n        \"ETag\": \"123\"\n      },\n      {\n        \"PartNumber\": 2,\n        \"ETag\": \"123\"\n      }\n    ]\n  }\n}",
+                                                      "options": {
+                                                        "raw": {
+                                                          "headerFamily": "json",
+                                                          "language": "json"
+                                                        }
+                                                      }
+                                                    },
+                                                    "url": {
+                                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+                                                      "host": [
+                                                        "{{baseUrl}}"
+                                                      ],
+                                                      "path": [
+                                                        "api",
+                                                        "public",
+                                                        "v1",
+                                                        "datasource",
+                                                        ":dataSourceId",
+                                                        "upload",
+                                                        ":uploadId",
+                                                        "file",
+                                                        ":fileId",
+                                                        "complete"
+                                                      ],
+                                                      "variable": [
+                                                        {
+                                                          "key": "dataSourceId"
+                                                        },
+                                                        {
+                                                          "key": "uploadId"
+                                                        },
+                                                        {
+                                                          "key": "fileId"
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  "status": "Not Found",
+                                                  "code": 404,
+                                                  "_postman_previewlanguage": "json",
+                                                  "header": [
+                                                    {
+                                                      "key": "Content-Type",
+                                                      "value": "application/json"
+                                                    }
+                                                  ],
+                                                  "cookie": [],
+                                                  "responseTime": null,
+                                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                                  "uid": "35240-3e7f52cc-0de3-48dc-9a75-5b28897a8282"
+                                                },
+                                                {
+                                                  "id": "94705ac6-a968-470c-b432-06fa536800eb",
+                                                  "name": "Server Error",
+                                                  "originalRequest": {
+                                                    "method": "POST",
+                                                    "header": [
+                                                      {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                      },
+                                                      {
+                                                        "description": "Added as a part of security scheme: apikey",
+                                                        "key": "Authorization",
+                                                        "value": "<API Key>"
+                                                      }
+                                                    ],
+                                                    "body": {
+                                                      "mode": "raw",
+                                                      "raw": "{\n  \"fileName\": \"<string>\",\n  \"parts\": {\n    \"example\": [\n      {\n        \"PartNumber\": 1,\n        \"ETag\": \"123\"\n      },\n      {\n        \"PartNumber\": 2,\n        \"ETag\": \"123\"\n      }\n    ]\n  }\n}",
+                                                      "options": {
+                                                        "raw": {
+                                                          "headerFamily": "json",
+                                                          "language": "json"
+                                                        }
+                                                      }
+                                                    },
+                                                    "url": {
+                                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload/:uploadId/file/:fileId/complete",
+                                                      "host": [
+                                                        "{{baseUrl}}"
+                                                      ],
+                                                      "path": [
+                                                        "api",
+                                                        "public",
+                                                        "v1",
+                                                        "datasource",
+                                                        ":dataSourceId",
+                                                        "upload",
+                                                        ":uploadId",
+                                                        "file",
+                                                        ":fileId",
+                                                        "complete"
+                                                      ],
+                                                      "variable": [
+                                                        {
+                                                          "key": "dataSourceId"
+                                                        },
+                                                        {
+                                                          "key": "uploadId"
+                                                        },
+                                                        {
+                                                          "key": "fileId"
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  "status": "Internal Server Error",
+                                                  "code": 500,
+                                                  "_postman_previewlanguage": "json",
+                                                  "header": [
+                                                    {
+                                                      "key": "Content-Type",
+                                                      "value": "application/json"
+                                                    }
+                                                  ],
+                                                  "cookie": [],
+                                                  "responseTime": null,
+                                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                                  "uid": "35240-94705ac6-a968-470c-b432-06fa536800eb"
+                                                }
+                                              ],
+                                              "createdAt": "2026-10-22T01:14:11.000Z",
+                                              "updatedAt": "2026-10-22T01:14:11.000Z",
+                                              "uid": "35240-73e0b5c1-3360-4d6d-ad68-ee3726704e6e"
+                                            }
+                                          ],
+                                          "id": "21c85163-bf27-4b40-b805-8ab948a7ae56",
+                                          "createdAt": "2026-10-22T01:14:11.000Z",
+                                          "updatedAt": "2026-10-22T01:14:11.000Z",
+                                          "uid": "35240-21c85163-bf27-4b40-b805-8ab948a7ae56"
+                                        }
+                                      ],
+                                      "id": "63e9390b-a9ed-412c-98b4-1750a527685f",
+                                      "createdAt": "2026-10-22T01:14:11.000Z",
+                                      "updatedAt": "2026-10-22T01:14:11.000Z",
+                                      "uid": "35240-63e9390b-a9ed-412c-98b4-1750a527685f"
+                                    }
+                                  ],
+                                  "id": "29d464e8-ab29-49f6-a43e-995aa7d92451",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-29d464e8-ab29-49f6-a43e-995aa7d92451"
+                                }
+                              ],
+                              "id": "b16c7c5b-15c3-4bb3-82b4-b2d66e0eb229",
+                              "createdAt": "2026-10-22T01:14:11.000Z",
+                              "updatedAt": "2026-10-22T01:14:11.000Z",
+                              "uid": "35240-b16c7c5b-15c3-4bb3-82b4-b2d66e0eb229"
+                            },
+                            {
+                              "name": "Start A Multipart Upload",
+                              "id": "34c823dd-ebf3-42a2-9756-5df34e9a801a",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "auth": {
+                                  "type": "apikey",
+                                  "apikey": [
+                                    {
+                                      "key": "key",
+                                      "value": "Authorization",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "key": "value",
+                                      "value": "{{apiKey}}",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "key": "in",
+                                      "value": "header",
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload?userEmail=<string>&fileName=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "datasource",
+                                    ":dataSourceId",
+                                    "upload"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Email of user initiating upload.",
+                                      "key": "userEmail",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Name of file that is being uploaded.",
+                                      "key": "fileName",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "b6c20545-e5a0-44ae-b591-ee0e72c6a60a",
+                                      "key": "dataSourceId",
+                                      "value": "<string>",
+                                      "description": "(Required) ID of datasource"
+                                    }
+                                  ]
+                                },
+                                "description": "Use this endpoint to start your multipart upload and retrieve an uploadId and fileId."
+                              },
+                              "response": [
+                                {
+                                  "id": "44eb8f59-2d69-4fca-8ccd-6e913fc0b3fa",
+                                  "name": "Multipart upload started",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload?userEmail=<string>&fileName=<string>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Email of user initiating upload.",
+                                          "key": "userEmail",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "(Required) Name of file that is being uploaded.",
+                                          "key": "fileName",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Created",
+                                  "code": 201,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\",\n  \"uploadId\": \"<string>\",\n  \"fileId\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-44eb8f59-2d69-4fca-8ccd-6e913fc0b3fa"
+                                },
+                                {
+                                  "id": "7d0428a8-04a1-4b8f-bd18-3c7dc85e170e",
+                                  "name": "Unauthorized",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload?userEmail=<string>&fileName=<string>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Email of user initiating upload.",
+                                          "key": "userEmail",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "(Required) Name of file that is being uploaded.",
+                                          "key": "fileName",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-7d0428a8-04a1-4b8f-bd18-3c7dc85e170e"
+                                },
+                                {
+                                  "id": "8ada16cc-4909-450f-af68-4b531a480361",
+                                  "name": "Not Found",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload?userEmail=<string>&fileName=<string>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Email of user initiating upload.",
+                                          "key": "userEmail",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "(Required) Name of file that is being uploaded.",
+                                          "key": "fileName",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-8ada16cc-4909-450f-af68-4b531a480361"
+                                },
+                                {
+                                  "id": "e3cc227e-93ad-4c2e-9897-659ab96d68ee",
+                                  "name": "Server Error",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload?userEmail=<string>&fileName=<string>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Email of user initiating upload.",
+                                          "key": "userEmail",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "(Required) Name of file that is being uploaded.",
+                                          "key": "fileName",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Internal Server Error",
+                                  "code": 500,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-e3cc227e-93ad-4c2e-9897-659ab96d68ee"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T01:14:11.000Z",
+                              "updatedAt": "2026-10-22T01:14:11.000Z",
+                              "uid": "35240-34c823dd-ebf3-42a2-9756-5df34e9a801a"
+                            },
+                            {
+                              "name": "Upload A File To A Datasource",
+                              "id": "98b533cb-990f-438d-981f-4fa8def66825",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "auth": {
+                                  "type": "apikey",
+                                  "apikey": [
+                                    {
+                                      "key": "key",
+                                      "value": "Authorization",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "key": "value",
+                                      "value": "{{apiKey}}",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "key": "in",
+                                      "value": "header",
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Range",
+                                    "value": ""
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "file",
+                                      "value": "<binary>,<binary>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "uploadId",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "(Required) ",
+                                      "key": "partNo",
+                                      "value": "<number>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "datasource",
+                                    ":dataSourceId",
+                                    "upload"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "cdb2821d-005e-4670-9eab-53305bad2b7e",
+                                      "key": "dataSourceId",
+                                      "value": "<string>",
+                                      "description": "(Required) ID of datasource"
+                                    }
+                                  ]
+                                },
+                                "description": "Use this endpoint to upload your binary."
+                              },
+                              "response": [
+                                {
+                                  "id": "b88e0f18-8930-4365-bcf0-96b2f12dda6d",
+                                  "name": "File Uploaded",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Range",
+                                        "value": ""
+                                      },
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "multipart/form-data"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "formdata",
+                                      "formdata": [
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "file",
+                                          "value": "<binary>,<binary>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "uploadId",
+                                          "value": "<string>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "partNo",
+                                          "value": "<number>",
+                                          "type": "text"
+                                        }
+                                      ]
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Created",
+                                  "code": 201,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"dataSourceId\": \"<string>\",\n  \"parts\": \"<array>\",\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-b88e0f18-8930-4365-bcf0-96b2f12dda6d"
+                                },
+                                {
+                                  "id": "2f2c2d12-cd88-4399-bf63-1fdb8d90ecad",
+                                  "name": "Unauthorized",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Range",
+                                        "value": ""
+                                      },
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "multipart/form-data"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "formdata",
+                                      "formdata": [
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "file",
+                                          "value": "<binary>,<binary>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "uploadId",
+                                          "value": "<string>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "partNo",
+                                          "value": "<number>",
+                                          "type": "text"
+                                        }
+                                      ]
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-2f2c2d12-cd88-4399-bf63-1fdb8d90ecad"
+                                },
+                                {
+                                  "id": "bf3389cd-fc73-4568-b802-3000e9a8982c",
+                                  "name": "Not Found",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Range",
+                                        "value": ""
+                                      },
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "multipart/form-data"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "formdata",
+                                      "formdata": [
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "file",
+                                          "value": "<binary>,<binary>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "uploadId",
+                                          "value": "<string>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "partNo",
+                                          "value": "<number>",
+                                          "type": "text"
+                                        }
+                                      ]
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-bf3389cd-fc73-4568-b802-3000e9a8982c"
+                                },
+                                {
+                                  "id": "895b145a-348d-4d5b-a905-213b78604cb8",
+                                  "name": "Server Error",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Range",
+                                        "value": ""
+                                      },
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "multipart/form-data"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "formdata",
+                                      "formdata": [
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "file",
+                                          "value": "<binary>,<binary>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "uploadId",
+                                          "value": "<string>",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "description": "(Required) ",
+                                          "key": "partNo",
+                                          "value": "<number>",
+                                          "type": "text"
+                                        }
+                                      ]
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/datasource/:dataSourceId/upload",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "datasource",
+                                        ":dataSourceId",
+                                        "upload"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "dataSourceId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Internal Server Error",
+                                  "code": 500,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-10-22T01:14:11.000Z",
+                                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                                  "uid": "35240-895b145a-348d-4d5b-a905-213b78604cb8"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T01:14:11.000Z",
+                              "updatedAt": "2026-10-22T01:14:11.000Z",
+                              "uid": "35240-98b533cb-990f-438d-981f-4fa8def66825"
+                            }
+                          ],
+                          "id": "20dafdc6-23eb-4c06-a9aa-5b7a8b91efda",
+                          "createdAt": "2026-10-22T01:14:11.000Z",
+                          "updatedAt": "2026-10-22T01:14:11.000Z",
+                          "uid": "35240-20dafdc6-23eb-4c06-a9aa-5b7a8b91efda"
+                        }
+                      ],
+                      "id": "fb1e83ae-0b7b-4984-81e4-14cc576f26bf",
+                      "createdAt": "2026-10-22T01:14:11.000Z",
+                      "updatedAt": "2026-10-22T01:14:11.000Z",
+                      "uid": "35240-fb1e83ae-0b7b-4984-81e4-14cc576f26bf"
+                    }
+                  ],
+                  "id": "38aace5f-9f0b-4340-8178-5935c1b69db9",
+                  "createdAt": "2026-10-22T01:14:11.000Z",
+                  "updatedAt": "2026-10-22T01:14:11.000Z",
+                  "uid": "35240-38aace5f-9f0b-4340-8178-5935c1b69db9"
+                }
+              ],
+              "id": "15f60c5e-91a8-4e7d-8757-6875d23a9830",
+              "createdAt": "2026-10-22T01:14:11.000Z",
+              "updatedAt": "2026-10-22T01:14:11.000Z",
+              "uid": "35240-15f60c5e-91a8-4e7d-8757-6875d23a9830"
+            }
+          ],
+          "id": "3c384c50-8d79-4a58-a06f-bee458df733e",
+          "createdAt": "2026-10-22T01:14:11.000Z",
+          "updatedAt": "2026-10-22T01:14:11.000Z",
+          "uid": "35240-3c384c50-8d79-4a58-a06f-bee458df733e"
+        }
+      ],
+      "id": "0ebfd3bb-3951-4e3b-a07e-c31f532a2cdb",
+      "createdAt": "2026-10-22T01:14:11.000Z",
+      "updatedAt": "2026-10-22T01:14:11.000Z",
+      "uid": "35240-0ebfd3bb-3951-4e3b-a07e-c31f532a2cdb"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.altruistiq.com/"
+    }
+  ]
+}

@@ -1,519 +1,553 @@
 {
+  "info": {
+    "_postman_id": "2652088d-5e2d-408a-97ab-7943790b8dd5",
+    "name": "Altruistiq Datasource Location API",
+    "description": "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions measurement.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T01:13:22.000Z",
+    "updatedAt": "2026-10-22T01:13:22.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2652088d-5e2d-408a-97ab-7943790b8dd5"
+  },
   "item": [
     {
-      "id": "01dde7e6-5a8d-4d11-b67f-39dfc0f7e621",
-      "name": "Location",
-      "description": {
-        "content": "\nAltruistiq's Location API enables you to:\n\n- Get a list of countries with their alpha_2 codes and names\n- Get country subdivisions for a specific country by its alpha-2 code\n",
-        "type": "text/plain"
-      },
+      "name": "api",
       "item": [
         {
-          "id": "ef94517a-b692-49d2-aa1f-ea9404f17ef4",
-          "name": "Get A List Of Countries",
-          "request": {
-            "name": "Get A List Of Countries",
-            "description": {
-              "content": "Retrieve a list of countries with their alpha_2 codes and names.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "public",
-                "v1",
-                "location",
-                "countries"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "apikey",
-              "apikey": [
-                {
-                  "key": "key",
-                  "value": "Authorization"
-                },
-                {
-                  "key": "value",
-                  "value": "{{apiKey}}"
-                },
-                {
-                  "key": "in",
-                  "value": "header"
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "public",
+          "item": [
             {
-              "id": "ab8ec667-1986-4e8e-ae8d-e38d67b387dc",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "location",
+                  "item": [
+                    {
+                      "name": "countries",
+                      "item": [
+                        {
+                          "name": "{countryCode}",
+                          "item": [
+                            {
+                              "name": "subdivisions",
+                              "item": [
+                                {
+                                  "name": "Get Country Subdivisions By Country Code",
+                                  "id": "934fe2cf-cb65-40fa-8387-69a32bab85f0",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "auth": {
+                                      "type": "apikey",
+                                      "apikey": [
+                                        {
+                                          "key": "key",
+                                          "value": "Authorization",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "key": "value",
+                                          "value": "{{apiKey}}",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "key": "in",
+                                          "value": "header",
+                                          "type": "string"
+                                        }
+                                      ]
+                                    },
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/public/v1/location/countries/:countryCode/subdivisions",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "public",
+                                        "v1",
+                                        "location",
+                                        "countries",
+                                        ":countryCode",
+                                        "subdivisions"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "b4275581-7a70-400c-bbef-f13d3c13532d",
+                                          "key": "countryCode",
+                                          "value": "",
+                                          "description": "(Required) "
+                                        }
+                                      ]
+                                    },
+                                    "description": "Retrieve a list of country subdivisions for a specific country by its alpha-2 code."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "389cd58e-3613-41f0-af04-201291849f96",
+                                      "name": "New Response",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: apikey",
+                                            "key": "Authorization",
+                                            "value": "<API Key>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/public/v1/location/countries/:countryCode/subdivisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "public",
+                                            "v1",
+                                            "location",
+                                            "countries",
+                                            ":countryCode",
+                                            "subdivisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "countryCode"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"subdivisions\": [\n    {\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"countryCode\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"countryCode\": \"<string>\"\n    }\n  ]\n}",
+                                      "createdAt": "2026-10-22T01:13:22.000Z",
+                                      "updatedAt": "2026-10-22T01:13:22.000Z",
+                                      "uid": "35240-389cd58e-3613-41f0-af04-201291849f96"
+                                    },
+                                    {
+                                      "id": "117de405-9b72-4608-84d5-b00369a77e7a",
+                                      "name": "Not authorised",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: apikey",
+                                            "key": "Authorization",
+                                            "value": "<API Key>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/public/v1/location/countries/:countryCode/subdivisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "public",
+                                            "v1",
+                                            "location",
+                                            "countries",
+                                            ":countryCode",
+                                            "subdivisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "countryCode"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Unauthorized",
+                                      "code": 401,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-10-22T01:13:22.000Z",
+                                      "updatedAt": "2026-10-22T01:13:22.000Z",
+                                      "uid": "35240-117de405-9b72-4608-84d5-b00369a77e7a"
+                                    },
+                                    {
+                                      "id": "d3cc642c-93b4-4433-bc66-ed84a42f4dd5",
+                                      "name": "Resource not found",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: apikey",
+                                            "key": "Authorization",
+                                            "value": "<API Key>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/public/v1/location/countries/:countryCode/subdivisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "public",
+                                            "v1",
+                                            "location",
+                                            "countries",
+                                            ":countryCode",
+                                            "subdivisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "countryCode"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Not Found",
+                                      "code": 404,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-10-22T01:13:22.000Z",
+                                      "updatedAt": "2026-10-22T01:13:22.000Z",
+                                      "uid": "35240-d3cc642c-93b4-4433-bc66-ed84a42f4dd5"
+                                    },
+                                    {
+                                      "id": "b267a44e-7d7a-4a6e-afcc-eac94deb66eb",
+                                      "name": "Internal server error",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: apikey",
+                                            "key": "Authorization",
+                                            "value": "<API Key>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/public/v1/location/countries/:countryCode/subdivisions",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "public",
+                                            "v1",
+                                            "location",
+                                            "countries",
+                                            ":countryCode",
+                                            "subdivisions"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "countryCode"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Internal Server Error",
+                                      "code": 500,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-10-22T01:13:22.000Z",
+                                      "updatedAt": "2026-10-22T01:13:22.000Z",
+                                      "uid": "35240-b267a44e-7d7a-4a6e-afcc-eac94deb66eb"
+                                    }
+                                  ],
+                                  "createdAt": "2026-10-22T01:13:22.000Z",
+                                  "updatedAt": "2026-10-22T01:13:22.000Z",
+                                  "uid": "35240-934fe2cf-cb65-40fa-8387-69a32bab85f0"
+                                }
+                              ],
+                              "id": "2ea85952-a9c3-4f94-a06a-824344208e0d",
+                              "createdAt": "2026-10-22T01:13:22.000Z",
+                              "updatedAt": "2026-10-22T01:13:22.000Z",
+                              "uid": "35240-2ea85952-a9c3-4f94-a06a-824344208e0d"
+                            }
+                          ],
+                          "id": "e04f5ef4-48bf-4ba4-8441-2ba85c84b388",
+                          "createdAt": "2026-10-22T01:13:22.000Z",
+                          "updatedAt": "2026-10-22T01:13:22.000Z",
+                          "uid": "35240-e04f5ef4-48bf-4ba4-8441-2ba85c84b388"
+                        },
+                        {
+                          "name": "Get A List Of Countries",
+                          "id": "74c9ac24-0df8-4964-8678-7a92046e8dd7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "apikey",
+                              "apikey": [
+                                {
+                                  "key": "key",
+                                  "value": "Authorization",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "value",
+                                  "value": "{{apiKey}}",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "in",
+                                  "value": "header",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/public/v1/location/countries",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "public",
+                                "v1",
+                                "location",
+                                "countries"
+                              ]
+                            },
+                            "description": "Retrieve a list of countries with their alpha_2 codes and names."
+                          },
+                          "response": [
+                            {
+                              "id": "b391f60a-842e-4175-92cb-d32d7882e2dc",
+                              "name": "New Response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/location/countries",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "location",
+                                    "countries"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"countries\": [\n    {\n      \"code\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-10-22T01:13:22.000Z",
+                              "updatedAt": "2026-10-22T01:13:22.000Z",
+                              "uid": "35240-b391f60a-842e-4175-92cb-d32d7882e2dc"
+                            },
+                            {
+                              "id": "c5c1b1b1-d058-4dac-ac20-610ba329f312",
+                              "name": "Not authorised",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/location/countries",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "location",
+                                    "countries"
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T01:13:22.000Z",
+                              "updatedAt": "2026-10-22T01:13:22.000Z",
+                              "uid": "35240-c5c1b1b1-d058-4dac-ac20-610ba329f312"
+                            },
+                            {
+                              "id": "1a1ce3d9-def3-4f42-9f87-82a5516b7b72",
+                              "name": "Internal server error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/public/v1/location/countries",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "public",
+                                    "v1",
+                                    "location",
+                                    "countries"
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T01:13:22.000Z",
+                              "updatedAt": "2026-10-22T01:13:22.000Z",
+                              "uid": "35240-1a1ce3d9-def3-4f42-9f87-82a5516b7b72"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T01:13:22.000Z",
+                          "updatedAt": "2026-10-22T01:13:22.000Z",
+                          "uid": "35240-74c9ac24-0df8-4964-8678-7a92046e8dd7"
+                        }
+                      ],
+                      "id": "16d39278-fd93-4725-92e1-86bdf3c20e5a",
+                      "createdAt": "2026-10-22T01:13:22.000Z",
+                      "updatedAt": "2026-10-22T01:13:22.000Z",
+                      "uid": "35240-16d39278-fd93-4725-92e1-86bdf3c20e5a"
+                    }
+                  ],
+                  "id": "f6dcdfdd-4145-4b24-9338-c82b897d4465",
+                  "createdAt": "2026-10-22T01:13:22.000Z",
+                  "updatedAt": "2026-10-22T01:13:22.000Z",
+                  "uid": "35240-f6dcdfdd-4145-4b24-9338-c82b897d4465"
                 }
               ],
-              "body": "{\n  \"countries\": [\n    {\n      \"code\": \"US\",\n      \"name\": \"United States\"\n    },\n    {\n      \"code\": \"US\",\n      \"name\": \"United States\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "340f35de-e22a-4638-a07b-09bfd8cd1c86",
-              "name": "Not authorised",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"message\": \"Not authorized\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "ed342c16-788e-456f-afa3-a92482af6083",
-              "name": "Internal server error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"message\": \"Something went wrong\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "cd4b3c2a-d9a9-4415-a82c-d960fca45706",
+              "createdAt": "2026-10-22T01:13:22.000Z",
+              "updatedAt": "2026-10-22T01:13:22.000Z",
+              "uid": "35240-cd4b3c2a-d9a9-4415-a82c-d960fca45706"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "821165f9-93d1-49b2-8932-9528cbded036",
-          "name": "Get Country Subdivisions By Country Code",
-          "request": {
-            "name": "Get Country Subdivisions By Country Code",
-            "description": {
-              "content": "Retrieve a list of country subdivisions for a specific country by its alpha-2 code.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "public",
-                "v1",
-                "location",
-                "countries",
-                ":countryCode",
-                "subdivisions"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "countryCode",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "apikey",
-              "apikey": [
-                {
-                  "key": "key",
-                  "value": "Authorization"
-                },
-                {
-                  "key": "value",
-                  "value": "{{apiKey}}"
-                },
-                {
-                  "key": "in",
-                  "value": "header"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "60f0acc7-39c4-48f4-b261-0b06d8b1d9db",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries",
-                    ":countryCode",
-                    "subdivisions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"subdivisions\": [\n    {\n      \"code\": \"US-NY\",\n      \"name\": \"New York\",\n      \"type\": \"state\",\n      \"countryCode\": \"US\"\n    },\n    {\n      \"code\": \"US-NY\",\n      \"name\": \"New York\",\n      \"type\": \"state\",\n      \"countryCode\": \"US\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "46fd46d8-eff4-450f-8085-5a5883c1b5aa",
-              "name": "Not authorised",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries",
-                    ":countryCode",
-                    "subdivisions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"message\": \"Not authorized\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "6321bb73-b719-45b4-9e20-3b43389914a6",
-              "name": "Resource not found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries",
-                    ":countryCode",
-                    "subdivisions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"message\": \"Resource not found\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "b961146d-047f-47db-9be3-92409b68cd6f",
-              "name": "Internal server error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "public",
-                    "v1",
-                    "location",
-                    "countries",
-                    ":countryCode",
-                    "subdivisions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"message\": \"Something went wrong\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "327c566f-4e95-4a8f-bc50-4c6cb34a1ddd",
+          "createdAt": "2026-10-22T01:13:22.000Z",
+          "updatedAt": "2026-10-22T01:13:22.000Z",
+          "uid": "35240-327c566f-4e95-4a8f-bc50-4c6cb34a1ddd"
         }
       ],
-      "event": []
+      "id": "aa8cc00d-4678-4553-8e8f-cfba26492584",
+      "createdAt": "2026-10-22T01:13:22.000Z",
+      "updatedAt": "2026-10-22T01:13:22.000Z",
+      "uid": "35240-aa8cc00d-4678-4553-8e8f-cfba26492584"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "https://app.altruistiq.com/",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://app.altruistiq.com/"
     }
-  ],
-  "info": {
-    "_postman_id": "44b6429d-2333-4de5-b778-ee1cb09b5883",
-    "name": "Altruistiq Datasource Location API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "# Definitions\n\nAn **Activity** is a business process that has taken place, which is relevant for emissions measurement. Examples of an **Activity** in Altruistiq’s data model are **ElectricityUse** or **WasteGenerated**.\nA **Calculation Method** is an GHG Protocol compliant method to calculate emissions from Activity data. Calculation Methods have a unique set of data requirements, but are not unique to an **Activity**.\nA **Datasource** is a single data format that your data is shared with Altruistiq in. Alongside this function, a **Datasource** plays the role of linking a data format to key contextual information (e.g. relevant **Facilities**, relevant **Activities**, owner, chosen **Calculation Methods**, status).\n**Datasets** are then individual files ingested via that Datasource. Each **Dataset** has a live status for full data lineage and transparency that you can track in the application.\n\n# Datasource API Outline\n\nPrimarily, Altruistiq’s Datasource API enables the creation and management of Datasources and the upload of new Datasets. Alongside this there are a number of supporting functions.\n\nThe Datasource API is governed by the oauth2 protocol.\n\nThe Datasource API by default does not expect sudden bursts of data upload (e.g. 25x5GB of data transferred at once), but instead delta datasets. When uploading to the upload endpoint the files uploaded must be chunked into chunks < 100mb and if there are more than 1 part then chunks must be > 5mb (the last part can be below this). If this is not the case for your business, do raise this at your Kick Off call and we will accommodate this.\n\n# PACT API Outline\n\nPrimarily, Altruistiq’s PACT API allows customers to export Product Carbon Footprint (PCF) data in a PACT conformant way. PACT is the Partnership for Carbon Transparency, a WRI and WBCSD funded NGO that is setting the calculation and technological standard for the exchange for Product Carbon Footprints between businesses. Today, Altruistiq is 1 of ~10 PACT conformant solutions globally.\n\nThe PACT API is is governed by the oauth2 protocol (see Security).\n\nFor full documentation of our PACT API, please go to https://wbcsd.github.io/data-exchange-protocol/v2/#api-examples. This provides the full documentation for product data exports, and the associated data model.",
-      "type": "text/plain"
-    }
-  }
+  ]
 }
