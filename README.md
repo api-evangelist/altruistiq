@@ -1,4 +1,4 @@
-# Altruistiq (altruistiq)
+# Altruistiq
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,136 +66,187 @@
 
 Altruistiq is a London-based climate intelligence platform for food and beverage and other FMCG enterprises managing complex supply chains. The platform unifies corporate carbon footprint reporting, product carbon footprint (PCF) calculation, and supplier engagement on a single ISO 14064-1 assured calculation engine, drawing raw operational data from finance, procurement, and supply chain systems to produce activity-based Scope 1, 2, and 3 emissions measurements. Altruistiq exposes a public Datasource API and a PACT-conformant Product Carbon Footprint data exchange API (OAuth 2.0 client credentials) for uploading activity data, managing products, bills of materials, facilities, and exporting calculated emissions. Customers include Starbucks, Kraft Heinz, Huel, Nando's, Octopus Energy, and other FMCG and food and beverage brands.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/altruistiq/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/altruistiq/refs/heads/main/apis.yml)
+**Areas:** Sustainability · Climate · Carbon Accounting · Emissions · Greenhouse Gas · Scope 3 · Product Carbon Footprint · Corporate Carbon Footprint · Supply Chain · Consumer Packaged Goods · Food and Beverage · ESG
 
-## Scope
+## Altruistiq on APIs.io
 
-- **Type:** Index
-- **Position:** Provider
-- **Access:** 3rd-Party
+Everything profiled for Altruistiq is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/altruistiq/](https://apis.io/providers/altruistiq/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (9)
 
-- Sustainability
-- Climate
-- Carbon Accounting
-- Emissions
-- Greenhouse Gas
-- Scope 3
-- Product Carbon Footprint
-- Corporate Carbon Footprint
-- Supply Chain
-- FMCG
-- Food and Beverage
-- ESG
-- CSRD
-- SBTi
-- PACT
-- Sustainability Intelligence
+- [Altruistiq Export API](https://apis.io/apis/altruistiq/altruistiq-export-api/) — ### Altruistiq’s Export API enables you to: - Export corporate data Exporting data is a key part of the Altruistiq platform. It allows you to take your data…
+- [Altruistiq Facility API](https://apis.io/apis/altruistiq/altruistiq-facility-api/) — Altruistiq's Facility API enables you to: - Create new facilities in bulk - Update existing facility persistent properties - Update facility version -…
+- [Altruistiq Location API](https://apis.io/apis/altruistiq/altruistiq-location-api/) — Altruistiq's Location API enables you to: - Get a list of countries with their alpha_2 codes and names - Get country subdivisions for a specific country by…
+- [Altruistiq Organization API](https://apis.io/apis/altruistiq/altruistiq-organization-api/) — Altruistiq's Organization API enables you to: - Get organization details and business units The organization API provides access to organizational structure…
+- [Altruistiq Product API](https://apis.io/apis/altruistiq/altruistiq-product-api/) — ### Altruistiq’s Product API enables you to: - Create new products - Update existing products - Delete products - Get a list of products - All the above in bulk
+- [Altruistiq Product structure API](https://apis.io/apis/altruistiq/altruistiq-product-structure-api/) — ### Altruistiq’s Product Structure API enables you to: - Create new product structures - Update existing product structures - Delete product structures -…
+- [Altruistiq Product structure inputs API](https://apis.io/apis/altruistiq/altruistiq-product-structure-inputs-api/) — ### Altruistiq’s Product Structure API enables you to: - Create new product structure inputs - Update existing product structure inputs - Delete product…
+- [Altruistiq Security API](https://apis.io/apis/altruistiq/altruistiq-security-api/) — The Altruistiq API uses TLS and follows the OAuth 2.0 Client credentials flow as per [RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4)…
+- [Altruistiq Data Source API](https://apis.io/apis/altruistiq/altruistiq-data-source-api/) — ### Altruistiq’s datasource API enables you to: - Create new datasources - Manage existing datasources (read, update) - Upload data to a datasource A…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-25
-- **Modified:** 2026-05-25
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Altruistiq Datasource API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Upload, manage, and export activity and product data used to calculate enterprise emissions on the Altruistiq platform. Covers multipart file uploads into named Datasources, corporate emissions Exports with filtering and download URLs, full CRUD on Products, Product Structures (bills of materials), and Product Structure Inputs (material and packaging line items), Facility version management, geographic Location reference data (countries and subdivisions), and Organization and business unit lookups. Authenticated via OAuth 2.0 Client Credentials against /api/public/v1/oauth2/token. Production server is https://app.altruistiq.com/api/public/v1.
+- [Altruistiq Agentic Access](https://apis.io/agentic-access/altruistiq/altruistiq-agentic-access/)
 
-- **Human URL:** [https://docs.altruistiq.com](https://docs.altruistiq.com)
-- **Base URL:** `https://app.altruistiq.com/api/public/v1`
+#### JSON Schema (3)
 
-#### Tags
+The data models the API reads and writes.
 
-- Sustainability
-- Carbon Accounting
-- Emissions
-- Datasource
-- Products
-- Facilities
-- Export
+- [Altruistiq Emission Record](https://apis.io/schemas/altruistiq/altruistiq-emission-record/)
+- [Altruistiq Facility](https://apis.io/schemas/altruistiq/altruistiq-facility/)
+- [Altruistiq Product](https://apis.io/schemas/altruistiq/altruistiq-product/)
 
-#### Properties
+#### JSON Structure (1)
 
-- [Documentation](https://docs.altruistiq.com)
-- [OpenAPI](openapi/altruistiq-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/altruistiq.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/altruistiq.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Authentication](https://docs.altruistiq.com)
-- [JSON Schema](json-schema/altruistiq-product-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/altruistiq-facility-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/altruistiq-emission-record-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/altruistiq-product-structure.json)
-- [JSON-LD](json-ld/altruistiq-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Spectral Ruleset](rules/altruistiq-rules.yml)
-- [Vocabulary](vocabulary/altruistiq-vocabulary.yml)
-- [Example](examples/altruistiq-oauth-token-example.json)
-- [Example](examples/altruistiq-create-product-example.json)
-- [Example](examples/altruistiq-create-export-example.json)
-- [Example](examples/altruistiq-get-export-example.json)
+Data models expressed in JSON Structure.
 
-### Altruistiq PACT API
+- [Altruistiq Product Structure](https://apis.io/json-structure/altruistiq/altruistiq-product-structure/)
 
-PACT-conformant Product Carbon Footprint data exchange surface for sharing ingredient-level PCF data with customers and partners per the WBCSD Partnership for Carbon Transparency (PACT) Pathfinder Framework. Exposed through the same /api/public/v1 surface alongside the Datasource API. Used to fulfil B2B customer RFPs and downstream Scope 3 reporting requests with traceable, methodology-aware PCFs.
+#### JSON-LD (1)
 
-- **Human URL:** [https://docs.altruistiq.com](https://docs.altruistiq.com)
-- **Base URL:** `https://app.altruistiq.com/api/public/v1`
+Linked-data contexts for the provider's vocabulary.
 
-#### Tags
+- [Altruistiq Context](https://apis.io/jsonld/altruistiq/altruistiq-context/)
 
-- Sustainability
-- Carbon Accounting
-- Product Carbon Footprint
-- PACT
-- Pathfinder
-- Interoperability
+#### Vocabulary (1)
 
-#### Properties
+The provider's domain terms, defined.
 
-- [Documentation](https://docs.altruistiq.com)
-- [OpenAPI](openapi/altruistiq-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/altruistiq.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/altruistiq.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Standard](https://www.carbon-transparency.org)
-- [JSON-LD](json-ld/altruistiq-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [Altruistiq Vocabulary](https://apis.io/vocabularies/altruistiq/altruistiq-vocabulary/)
 
-## Common Properties
+#### Examples (4)
+
+Example requests and responses.
+
+- [Altruistiq Create Export Example](https://apis.io/examples/altruistiq/altruistiq-create-export-example/)
+- [Altruistiq Create Product Example](https://apis.io/examples/altruistiq/altruistiq-create-product-example/)
+- [Altruistiq Get Export Example](https://apis.io/examples/altruistiq/altruistiq-get-export-example/)
+- [Altruistiq Oauth Token Example](https://apis.io/examples/altruistiq/altruistiq-oauth-token-example/)
+
+#### Collections (10)
+
+Postman and Open Collection request collections.
+
+- [Altruistiq Datasource API](https://apis.io/collections/altruistiq/open-altruistiq/)
+- [Altruistiq Datasource API](https://apis.io/collections/altruistiq/open-altruistiq-datasource-api/)
+- [Altruistiq Datasource Export API](https://apis.io/collections/altruistiq/open-altruistiq-export-api/)
+- [Altruistiq Datasource Facility API](https://apis.io/collections/altruistiq/open-altruistiq-facility-api/)
+- [Altruistiq Datasource Location API](https://apis.io/collections/altruistiq/open-altruistiq-location-api/)
+- [Altruistiq Datasource Organization API](https://apis.io/collections/altruistiq/open-altruistiq-organization-api/)
+- [Altruistiq Datasource Product API](https://apis.io/collections/altruistiq/open-altruistiq-product-api/)
+- [Altruistiq Datasource Product structure API](https://apis.io/collections/altruistiq/open-altruistiq-product-structure-api/)
+- [Altruistiq Datasource Product structure inputs API](https://apis.io/collections/altruistiq/open-altruistiq-product-structure-inputs-api/)
+- [Altruistiq Datasource Security API](https://apis.io/collections/altruistiq/open-altruistiq-security-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Altruistiq — jsonschema rules](https://apis.io/rules/altruistiq/altruistiq-jsonschema-spectral-rules/)
+- [Altruistiq API Rules](https://apis.io/rules/altruistiq/altruistiq-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Altruistiq Authentication](https://apis.io/security/altruistiq/altruistiq-authentication/)
+- [Altruistiq Domain Security](https://apis.io/security/altruistiq/altruistiq-domain-security/)
+- [Altruistiq Trust Center](https://apis.io/security/altruistiq/altruistiq-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Altruistiq Scopes](https://apis.io/scopes/altruistiq/altruistiq-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Altruistiq Plans Pricing](https://apis.io/plans/altruistiq/altruistiq-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Altruistiq Rate Limits](https://apis.io/rate-limits/altruistiq/altruistiq-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Altruistiq Finops](https://apis.io/finops/altruistiq/altruistiq-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.altruistiq.com)
-- [Portal](https://www.altruistiq.com/platform/overview)
 - [Documentation](https://docs.altruistiq.com)
-- [Platform](https://app.altruistiq.com)
-- [Sign Up](https://www.altruistiq.com/get-in-touch)
-- [Company](https://www.altruistiq.com/company)
-- [Careers](https://www.altruistiq.com/careers)
 - [Blog](https://www.altruistiq.com/insights)
-- [Customers](https://www.altruistiq.com/customers)
-- [Capabilities](https://www.altruistiq.com/data-capabilities)
-- [Solution](https://www.altruistiq.com/solutions/corporate-carbon-footprint)
-- [Solution](https://www.altruistiq.com/solutions/product-carbon-footprint)
-- [Solution](https://www.altruistiq.com/solutions/supply-chain-decarbonisation)
-- [Solution](https://www.altruistiq.com/evie)
 - [Security](https://www.altruistiq.com/security)
-- [Trust Center](https://www.altruistiq.com/security)
-- [Privacy Policy](https://www.altruistiq.com/privacy-policy)
-- [Terms of Service](https://www.altruistiq.com/terms-of-service)
-- [LinkedIn](https://www.linkedin.com/company/altruistiq)
-- [Twitter](https://twitter.com/altruistiq)
-- [GitHub Organization](https://github.com/altruistiq)
-- [Standard](https://www.carbon-transparency.org)
-- [Standard](https://www.iso.org/standard/66453.html)
-- [Standard](https://ghgprotocol.org)
-- [Standard](https://sciencebasedtargets.org)
-- [Standard](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)
-- [Plans](plans/altruistiq-plans-pricing.yml)
-- [Rate Limits](rate-limits/altruistiq-rate-limits.yml)
-- [Fin Ops](finops/altruistiq-finops.yml)
-- [Features](undefined)
+- [Trust centre](https://www.altruistiq.com/security)
+- [Terms of service](https://www.altruistiq.com/terms-of-service)
+- [Privacy policy](https://www.altruistiq.com/privacy-policy)
+- [GitHub](https://github.com/altruistiq)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** https://apievangelist.com
+**Kin Score 40.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 66.5 |
+| Contract governance | 27.3 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 28.9 |
+
+**Agent readiness 32.6** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 27.9** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/altruistiq/](https://apis.io/providers/altruistiq/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Altruistiq: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/altruistiq/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
